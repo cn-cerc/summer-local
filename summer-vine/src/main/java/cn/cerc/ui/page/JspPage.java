@@ -13,8 +13,8 @@ public class JspPage extends JspFile {
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
     private UIToolbar toolBar;
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
-    private UIFooter footer;
-    
+    private UIComponent footer;
+
     public JspPage() {
         super();
     }
@@ -39,11 +39,13 @@ public class JspPage extends JspFile {
     }
 
     public UIFooter getFooter() {
-        if(footer == null) {
+        if (footer == null) {
             footer = new UIFooter(this);
             this.add(footer.getId(), footer);
         }
-        return footer;
+        if (!(footer instanceof UIFooter))
+            return null;
+        return (UIFooter) footer;
     }
 
     @Deprecated
@@ -57,6 +59,10 @@ public class JspPage extends JspFile {
 
     public void setHeader(UIComponent header) {
         this.header = header;
+    }
+
+    public void setFooter(UIComponent footer) {
+        this.footer = footer;
     }
 
 }

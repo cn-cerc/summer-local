@@ -43,7 +43,7 @@ public abstract class UIPage extends AbstractPage {
     // 工具面板：多页形式
     private UIToolbar toolBar;
     // 状态栏：快捷操作+按钮组
-    private UIFooter footer;
+    private UIComponent footer;
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
     private String jspFile;
 
@@ -134,15 +134,6 @@ public abstract class UIPage extends AbstractPage {
         return html;
     }
 
-    public UIFooter getFooter() {
-        if (footer == null) {
-            footer = new UIFooter(this);
-            footer.setId("bottom");
-            this.put("bottom", footer);
-        }
-        return footer;
-    }
-
     public UIHeader getHeader() {
         if (header == null) {
             header = new UIHeader(this);
@@ -150,6 +141,17 @@ public abstract class UIPage extends AbstractPage {
         if (!(header instanceof UIHeader))
             return null;
         return (UIHeader) header;
+    }
+
+    public UIFooter getFooter() {
+        if (footer == null) {
+            footer = new UIFooter(this);
+            footer.setId("bottom");
+            this.put("bottom", footer);
+        }
+        if (!(footer instanceof UIFooter))
+            return null;
+        return (UIFooter) footer;
     }
 
     public UIDocument getDocument() {
@@ -224,7 +226,8 @@ public abstract class UIPage extends AbstractPage {
         out.println("<script>");
         out.println("var Application = new TApplication();");
         out.printf("Application.device = '%s';\n", form.getClient().getDevice());
-        out.printf("Application.bottom = '%s';\n", getFooter().getId());
+        if (footer != null)
+            out.printf("Application.bottom = '%s';\n", footer.getId());
         String msg = form.getParam("message", "");
         msg = msg == null ? "" : msg.replaceAll("\r\n", "<br/>");
         out.printf("Application.message = '%s';\n", msg);
@@ -246,7 +249,8 @@ public abstract class UIPage extends AbstractPage {
             out.println(this.header);
         out.println(this.getToolBar());
         out.println(this.getDocument());
-        out.println(this.getFooter());
+        if (this.footer != null)
+            out.println(footer);
         if (getForm().getClient().isPhone()) {
             out.println(String.format("<span id='back-top' style='display: none'>%s</span>", res.getString(3, "顶部")));
             out.println(
@@ -261,7 +265,8 @@ public abstract class UIPage extends AbstractPage {
             builder.append(this.header);
         builder.append(this.getDocument());
         builder.append(this.getToolBar());
-        builder.append(this.getFooter());
+        if (footer != null)
+            builder.append(this.footer);
         if (getForm().getClient().isPhone()) {
             builder.append(
                     String.format("<span id='back-top' style='display: none'>%s</span>", res.getString(3, "顶部")));
@@ -307,6 +312,10 @@ public abstract class UIPage extends AbstractPage {
 
     public void setHeader(UIComponent header) {
         this.header = header;
+    }
+
+    public void setFooter(UIComponent footer) {
+        this.footer = footer;
     }
 
 }

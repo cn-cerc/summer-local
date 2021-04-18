@@ -21,6 +21,7 @@ import cn.cerc.ui.mvc.IMenuBar;
 import cn.cerc.ui.mvc.StartForms;
 import cn.cerc.ui.parts.RightMenus;
 import cn.cerc.ui.parts.UIComponent;
+import cn.cerc.ui.parts.UIFooter;
 import cn.cerc.ui.parts.UIHeader;
 
 /**
@@ -114,9 +115,9 @@ public class UIPagePhone extends UIPage {
         out.println("<script>");
         out.println("var Application = new TApplication();");
         out.printf("Application.device = '%s';\n", form.getClient().getDevice());
-
-        out.printf("Application.bottom = '%s';\n", this.getFooter().getId());
-
+        UIFooter footer = this.getFooter();
+        if (footer != null)
+            out.printf("Application.bottom = '%s';\n", footer.getId());
         String msg = form.getParam("message", "");
         msg = msg == null ? "" : msg.replaceAll("\r\n", "<br/>");
         out.printf("Application.message = '%s';\n", msg);
