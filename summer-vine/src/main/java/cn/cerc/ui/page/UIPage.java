@@ -171,6 +171,7 @@ public abstract class UIPage extends AbstractPage {
     /**
      * 获取指定菜单的描述和停用时间
      */
+    @Deprecated
     public UIToolbar getToolBar(AbstractForm handle) {
         if (toolBar == null) {
             toolBar = new UIToolbar(this);
