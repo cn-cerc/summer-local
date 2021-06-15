@@ -77,6 +77,8 @@ public abstract class AbstractField extends UICssComponent implements IField, IN
     private boolean resize = true;
     // 是否显示*号
     private boolean showStar = false;
+    //是否动态列
+    private boolean dynamicField = false;
 
     public AbstractField(UIComponent owner, String name, int width) {
         super(owner);
@@ -716,6 +718,15 @@ public abstract class AbstractField extends UICssComponent implements IField, IN
             }
             return json.toString().replace("\"", "'");
         }
+    }
+
+    public boolean isDynamicField() {
+        return dynamicField;
+    }
+
+    public AbstractField setDynamicField(boolean dynamicField) {
+        this.dynamicField = dynamicField;
+        return this;
     }
 
 }
