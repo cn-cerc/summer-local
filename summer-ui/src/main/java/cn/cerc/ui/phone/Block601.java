@@ -56,7 +56,7 @@ public class Block601 extends UIComponent {
      * 
      * @param imgUrl 图片地址
      * @param width  图片宽度
-     * @return 压缩后的图片地址
+     * @return 压缩后的图片
      */
     public UIImage addImage(String imgUrl, int width) {
         UIImage image = new UIImage();
