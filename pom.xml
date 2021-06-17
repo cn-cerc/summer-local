@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>summer-db</module>
         <module>summer-mis</module>
         <module>summer-ui</module>
         <module>summer-vine</module>
