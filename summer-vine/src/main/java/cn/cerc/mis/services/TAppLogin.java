@@ -18,8 +18,8 @@ import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
 import cn.cerc.db.jiguang.ClientType;
 import cn.cerc.db.mysql.BuildQuery;
-import cn.cerc.db.mysql.SqlOperator;
-import cn.cerc.db.mysql.SqlQuery;
+import cn.cerc.db.mysql.MysqlQuery;
+import cn.cerc.db.mysql.MysqlOperator;
 import cn.cerc.db.mysql.Transaction;
 import cn.cerc.db.oss.OssConnection;
 import cn.cerc.mis.SummerMIS;
@@ -76,7 +76,7 @@ public class TAppLogin extends CustomService {
             throw new SecurityCheckException(res.getString(1, "用户帐号不允许为空"));
         }
 
-        SqlQuery dsUser = new SqlQuery(this);
+        MysqlQuery dsUser = new MysqlQuery(this);
         dsUser.add("select UID_,CorpNo_,ID_,Code_,Name_,Mobile_,DeptCode_,Enabled_,Password_,BelongAccount_,");
         dsUser.add("VerifyTimes_,Encrypt_,SecurityLevel_,SecurityMachine_,PCMachine1_,PCMachine2_,");
         dsUser.add("PCMachine3_,RoleCode_,DiyRole_ from %s where Code_='%s'", systemTable.getUserInfo(), userCode);
@@ -164,7 +164,7 @@ public class TAppLogin extends CustomService {
             getMysql().execute(sql);
 
             // 若该帐套是待安装，则改为已启用
-            SqlQuery dsCorp = new SqlQuery(this);
+            MysqlQuery dsCorp = new MysqlQuery(this);
             dsCorp.add("select * from %s ", systemTable.getBookInfo());
             dsCorp.add("where CorpNo_='%s' and Status_=1 ", corpNo);
             dsCorp.open();
@@ -249,7 +249,7 @@ public class TAppLogin extends CustomService {
         }
 
         String clientId = headIn.getString("openid");
-        SqlQuery ds = new SqlQuery(this);
+        MysqlQuery ds = new MysqlQuery(this);
         ds.add("SELECT A.Code_,A.Password_ FROM %s A", systemTable.getDeviceVerify());
         ds.add("inner JOIN %s B", systemTable.getUserInfo());
         ds.add("ON A.UserCode_=B.Code_");
@@ -278,7 +278,7 @@ public class TAppLogin extends CustomService {
             throw new RuntimeException(res.getString(33, "手机号不允许为空！"));
         }
 
-        SqlQuery ds = new SqlQuery(this);
+        MysqlQuery ds = new MysqlQuery(this);
         ds.add("select a.Code_ from %s oi ", systemTable.getBookInfo());
         ds.add("inner join %s a on oi.CorpNo_=a.CorpNo_ and oi.Status_ in(1,2)", systemTable.getUserInfo());
         ds.add("where a.Mobile_='%s' and ((a.BelongAccount_ is null) or (a.BelongAccount_=''))", userCode);
@@ -304,7 +304,7 @@ public class TAppLogin extends CustomService {
         String deviceId = headIn.getString("deviceId");
 
         // 校验帐号的可用状态
-        SqlQuery cdsUser = new SqlQuery(this);
+        MysqlQuery cdsUser = new MysqlQuery(this);
         cdsUser.add("select * from %s ", systemTable.getUserInfo());
         cdsUser.add("where Code_='%s' ", getUserCode());
         cdsUser.open();
@@ -313,7 +313,7 @@ public class TAppLogin extends CustomService {
                 cdsUser.getInt("Enabled_") < 1);
 
         // 校验设备码的可用状态
-        SqlQuery cdsVer = new SqlQuery(this);
+        MysqlQuery cdsVer = new MysqlQuery(this);
         cdsVer.add("select * from %s", systemTable.getDeviceVerify());
         cdsVer.add("where UserCode_='%s' and MachineCode_='%s'", getUserCode(), deviceId);
         cdsVer.open();
@@ -371,7 +371,7 @@ public class TAppLogin extends CustomService {
                 throw new RuntimeException(res.getString(32, "认证码不允许为空"));
             }
 
-            SqlQuery cdsUser = new SqlQuery(this);
+            MysqlQuery cdsUser = new MysqlQuery(this);
             cdsUser.add("select Mobile_ from %s ", systemTable.getUserInfo());
             cdsUser.add("where Code_='%s' ", getUserCode());
             cdsUser.open();
@@ -382,7 +382,7 @@ public class TAppLogin extends CustomService {
             DataValidateException.stopRun(res.getString(24, "系统检测到该帐号还未登记过手机号，无法发送认证码到该手机上，请您联系管理员，让其开一个认证码给您登录系统！"),
                     Utils.isEmpty(mobile));
 
-            SqlQuery cdsVer = new SqlQuery(this);
+            MysqlQuery cdsVer = new MysqlQuery(this);
             cdsVer.add("select * from %s", systemTable.getDeviceVerify());
             cdsVer.add("where UserCode_='%s' and MachineCode_='%s'", getUserCode(), deviceId);
             cdsVer.open();
@@ -422,7 +422,7 @@ public class TAppLogin extends CustomService {
         String corpNo = headIn.getString("CorpNo_");
         DataValidateException.stopRun(res.getString(28, "用户帐套不允许为空"), "".equals(corpNo));
 
-        SqlQuery cdsTmp = new SqlQuery(this);
+        MysqlQuery cdsTmp = new MysqlQuery(this);
         cdsTmp.add("select * from %s", systemTable.getDeviceVerify());
         cdsTmp.add("where CorpNo_='%s'and UserCode_='%s'", corpNo, userCode);
         /*
@@ -439,7 +439,7 @@ public class TAppLogin extends CustomService {
     }
 
     public void enrollMachineInfo(String corpNo, String userCode, String deviceId, String deviceName) {
-        SqlQuery ds = new SqlQuery(this);
+        MysqlQuery ds = new MysqlQuery(this);
         ds.add("select * from %s", systemTable.getDeviceVerify());
         ds.add("where UserCode_='%s' and MachineCode_='%s'", userCode, deviceId);
         ds.open();
@@ -477,7 +477,7 @@ public class TAppLogin extends CustomService {
     }
 
     private boolean isStopUsed(String userCode, String deviceId) {
-        SqlQuery ds = new SqlQuery(this);
+        MysqlQuery ds = new MysqlQuery(this);
         ds.add("select * from %s ", systemTable.getDeviceVerify());
         ds.add("where UserCode_='%s' and MachineCode_='%s' ", userCode, deviceId);
         ds.open();
@@ -501,8 +501,8 @@ public class TAppLogin extends CustomService {
         }
     }
 
-    private void updateVerifyCode(SqlQuery dataVer, String verifyCode, SqlQuery cdsUser) {
-        SqlQuery cdsVer = new SqlQuery(this);
+    private void updateVerifyCode(MysqlQuery dataVer, String verifyCode, MysqlQuery cdsUser) {
+        MysqlQuery cdsVer = new MysqlQuery(this);
         cdsVer.add("select * from %s", systemTable.getDeviceVerify());
         cdsVer.add("where VerifyCode_='%s'", verifyCode);
         cdsVer.open();
@@ -568,7 +568,7 @@ public class TAppLogin extends CustomService {
         rs.setField("LoginServer_", ServerConfig.getAppName());
         rs.setField("Screen_", screen);
         rs.setField("Language_", language);
-        SqlOperator opear = new SqlOperator(this);
+        MysqlOperator opear = new MysqlOperator(this);
         opear.setTableName(systemTable.getCurrentUser());
         opear.insert(this.getMysql().getClient().getConnection(), rs);
     }

@@ -5,8 +5,8 @@ import cn.cerc.core.DataSet;
 import cn.cerc.core.IUserLanguage;
 import cn.cerc.core.Record;
 import cn.cerc.core.TDateTime;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.BuildQuery;
-import cn.cerc.db.mysql.SqlQuery;
 import cn.cerc.db.mysql.Transaction;
 import cn.cerc.db.oss.OssConnection;
 import cn.cerc.mis.core.CustomService;
@@ -47,7 +47,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
         String tbNo = headIn.getString("tbNo");
 
         try (Transaction tx = new Transaction(this)) {
-            SqlQuery ds = new SqlQuery(this);
+            MysqlQuery ds = new MysqlQuery(this);
             DataSet dataIn = getDataIn();
             while (dataIn.fetch()) {
                 Record current = dataIn.getCurrent();
@@ -90,7 +90,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
         String name = headIn.getString("name").trim();
 
         try (Transaction tx = new Transaction(this)) {
-            SqlQuery ds = new SqlQuery(this);
+            MysqlQuery ds = new MysqlQuery(this);
             ds.add("select * from %s", TABLE_FILEUPLOADS);
             ds.add("where CorpNo_='%s'", getCorpNo());
             ds.add("and TBNo_='%s'", tbNo);

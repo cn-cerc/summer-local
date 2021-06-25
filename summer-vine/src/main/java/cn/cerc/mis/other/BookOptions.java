@@ -10,8 +10,8 @@ import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
 import cn.cerc.core.TDate;
 import cn.cerc.db.core.IHandle;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.BuildQuery;
-import cn.cerc.db.mysql.SqlQuery;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.CenterService;
 import cn.cerc.mis.core.IOptionReader;
@@ -315,7 +315,7 @@ public class BookOptions {
                 f.add("select * from %s ", systemTable.getBookOptions());
                 f.byField("CorpNo_", corpNo);
                 f.byField("Code_", paramKey);
-                SqlQuery ds = f.open();
+                MysqlQuery ds = f.open();
                 if (!ds.eof()) {
                     result = ds.getString("Value_");
                     if ("".equals(result)) {

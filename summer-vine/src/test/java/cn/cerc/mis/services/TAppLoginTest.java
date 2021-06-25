@@ -12,7 +12,7 @@ import cn.cerc.core.ISession;
 import cn.cerc.core.Record;
 import cn.cerc.db.core.Handle;
 import cn.cerc.db.core.IHandle;
-import cn.cerc.db.mysql.SqlQuery;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.core.ISystemTable;
@@ -101,7 +101,7 @@ public class TAppLoginTest {
             buff.clear();
         }
         // 检查验证码是否存在
-        SqlQuery ds = new SqlQuery(handle);
+        MysqlQuery ds = new MysqlQuery(handle);
 
         ds.add("select * from %s", systemTable.getDeviceVerify());
         ds.add("where CorpNo_='%s'", corpNo);

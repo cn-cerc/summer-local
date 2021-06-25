@@ -8,7 +8,7 @@ import cn.cerc.core.DataSet;
 import cn.cerc.core.ISession;
 import cn.cerc.core.Record;
 import cn.cerc.core.TDateTime;
-import cn.cerc.db.mysql.SqlQuery;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.CustomService;
 import cn.cerc.mis.core.DataValidateException;
@@ -29,7 +29,7 @@ public class SvrSession extends CustomService {
                 !headIn.hasValue("UserCode_"));
         String userCode = headIn.getString("UserCode_");
 
-        SqlQuery cdsUser = new SqlQuery(this);
+        MysqlQuery cdsUser = new MysqlQuery(this);
         cdsUser.add("select ID_,Code_,RoleCode_,DiyRole_,CorpNo_, Name_ as UserName_,ProxyUsers_");
         cdsUser.add("from %s ", systemTable.getUserInfo());
         cdsUser.add("where CorpNo_='%s' and Code_='%s'", corpNo, userCode);
@@ -55,7 +55,7 @@ public class SvrSession extends CustomService {
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "token"), !headIn.hasValue("token"));
         String token = headIn.getString("token");
 
-        SqlQuery cdsToken = new SqlQuery(this);
+        MysqlQuery cdsToken = new MysqlQuery(this);
         cdsToken.add("select CorpNo_,UserID_,Viability_,LoginTime_,Account_ as UserCode_,Language_ ");
         cdsToken.add("from %s", systemTable.getCurrentUser());
         cdsToken.add("where loginID_='%s'", token);
@@ -73,7 +73,7 @@ public class SvrSession extends CustomService {
         }
 
         String userId = cdsToken.getString("UserID_");
-        SqlQuery cdsUser = new SqlQuery(this);
+        MysqlQuery cdsUser = new MysqlQuery(this);
         cdsUser.add("select ID_,Code_,DiyRole_,RoleCode_,CorpNo_, Name_ as UserName_,ProxyUsers_");
         cdsUser.add("from %s", systemTable.getUserInfo());
         cdsUser.add("where ID_='%s'", userId);

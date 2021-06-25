@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import cn.cerc.core.Record;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
-import cn.cerc.db.mysql.SqlQuery;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.cache.CacheResetMode;
 import cn.cerc.mis.cache.IMemoryCache;
 import cn.cerc.mis.core.ISystemTable;
@@ -28,7 +28,7 @@ public class CorpInfoReaderDefault implements ICorpInfoReader, IMemoryCache {
             return items.get(corpNo);
 
         synchronized (this) {
-            SqlQuery ds = new SqlQuery(handle);
+            MysqlQuery ds = new MysqlQuery(handle);
             ds.add("select CorpNo_,Type_,ShortName_,Name_,Address_,Tel_,Status_,Industry_,FastTel_,Currency_,");
             ds.add("ManagerPhone_,StartHost_,Contact_,Authentication_,CorpMailbox_,Fax_");
             ds.add("from %s where CorpNo_=N'%s'", systemTable.getBookInfo(), corpNo);
