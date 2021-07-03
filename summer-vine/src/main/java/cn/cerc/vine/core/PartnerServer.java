@@ -8,6 +8,7 @@ import cn.cerc.vine.SummerVine;
 public class PartnerServer implements IServiceServer {
     private static final ClassConfig config = new ClassConfig(PartnerServer.class, SummerVine.ID);
     private String site;
+    private String corpNo;
 
     public PartnerServer() {
         super();
