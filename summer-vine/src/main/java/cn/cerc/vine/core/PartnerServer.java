@@ -2,11 +2,10 @@ package cn.cerc.vine.core;
 
 import cn.cerc.core.ClassConfig;
 import cn.cerc.mis.client.IServiceServer;
-import cn.cerc.mis.core.CenterService;
 import cn.cerc.vine.SummerVine;
 
 public class PartnerServer implements IServiceServer {
-    private static final ClassConfig config = new ClassConfig(CenterService.class, SummerVine.ID);
+    private static final ClassConfig config = new ClassConfig(PartnerServer.class, SummerVine.ID);
     private String site;
     private String corpNo;
 

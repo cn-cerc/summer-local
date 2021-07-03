@@ -16,17 +16,15 @@ public class PartnerService extends RemoteService {
     public PartnerService(IHandle handle) {
         super(handle);
         this.setServer(server);
+        server.setCorpNo(handle.getCorpNo());
     }
 
+    @Deprecated
     public PartnerService(IHandle handle, String service) {
         super(handle);
         this.setServer(server);
+        server.setCorpNo(handle.getCorpNo());
         this.setService(service);
-    }
-
-    @Override
-    public boolean exec(Object... args) {
-        return super.exec(args);
     }
 
     @Override
