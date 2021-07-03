@@ -8,7 +8,6 @@ import cn.cerc.vine.SummerVine;
 public class PartnerServer implements IServiceServer {
     private static final ClassConfig config = new ClassConfig(PartnerServer.class, SummerVine.ID);
     private String site;
-    private String corpNo;
 
     public PartnerServer() {
         super();
@@ -16,9 +15,9 @@ public class PartnerServer implements IServiceServer {
     }
 
     @Override
-    public String getRequestUrl(String service) {
+    public String getRequestUrl(IHandle handle, String service) {
         if (site != null) {
-            return String.format("%s?corpNo=%s&service=%s", site, this.corpNo, service);
+            return String.format("%s?corpNo=%s&service=%s", site, handle.getCorpNo(), service);
         } else {
             return null;
         }
@@ -27,14 +26,6 @@ public class PartnerServer implements IServiceServer {
     @Override
     public String getToken(IHandle handle) {
         return null;
-    }
-
-    public String getCorpNo() {
-        return corpNo;
-    }
-
-    public void setCorpNo(String corpNo) {
-        this.corpNo = corpNo;
     }
 
 }
