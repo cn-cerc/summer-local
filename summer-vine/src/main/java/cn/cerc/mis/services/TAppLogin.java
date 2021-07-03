@@ -18,8 +18,8 @@ import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
 import cn.cerc.db.jiguang.ClientType;
 import cn.cerc.db.mysql.BuildQuery;
-import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.MysqlOperator;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
 import cn.cerc.db.oss.OssConnection;
 import cn.cerc.mis.SummerMIS;
@@ -30,7 +30,6 @@ import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.core.LocalService;
 import cn.cerc.mis.core.SystemBuffer;
 import cn.cerc.mis.core.SystemBufferType;
-import cn.cerc.mis.custom.SessionDefault;
 import cn.cerc.mis.other.BookVersion;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.custom.CorpInfoReaderDefault;
@@ -215,7 +214,8 @@ public class TAppLogin extends CustomService {
     public boolean ExitSystem() {
         if (getSession().getProperty(Application.UserId) != null) {
             // TODO 此处的key有问题
-            MemoryBuffer.delete(SystemBuffer.User.SessionInfo, (String) getSession().getProperty(Application.UserId), "webclient");
+            MemoryBuffer.delete(SystemBuffer.User.SessionInfo, (String) getSession().getProperty(Application.UserId),
+                    "webclient");
         }
 
         String token = (String) getSession().getProperty(ISession.TOKEN);
@@ -347,8 +347,8 @@ public class TAppLogin extends CustomService {
         cdsUser.post();
 
         // 校验成功清理验证码缓存
-        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(),
-                TAppLogin.class.getName(), "sendVerifyCode")) {
+        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(), TAppLogin.class.getName(),
+                "sendVerifyCode")) {
             buff.clear();
         }
         getDataOut().getHead().setField("Used_", cdsVer.getInt("Used_"));
@@ -356,8 +356,8 @@ public class TAppLogin extends CustomService {
     }
 
     public boolean sendVerifyCode() throws DataValidateException {
-        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(),
-                TAppLogin.class.getName(), "sendVerifyCode")) {
+        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(), TAppLogin.class.getName(),
+                "sendVerifyCode")) {
             if (!buff.isNull()) {
                 log.info("verifyCode {}", buff.getString("verifyCode"));
                 throw new RuntimeException(String.format(res.getString(23, "请勿在 %d 分钟内重复点击获取认证码！"), TimeOut));
@@ -544,14 +544,9 @@ public class TAppLogin extends CustomService {
                 "update %s set Viability_=-1,LogoutTime_='%s' where Account_='%s' and Viability_>-1",
                 systemTable.getCurrentUser(), TDateTime.now(), getUserCode());
         getMysql().execute(SQLCmd);
-        
+
         ISession session = this.getSession();
-        try {
-            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, "start");
-            session.setProperty(ISession.TOKEN, Utils.generateToken());
-        } finally {
-            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, null);
-        }
+        session.setProperty(ISession.TOKEN, Utils.generateToken());
 
         // 增加新的记录
         Record rs = new Record();
