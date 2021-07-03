@@ -233,7 +233,7 @@ public class TAppLogin extends CustomService {
     }
 
     @Override
-    public boolean checkSecurity(IHandle handle) {
+    public boolean allowGuestUser(IHandle handle) {
         return true;
     }
 
