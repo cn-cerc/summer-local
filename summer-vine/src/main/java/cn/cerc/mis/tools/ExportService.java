@@ -39,7 +39,6 @@ public class ExportService extends ExportExcel {
         }
 
         PartnerService app = new PartnerService(this);
-        app.setCorpNo(this.getCorpNo());
         app.setService(service);
         try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.User.ExportKey, this.getUserCode(), exportKey)) {
             app.getDataIn().close();
