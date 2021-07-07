@@ -55,39 +55,39 @@ public class SvrSession extends CustomService {
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "token"), !headIn.hasValue("token"));
         String token = headIn.getString("token");
 
-        MysqlQuery cdsToken = new MysqlQuery(this);
-        cdsToken.add("select CorpNo_,UserID_,Viability_,LoginTime_,Account_ as UserCode_,Language_ ");
-        cdsToken.add("from %s", systemTable.getCurrentUser());
-        cdsToken.add("where loginID_='%s'", token);
-        cdsToken.open();
-        if (cdsToken.eof()) {
+        MysqlQuery onlineInfo = new MysqlQuery(this);
+        onlineInfo.add("select CorpNo_,UserID_,Viability_,LoginTime_,Account_ as UserCode_,Language_ ");
+        onlineInfo.add("from %s", systemTable.getCurrentUser());
+        onlineInfo.add("where loginID_='%s'", token);
+        onlineInfo.open();
+        if (onlineInfo.eof()) {
             this.setMessage(String.format("%s can not find in database.", token));
             this.getSession().setProperty(ISession.TOKEN, null);
             return false;
         }
 
-        if (cdsToken.getInt("Viability_") <= 0 && !"13100154".equals(cdsToken.getString("UserCode_"))) {
+        if (onlineInfo.getInt("Viability_") <= 0 && !"13100154".equals(onlineInfo.getString("UserCode_"))) {
             this.setMessage(String.format("%s died，please login again.", token));
             this.getSession().setProperty(ISession.TOKEN, null);
             return false;
         }
 
-        String userId = cdsToken.getString("UserID_");
-        MysqlQuery cdsUser = new MysqlQuery(this);
-        cdsUser.add("select ID_,Code_,DiyRole_,RoleCode_,CorpNo_, Name_ as UserName_,ProxyUsers_");
-        cdsUser.add("from %s", systemTable.getUserInfo());
-        cdsUser.add("where ID_='%s'", userId);
-        cdsUser.open();
-        if (cdsUser.eof()) {
+        String userId = onlineInfo.getString("UserID_");
+        MysqlQuery userInfo = new MysqlQuery(this);
+        userInfo.add("select ID_,Code_,DiyRole_,RoleCode_,CorpNo_, Name_ as UserName_,ProxyUsers_");
+        userInfo.add("from %s", systemTable.getUserInfo());
+        userInfo.add("where ID_='%s'", userId);
+        userInfo.open();
+        if (userInfo.eof()) {
             log.warn(String.format("userId %s 没有找到！", userId));
             this.getSession().setProperty(ISession.TOKEN, null);
             return false;
         }
 
         Record headOut = getDataOut().getHead();
-        headOut.setField("LoginTime_", cdsToken.getDateTime("LoginTime_"));
-        headOut.setField("Language_", cdsToken.getString("Language_"));
-        copyData(cdsUser, headOut);
+        headOut.setField("LoginTime_", onlineInfo.getDateTime("LoginTime_"));
+        headOut.setField("Language_", onlineInfo.getString("Language_"));
+        copyData(userInfo, headOut);
         return true;
     }
 

@@ -175,16 +175,13 @@ public class TAppLogin extends CustomService {
                 MemoryListener.refresh(CorpInfoReaderDefault.class, corpNo);
             }
 
-            session.setProperty(Application.UserId, dsUser.getString("ID_"));
             session.setProperty(ISession.CORP_NO, dsUser.getString("CorpNo_"));
             session.setProperty(ISession.USER_CODE, dsUser.getString("Code_"));
-
+            String userId = dsUser.getString("ID_");
             // 更新当前用户总数
-            updateCurrentUser(device_name, headIn.getString("Screen_"), headIn.getString("Language_"));
+            updateCurrentUser(device_name, headIn.getString("Screen_"), headIn.getString("Language_"), userId);
 
-            try (MemoryBuffer Buff = new MemoryBuffer(SystemBuffer.User.SessionInfo,
-                    (String) session.getProperty(Application.UserId), deviceId)) {
-                Buff.setField("UserID_", session.getProperty(Application.UserId));
+            try (MemoryBuffer Buff = new MemoryBuffer(SystemBuffer.User.SessionInfo, session.getUserCode(), deviceId)) {
                 Buff.setField("UserCode_", getUserCode());
                 Buff.setField("UserName_", getSession().getUserName());
                 Buff.setField("LoginTime_", session.getProperty(Application.LoginTime));
@@ -193,7 +190,6 @@ public class TAppLogin extends CustomService {
             }
             // 返回值于前台
             getDataOut().getHead().setField("SessionID_", session.getProperty(ISession.TOKEN));
-            getDataOut().getHead().setField("UserID_", session.getProperty(Application.UserId));
             getDataOut().getHead().setField("UserCode_", getUserCode());
             getDataOut().getHead().setField("CorpNo_", this.getCorpNo());
             getDataOut().getHead().setField("YGUser", YGLogin);
@@ -208,18 +204,13 @@ public class TAppLogin extends CustomService {
     }
 
     /**
-     * 退出系统
-     *
-     * @return 暂未使用
+     * 退出系统--Delphi 客户端退出专用
      */
     public boolean ExitSystem() {
-        if (getSession().getProperty(Application.UserId) != null) {
-            // TODO 此处的key有问题
-            MemoryBuffer.delete(SystemBuffer.User.SessionInfo, (String) getSession().getProperty(Application.UserId),
-                    "webclient");
-        }
-
         String token = (String) getSession().getProperty(ISession.TOKEN);
+        if (getSession().getUserCode() != null) {
+            MemoryBuffer.delete(SystemBuffer.User.SessionInfo, getSession().getUserCode(), token);
+        }
         getMysql().execute(String.format("Update %s Set Viability_=-1,LogoutTime_=now() where LoginID_='%s'",
                 systemTable.getCurrentUser(), token));
         return true;
@@ -227,7 +218,6 @@ public class TAppLogin extends CustomService {
 
     // 获取登录状态
     public boolean getState() {
-        getDataOut().getHead().setField("UserID_", getSession().getProperty(Application.UserId));
         getDataOut().getHead().setField("UserCode_", getUserCode());
         getDataOut().getHead().setField("CorpNo_", this.getCorpNo());
         return true;
@@ -348,8 +338,8 @@ public class TAppLogin extends CustomService {
         cdsUser.post();
 
         // 校验成功清理验证码缓存
-        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(), TAppLogin.class.getName(),
-                "sendVerifyCode")) {
+        try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.UserObject.ClassName, TAppLogin.class.getName(),
+                getUserCode(), "sendVerifyCode")) {
             buff.clear();
         }
         getDataOut().getHead().setField("Used_", cdsVer.getInt("Used_"));
@@ -357,8 +347,8 @@ public class TAppLogin extends CustomService {
     }
 
     public boolean sendVerifyCode() throws DataValidateException {
-        try (MemoryBuffer buff = new MemoryBuffer(SystemBufferType.getObject, getUserCode(), TAppLogin.class.getName(),
-                "sendVerifyCode")) {
+        try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.UserObject.ClassName, TAppLogin.class.getName(),
+                getUserCode(), "sendVerifyCode")) {
             if (!buff.isNull()) {
                 log.info("verifyCode {}", buff.getString("verifyCode"));
                 throw new RuntimeException(String.format(res.getString(23, "请勿在 %d 分钟内重复点击获取认证码！"), TimeOut));
@@ -536,7 +526,7 @@ public class TAppLogin extends CustomService {
         }
     }
 
-    public void updateCurrentUser(String computer, String screen, String language) {
+    public void updateCurrentUser(String computer, String screen, String language, String userId) {
 //        getConnection().execute(String.format("Update %s Set Viability_=0 Where Viability_>0 and LogoutTime_<'%s'",
 //                systemTable.getCurrentUser(), TDateTime.now().incHour(-1)));
         // FIXME: 2020/6/10
@@ -547,12 +537,17 @@ public class TAppLogin extends CustomService {
         getMysql().execute(SQLCmd);
 
         ISession session = this.getSession();
-        session.setProperty(ISession.TOKEN, Utils.generateToken());
+        try {
+            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, "start");
+            session.setProperty(ISession.TOKEN, Utils.generateToken());
+        } finally {
+            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, null);
+        }
 
         // 增加新的记录
         Record rs = new Record();
         rs.getFieldDefs().add("UserID_", FieldType.Storage);
-        rs.setField("UserID_", session.getProperty(Application.UserId));
+        rs.setField("UserID_", userId);
         rs.getFieldDefs().add("CorpNo_", FieldType.Storage);
         rs.setField("CorpNo_", session.getCorpNo());
         rs.getFieldDefs().add("Account_", FieldType.Storage);

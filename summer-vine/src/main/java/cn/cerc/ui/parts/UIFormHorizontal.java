@@ -1,8 +1,10 @@
 package cn.cerc.ui.parts;
 
+import cn.cerc.core.ClassConfig;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
+import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.Component;
@@ -17,6 +19,7 @@ import cn.cerc.ui.grid.lines.AbstractGridLine;
 import cn.cerc.ui.grid.lines.ExpenderGridLine;
 import cn.cerc.ui.other.SearchItem;
 import cn.cerc.ui.vcl.UILabel;
+import cn.cerc.ui.vcl.UIText;
 import cn.cerc.ui.vcl.ext.UISpan;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,7 @@ import java.util.List;
 
 public class UIFormHorizontal extends UICssComponent implements DataSource {
     private static final ClassResource res = new ClassResource(UIFormHorizontal.class, SummerUI.ID);
+    private static final ClassConfig config = new ClassConfig(UIFormVertical.class, SummerUI.ID);
 
     protected String method = "post";
     protected HttpServletRequest request;
@@ -128,8 +132,26 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
                     html.print(" class=\"select\"");
                 }
                 html.println(">");
+
                 try {
                     field.output(html);
+
+                    UIText mark = field.getMark();
+                    if (mark != null) {
+                        html.println("<a href=\"javascript:displaySwitch('%s')\">", field.getId());
+                        html.println("<img src=\"%s\" />", CDN.get(config.getClassProperty("icon", "")));
+                        html.println("</a>");
+                        html.println("</li>");
+                        html.println("<li role=\"%s\" style=\"display: none;\">", field.getId());
+                        html.print("<mark>");
+                        if (mark.getContent() != null) {
+                            html.println("%s", mark.getContent());
+                        }
+                        for (String line : mark.getLines()) {
+                            html.println("<p>%s</p>", line);
+                        }
+                        html.println("</mark>");
+                    }
                 } catch (Exception e) {
                     html.print("<label>");
                     html.print(e.getMessage());
