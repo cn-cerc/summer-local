@@ -30,7 +30,6 @@ import cn.cerc.mis.core.CustomService;
 import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.core.LocalService;
 import cn.cerc.mis.core.SystemBuffer;
-import cn.cerc.mis.core.SystemBufferType;
 import cn.cerc.mis.other.BookVersion;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.custom.CorpInfoReaderDefault;
@@ -537,12 +536,8 @@ public class TAppLogin extends CustomService {
         getMysql().execute(SQLCmd);
 
         ISession session = this.getSession();
-        try {
-            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, "start");
-            session.setProperty(ISession.TOKEN, Utils.generateToken());
-        } finally {
-            session.setProperty(SessionDefault.TOKEN_CREATE_ENTER, null);
-        }
+        String token = Utils.generateToken();
+        session.setProperty(ISession.TOKEN, token);
 
         // 增加新的记录
         Record rs = new Record();
