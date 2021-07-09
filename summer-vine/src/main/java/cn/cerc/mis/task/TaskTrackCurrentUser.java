@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class TaskTrackCurrentUser extends AbstractTask {
+    public static final int FOREVER_VIABILITY = 999999;
 
     @Override
     public void execute() {
@@ -19,7 +20,8 @@ public class TaskTrackCurrentUser extends AbstractTask {
         MysqlServerMaster conn = this.getMysql();
 
         // 删除超过100天的登录记录
-        conn.execute(String.format("delete from %s where datediff(now(),LoginTime_)>100", systemTable.getCurrentUser()));
+        conn.execute(String.format("delete from %s where datediff(now(),LoginTime_)>100 and Viability_<>%s", 
+                systemTable.getCurrentUser(), FOREVER_VIABILITY));
 
         // 清除所有未正常登录的用户记录
         StringBuilder sql2 = new StringBuilder();
@@ -27,7 +29,7 @@ public class TaskTrackCurrentUser extends AbstractTask {
                 TDateTime.now()));
 
         // 在线达24小时以上的用户
-        sql2.append("where (Viability_>0) and (");
+        sql2.append(String.format("where (Viability_>0 and Viability_<>%s) and (", FOREVER_VIABILITY));
         sql2.append("(hour(timediff(now(),LoginTime_)) > 24 and LogoutTime_ is null)");
 
         // 在早上5点以后，清除昨天的用户
