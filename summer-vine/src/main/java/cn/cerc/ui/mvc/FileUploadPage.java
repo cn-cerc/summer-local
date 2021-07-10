@@ -194,11 +194,10 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
                     String currentFile = uploadPage + "/" + item.getName();
                     oss.upload(currentFile, item.getInputStream());
 
-                    Record fileInfo = new Record();
+                    Record fileInfo = dsIn.append().getCurrent();
                     fileInfo.setField("name", item.getName());
                     fileInfo.setField("path", currentFile);
                     fileInfo.setField("size", item.getSize());
-                    dsIn.append(fileInfo);
                 }
             }
 

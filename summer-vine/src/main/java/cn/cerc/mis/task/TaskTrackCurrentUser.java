@@ -2,15 +2,10 @@ package cn.cerc.mis.task;
 
 import cn.cerc.core.TDateTime;
 import cn.cerc.db.mysql.MysqlServerMaster;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 清理在线用户记录表
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class TaskTrackCurrentUser extends AbstractTask {
     public static final int FOREVER_VIABILITY = 999999;
 
