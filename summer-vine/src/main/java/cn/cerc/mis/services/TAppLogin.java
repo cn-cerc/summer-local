@@ -15,7 +15,6 @@ import cn.cerc.core.MD5;
 import cn.cerc.core.Record;
 import cn.cerc.core.TDateTime;
 import cn.cerc.core.Utils;
-import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
 import cn.cerc.db.jiguang.ClientType;
 import cn.cerc.db.mysql.BuildQuery;
@@ -29,6 +28,7 @@ import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.CustomService;
 import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.core.LocalService;
+import cn.cerc.mis.core.Permission;
 import cn.cerc.mis.core.SystemBuffer;
 import cn.cerc.mis.other.BookVersion;
 import cn.cerc.mis.other.MemoryBuffer;
@@ -39,6 +39,7 @@ import cn.cerc.ui.custom.CorpInfoReaderDefault;
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Permission(Permission.GUEST)
 public class TAppLogin extends CustomService {
     private static final Logger log = LoggerFactory.getLogger(TAppLogin.class);
     private static final ClassResource res = new ClassResource(TAppLogin.class, SummerMIS.ID);
@@ -219,11 +220,6 @@ public class TAppLogin extends CustomService {
     public boolean getState() {
         getDataOut().getHead().setField("UserCode_", getUserCode());
         getDataOut().getHead().setField("CorpNo_", this.getCorpNo());
-        return true;
-    }
-
-    @Override
-    public boolean allowGuestUser(IHandle handle) {
         return true;
     }
 
