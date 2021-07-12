@@ -537,6 +537,7 @@ public class TAppLogin extends CustomService {
 
         // 增加新的记录
         Record rs = new Record();
+        rs.getFieldDefs().add("UID_", FieldType.Storage).setUpdateKey(true).setAutoincrement(true);
         rs.getFieldDefs().add("UserID_", FieldType.Storage);
         rs.setField("UserID_", userId);
         rs.getFieldDefs().add("CorpNo_", FieldType.Storage);
@@ -563,9 +564,9 @@ public class TAppLogin extends CustomService {
         rs.setField("Screen_", screen);
         rs.getFieldDefs().add("Language_", FieldType.Storage);
         rs.setField("Language_", language);
-        MysqlOperator opear = new MysqlOperator(this);
-        opear.setTableName(systemTable.getCurrentUser());
-        opear.insert(this.getMysql().getClient().getConnection(), rs);
+        MysqlOperator opera = new MysqlOperator(this);
+        opera.setTableName(systemTable.getCurrentUser());
+        opera.insert(this.getMysql().getClient().getConnection(), rs);
     }
 
 }
