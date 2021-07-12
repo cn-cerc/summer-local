@@ -18,6 +18,7 @@ import cn.cerc.core.Utils;
 import cn.cerc.db.core.ServerConfig;
 import cn.cerc.db.jiguang.ClientType;
 import cn.cerc.db.mysql.BuildQuery;
+import cn.cerc.db.mysql.MysqlClient;
 import cn.cerc.db.mysql.MysqlOperator;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
@@ -564,9 +565,11 @@ public class TAppLogin extends CustomService {
         rs.setField("Screen_", screen);
         rs.getFieldDefs().add("Language_", FieldType.Storage);
         rs.setField("Language_", language);
-        MysqlOperator opera = new MysqlOperator(this);
-        opera.setTableName(systemTable.getCurrentUser());
-        opera.insert(this.getMysql().getClient().getConnection(), rs);
+        try (MysqlClient client = this.getMysql().getClient()) {
+            MysqlOperator opera = new MysqlOperator(this);
+            opera.setTableName(systemTable.getCurrentUser());
+            opera.insert(client.getConnection(), rs);
+        }
     }
 
 }
