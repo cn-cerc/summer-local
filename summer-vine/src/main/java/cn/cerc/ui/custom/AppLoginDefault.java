@@ -52,8 +52,15 @@ public class AppLoginDefault implements IAppLogin {
             // 如长度大于10表示用手机号码登入
             if (userCode.length() > 10) {
                 String oldCode = userCode;
-                userCode = loginCheck.getUserCode(oldCode);
-                log.debug(String.format("将手机号 %s 转化成帐号 %s", oldCode, userCode));
+                try {
+                    userCode = loginCheck.getUserCode(oldCode);
+                    log.debug(String.format("将手机号 %s 转化成帐号 %s", oldCode, userCode));
+                } catch (Exception e) {
+                    // 手机号获取账号失败
+                    log.debug(String.format("将手机号 %s 转化成帐号失败", oldCode));
+                    request.getSession().setAttribute("loginMsg", e.getMessage());
+                    return jspPage.execute();
+                }
             }
 
             // 进行用户名、密码认证
