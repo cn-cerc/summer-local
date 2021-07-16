@@ -361,4 +361,8 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
         this.session = session;
     }
 
+    public List<UrlRecord> getLeftMenus() {
+        return leftMenus;
+    }
+
 }
