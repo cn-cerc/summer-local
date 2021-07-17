@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.cerc.core.ClassConfig;
-import cn.cerc.core.ClassResource;
 import cn.cerc.core.ISession;
-import cn.cerc.core.IUserLanguage;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.cdn.CDN;
@@ -23,9 +21,8 @@ import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.mvc.AbstractPage;
 import cn.cerc.ui.phone.Block104;
 
-public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
+public class UIHeader extends UICssComponent implements IHandle {
     private static final ClassConfig config = new ClassConfig(UIHeader.class, SummerUI.ID);
-    private static final ClassResource res = new ClassResource(UIHeader.class, SummerUI.ID);
 
     private static final int MAX_MENUS = 4;
     private UIAdvertisement advertisement; // 可选
@@ -91,12 +88,12 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
         homePage = new UrlRecord(defaultPage, getHomeImage(page));
         leftMenus.add(homePage);
 
-        homePage = new UrlRecord(defaultPage, res.getString(1, "开始"));
+        homePage = new UrlRecord(defaultPage, R.asString(this, "开始"));
 
         IClient client = page.getForm().getClient();
         boolean isShowBar = config.getBoolean("app.ui.head.show", true);
         if (!client.isPhone() && isShowBar) {
-            currentUser = res.getString(2, "用户");
+            currentUser = R.asString(this, "用户");
             leftMenus.add(homePage);
             this.userName = this.getSession().getUserName();
             if (!Utils.isEmpty(this.getCorpNo())) {
@@ -104,7 +101,7 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
                 this.corpNoName = info.getShortName(this);
             }
             logoSrc = getLogo();
-            welcome = config.getString("app.welcome.language", res.getString(3, "欢迎使用系统"));
+            welcome = config.getString("app.welcome.language", R.asString(this, "欢迎使用系统"));
 
             String exitName = config.getString("app.exit.name", "#");
             String exitUrl = config.getString("app.exit.url", null);
@@ -116,7 +113,7 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
     @Override
     public void output(HtmlWriter html) {
         if (this.leftBottom.size() > MAX_MENUS) {
-            throw new RuntimeException(String.format(res.getString(4, "底部菜单区最多只支持 %d 个菜单项"), MAX_MENUS));
+            throw new RuntimeException(String.format(R.asString(this, "底部菜单区最多只支持 %d 个菜单项"), MAX_MENUS));
         }
 
         html.print("<header role='header'");
@@ -214,8 +211,8 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
             }
         }
         if (leftMenus.size() == 0) {
-            leftMenus.add(new UrlRecord("/", res.getString(5, "首页")));
-            leftMenus.add(new UrlRecord("javascript:history.go(-1);", res.getString(6, "刷新")));
+            leftMenus.add(new UrlRecord("/", R.asString(this, "首页")));
+            leftMenus.add(new UrlRecord("javascript:history.go(-1);", R.asString(this, "刷新")));
         }
         // 兼容老的jsp文件使用
         form.getRequest().setAttribute("barMenus", leftMenus);
@@ -344,11 +341,6 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
             menuSearchArea = new Block104(this);
         }
         return menuSearchArea;
-    }
-
-    @Override
-    public String getLanguageId() {
-        return R.getLanguageId(this);
     }
 
     @Override

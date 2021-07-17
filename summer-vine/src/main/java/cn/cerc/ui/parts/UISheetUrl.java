@@ -6,29 +6,31 @@ import java.util.List;
 import java.util.Map;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.ISession;
+import cn.cerc.db.core.IHandle;
+import cn.cerc.mis.language.R;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.UrlRecord;
 
-public class UISheetUrl extends UISheet {
-    private static final ClassResource res = new ClassResource(UISheetUrl.class, SummerUI.ID);
-
+public class UISheetUrl extends UISheet implements IHandle {
     private List<UrlRecord> urls = new ArrayList<>();
     // 使用于page-link.xml中
     private Map<String, String> items = new LinkedHashMap<>();
     private boolean isCloseSheet;
+    private ISession session;
 
     /**
      * page-link.xml初始化用到
      */
     public UISheetUrl() {
         super();
-        this.setCaption(res.getString(1, "相关操作"));
+        this.setCaption(R.asString(this, "相关操作"));
     }
 
     public UISheetUrl(UIToolbar owner) {
         super(owner);
-        this.setCaption(res.getString(1, "相关操作"));
+        this.setCaption(R.asString(this, "相关操作"));
     }
 
     @Override
@@ -92,5 +94,15 @@ public class UISheetUrl extends UISheet {
 
     public void setCloseSheet(boolean isCloseSheet) {
         this.isCloseSheet = isCloseSheet;
+    }
+
+    @Override
+    public ISession getSession() {
+        return session;
+    }
+
+    @Override
+    public void setSession(ISession session) {
+        this.session = session;
     }
 }
