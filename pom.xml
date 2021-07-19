@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>summer-local</artifactId>
-    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -19,12 +18,19 @@
         <module>summer-mis-tw</module>
         <module>summer-mis-sg</module>
     </modules>
-    
+
     <!-- 私服配置 -->
     <repositories>
         <repository>
             <id>diteng</id>
             <url>https://nexus.diteng.site/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
     <distributionManagement>
