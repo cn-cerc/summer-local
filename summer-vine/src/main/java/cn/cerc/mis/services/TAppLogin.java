@@ -52,7 +52,9 @@ public class TAppLogin extends CustomService {
     private static String GuidNull = "";
     private static int Max_Viability = 1;
 
-    /*
+    /**
+     * erp同步地藤还在使用这个方法，暂时不要删除，启用workflow之后再删除
+     * 
      * 用户登录入口
      */
     public boolean Check() throws SecurityCheckException {
@@ -526,7 +528,7 @@ public class TAppLogin extends CustomService {
 
     public void updateCurrentUser(String computer, String screen, String language, String userId) {
         BatchScript bs = new BatchScript(this);
-        bs.add("update %s set Viability_=-1,LogoutTime_='%s' where Account_='%s' and Viability_>-1 and Viability_<>%s", 
+        bs.add("update %s set Viability_=-1,LogoutTime_='%s' where Account_='%s' and Viability_>-1 and Viability_<>%s",
                 systemTable.getCurrentUser(), TDateTime.now(), getUserCode(), TaskTrackCurrentUser.FOREVER_VIABILITY);
         bs.exec();
 
