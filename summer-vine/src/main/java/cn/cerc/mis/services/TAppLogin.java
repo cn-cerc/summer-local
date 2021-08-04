@@ -148,7 +148,7 @@ public class TAppLogin extends CustomService {
                     dsUser.post();
                     if (dsUser.getInt("VerifyTimes_") > 3) {
                         throw new SecurityCheckException(String.format(
-                                res.getString(12, "您输入密码的错误次数已达 %d 次，若忘记密码，可点击下方【忘记密码】链接重新设置密码，输错超过6次时，您的账号将被自动停用！"),
+                                res.getString(12, "您输入密码的错误次数已达 %d 次，若找回密码，可点击下方【找回密码】链接重新设置密码，输错超过6次时，您的账号将被自动停用！"),
                                 dsUser.getInt("VerifyTimes_")));
                     } else {
                         throw new SecurityCheckException(res.getString(13, "您的登录密码错误，禁止登录！"));

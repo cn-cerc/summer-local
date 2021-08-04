@@ -66,7 +66,7 @@ public class AppLoginDefault implements IAppLogin {
             // 进行用户名、密码认证
             String deviceId = form.getClient().getId();
             String clientIP = AppClient.getClientIP(request);
-            String token = loginCheck.createToken(userCode, password, deviceId, clientIP,
+            String token = loginCheck.getToken(userCode, password, deviceId, clientIP,
                     form.getClient().getLanguage());
             if (!Utils.isEmpty(token)) {
                 log.debug(String.format("认证成功，取得sid(%s)", token));

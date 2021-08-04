@@ -19,10 +19,10 @@ public class MemoryBookInfo {
         if (Utils.isEmpty(corpNo)) {
             throw new RuntimeException("corpNo is null.");
         }
-        
+
         ICorpInfoReader reader = Application.getBean(ICorpInfoReader.class);
         Record record = reader.getCorpInfo(handle, corpNo);
-        
+
         BookInfoRecord item = new BookInfoRecord();
         if (record == null) {
             log.error(String.format("corpNo %s not find.", corpNo));
