@@ -1,15 +1,9 @@
 package cn.cerc.mis.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import cn.cerc.core.ClassConfig;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
-import cn.cerc.core.FieldMeta.FieldType;
+import cn.cerc.core.FieldMeta.FieldKind;
 import cn.cerc.core.ISession;
 import cn.cerc.core.MD5;
 import cn.cerc.core.Record;
@@ -36,6 +30,11 @@ import cn.cerc.mis.other.BookVersion;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.mis.task.TaskTrackCurrentUser;
 import cn.cerc.ui.custom.CorpInfoReaderDefault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 用于用户登录
@@ -538,32 +537,32 @@ public class TAppLogin extends CustomService {
 
         // 增加新的记录
         Record rs = new Record();
-        rs.getFieldDefs().add("UID_", FieldType.Storage).setUpdateKey(true).setAutoincrement(true);
-        rs.getFieldDefs().add("UserID_", FieldType.Storage);
+        rs.getFieldDefs().add("UID_", FieldKind.Storage).setUpdateKey(true).setAutoincrement(true);
+        rs.getFieldDefs().add("UserID_", FieldKind.Storage);
         rs.setField("UserID_", userId);
-        rs.getFieldDefs().add("CorpNo_", FieldType.Storage);
+        rs.getFieldDefs().add("CorpNo_", FieldKind.Storage);
         rs.setField("CorpNo_", session.getCorpNo());
-        rs.getFieldDefs().add("Account_", FieldType.Storage);
+        rs.getFieldDefs().add("Account_", FieldKind.Storage);
         rs.setField("Account_", session.getUserCode());
-        rs.getFieldDefs().add("LoginID_", FieldType.Storage);
+        rs.getFieldDefs().add("LoginID_", FieldKind.Storage);
         rs.setField("LoginID_", session.getToken());
-        rs.getFieldDefs().add("Computer_", FieldType.Storage);
+        rs.getFieldDefs().add("Computer_", FieldKind.Storage);
         rs.setField("Computer_", computer);
-        rs.getFieldDefs().add("clientIP_", FieldType.Storage);
+        rs.getFieldDefs().add("clientIP_", FieldKind.Storage);
         rs.setField("clientIP_", session.getProperty(Application.ClientIP));
-        rs.getFieldDefs().add("LoginTime_", FieldType.Storage);
+        rs.getFieldDefs().add("LoginTime_", FieldKind.Storage);
         rs.setField("LoginTime_", TDateTime.now());
-        rs.getFieldDefs().add("ParamValue_", FieldType.Storage);
+        rs.getFieldDefs().add("ParamValue_", FieldKind.Storage);
         rs.setField("ParamValue_", this.getCorpNo());
-        rs.getFieldDefs().add("KeyCardID_", FieldType.Storage);
+        rs.getFieldDefs().add("KeyCardID_", FieldKind.Storage);
         rs.setField("KeyCardID_", GuidNull);
-        rs.getFieldDefs().add("Viability_", FieldType.Storage);
+        rs.getFieldDefs().add("Viability_", FieldKind.Storage);
         rs.setField("Viability_", Utils.intToStr(Max_Viability));
-        rs.getFieldDefs().add("LoginServer_", FieldType.Storage);
+        rs.getFieldDefs().add("LoginServer_", FieldKind.Storage);
         rs.setField("LoginServer_", ServerConfig.getAppName());
-        rs.getFieldDefs().add("Screen_", FieldType.Storage);
+        rs.getFieldDefs().add("Screen_", FieldKind.Storage);
         rs.setField("Screen_", screen);
-        rs.getFieldDefs().add("Language_", FieldType.Storage);
+        rs.getFieldDefs().add("Language_", FieldKind.Storage);
         rs.setField("Language_", language);
         try (MysqlClient client = this.getMysql().getClient()) {
             MysqlOperator opera = new MysqlOperator(this);
