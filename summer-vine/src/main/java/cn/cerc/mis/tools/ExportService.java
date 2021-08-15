@@ -42,7 +42,7 @@ public class ExportService extends ExportExcel {
         app.setService(service);
         try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.User.ExportKey, this.getUserCode(), exportKey)) {
             app.getDataIn().close();
-            app.getDataIn().setJSON(buff.getString("data"));
+            app.setDataIn(DataSet.fromJson(buff.getString("data")));
         }
         if (!app.exec()) {
             this.export(app.getMessage());
@@ -60,5 +60,5 @@ public class ExportService extends ExportExcel {
         this.getTemplate().setDataSet(dataOut);
         super.export();
     }
-    
+
 }
