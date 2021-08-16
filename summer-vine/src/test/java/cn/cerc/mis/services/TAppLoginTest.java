@@ -55,7 +55,7 @@ public class TAppLoginTest {
         headIn.setField("Account_", userCode);
         boolean ok = app.Check();
         assertEquals(app.getMessage(), "您的登录密码错误，禁止登录！");
-        assertEquals(app.getDataOut().getJSON(), is("{\"head\":{\"errorNo\":0}}"));
+        assertEquals(app.getDataOut().toJson(), is("{\"head\":{\"errorNo\":0}}"));
         assertTrue(!ok);
 
     }
@@ -77,7 +77,7 @@ public class TAppLoginTest {
         headIn.setField("Account_", userCode);
         boolean ok = app.Check();
         assertEquals(app.getMessage(), "您的登录密码错误，禁止登录！");
-        assertEquals(app.getDataOut().getJSON(), is("{\"head\":{\"errorNo\":0}}"));
+        assertEquals(app.getDataOut().toJson(), is("{\"head\":{\"errorNo\":0}}"));
         assertTrue(!ok);
     }
 
