@@ -72,14 +72,14 @@ public class SvrSession extends CustomService {
             return false;
         }
 
-        String userId = onlineInfo.getString("UserID_");
+        String userCode = onlineInfo.getString("UserCode_");
         MysqlQuery userInfo = new MysqlQuery(this);
         userInfo.add("select ID_,Code_,DiyRole_,RoleCode_,CorpNo_, Name_ as UserName_,ProxyUsers_");
         userInfo.add("from %s", systemTable.getUserInfo());
-        userInfo.add("where ID_='%s'", userId);
+        userInfo.add("where Code_='%s'", userCode);
         userInfo.open();
         if (userInfo.eof()) {
-            log.warn(String.format("userId %s 没有找到！", userId));
+            log.warn(String.format("userCode %s 没有找到！", userCode));
             this.getSession().setProperty(ISession.TOKEN, null);
             return false;
         }

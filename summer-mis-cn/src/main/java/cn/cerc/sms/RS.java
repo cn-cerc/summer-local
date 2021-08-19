@@ -52,8 +52,8 @@ public class RS {
     public static final String 简讯服务商代码不允许为空 = "简讯服务商代码不允许为空！";
     public static final String 添加成功 = "添加成功";
     public static final String 绑定成功 = "绑定成功";
-    public static final String 账号重新关联手机号成功 = "账号重新关联手机号成功！";
-    public static final String 账号已关联 = "账号已关联，勿重复执行！";
+    public static final String 帐号重新关联手机号成功 = "帐号重新关联手机号成功！";
+    public static final String 帐号已关联 = "帐号已关联，勿重复执行！";
     public static final String 应用主机未注册 = "应用主机 %s 没有注册";
     public static final String 简讯模版没有找到 = "简讯模版没有找到！";
     public static final String 无法读取短信发送配置 = "无法读取短信发送配置：%s";
