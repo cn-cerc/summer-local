@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime.DateType;
 import cn.cerc.core.ISession;
 import cn.cerc.core.TDateTime;
 import cn.cerc.db.core.IHandle;
@@ -104,8 +105,8 @@ public class UpdateManager implements IBookManage {
                         } else {
                             boolean ok = book.enroll(bookData, false);
                             if (ok && book.isKnowMonth()) {
-                                if (TDateTime.now().compareMonth(bookData.getDate()) > 0) {
-                                    for (int i = 1; i <= TDateTime.now().compareMonth(bookData.getDate()); i++) {
+                                if (TDateTime.now().subtract(DateType.Month, bookData.getDate()) > 0) {
+                                    for (int i = 1; i <= TDateTime.now().subtract(DateType.Month, bookData.getDate()); i++) {
                                         dataList.add(new VirtualData(book, bookData, i));
                                     }
                                 }

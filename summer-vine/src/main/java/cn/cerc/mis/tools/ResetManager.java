@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime.DateType;
 import cn.cerc.core.ISession;
 import cn.cerc.core.TDateTime;
 import cn.cerc.db.core.IHandle;
@@ -66,7 +67,7 @@ public class ResetManager implements IBookManage {
         if (!forceExecute) {
             Calendar cal = Calendar.getInstance();
             if (cal.get(Calendar.HOUR_OF_DAY) >= 8 && (cal.get(Calendar.HOUR_OF_DAY) < 18)) {
-                if (TDateTime.now().compareMonth(beginDate) > 1) {
+                if (TDateTime.now().subtract(DateType.Month, beginDate) > 1) {
                     throw new RuntimeException(res.getString(2, "在工作高峰期间(08:00-18:00)，为保障其它用户可用性，只允许处理最近2个月的数据！"));
                 }
             }
