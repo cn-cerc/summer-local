@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.Datetime.DateType;
 import cn.cerc.core.ISession;
-import cn.cerc.core.TDateTime;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.book.BookDataList;
@@ -54,9 +54,9 @@ public class ResetManager implements IBookManage {
     }
 
     @Override
-    public void setDateRange(TDateTime beginDate, TDateTime endDate, boolean forceExecute) {
+    public void setDateRange(Datetime beginDate, Datetime endDate, boolean forceExecute) {
         if (initMonth.compareTo(beginDate.getYearMonth()) > 0) {
-            beginDate = TDateTime.fromYearMonth(initMonth);
+            beginDate = new Datetime(initMonth);
         }
 
         if (beginDate.compareTo(endDate) > 0) {
@@ -67,7 +67,7 @@ public class ResetManager implements IBookManage {
         if (!forceExecute) {
             Calendar cal = Calendar.getInstance();
             if (cal.get(Calendar.HOUR_OF_DAY) >= 8 && (cal.get(Calendar.HOUR_OF_DAY) < 18)) {
-                if (TDateTime.now().subtract(DateType.Month, beginDate) > 1) {
+                if (new Datetime().subtract(DateType.Month, beginDate) > 1) {
                     throw new RuntimeException(res.getString(2, "在工作高峰期间(08:00-18:00)，为保障其它用户可用性，只允许处理最近2个月的数据！"));
                 }
             }
@@ -189,13 +189,13 @@ public class ResetManager implements IBookManage {
 
     // 取得开始日期
     @Override
-    public TDateTime getDateFrom() {
+    public Datetime getDateFrom() {
         return section.getDateFrom();
     }
 
     // 取得结束日期
     @Override
-    public TDateTime getDateTo() {
+    public Datetime getDateTo() {
         return section.getDateTo();
     }
 

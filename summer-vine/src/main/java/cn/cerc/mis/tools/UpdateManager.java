@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.Datetime.DateType;
 import cn.cerc.core.ISession;
-import cn.cerc.core.TDateTime;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.book.BookDataList;
@@ -51,9 +51,9 @@ public class UpdateManager implements IBookManage {
     }
 
     @Override
-    public void setDateRange(TDateTime beginDate, TDateTime endDate, boolean forceExecute) {
+    public void setDateRange(Datetime beginDate, Datetime endDate, boolean forceExecute) {
         if (initMonth.compareTo(beginDate.getYearMonth()) > 0) {
-            beginDate = TDateTime.fromYearMonth(initMonth);
+            beginDate = new Datetime(initMonth);
         }
 
         if (beginDate.compareTo(endDate) > 0) {
@@ -61,7 +61,7 @@ public class UpdateManager implements IBookManage {
         }
 
         duration = new DurationSplit(beginDate, endDate);
-        dataList = new BookDataList(new DurationSection(beginDate, TDateTime.now()));
+        dataList = new BookDataList(new DurationSection(beginDate, new Datetime()));
     }
 
     public void execute() throws DataUpdateException {
@@ -105,8 +105,8 @@ public class UpdateManager implements IBookManage {
                         } else {
                             boolean ok = book.enroll(bookData, false);
                             if (ok && book.isKnowMonth()) {
-                                if (TDateTime.now().subtract(DateType.Month, bookData.getDate()) > 0) {
-                                    for (int i = 1; i <= TDateTime.now().subtract(DateType.Month, bookData.getDate()); i++) {
+                                if (new Datetime().subtract(DateType.Month, bookData.getDate()) > 0) {
+                                    for (int i = 1; i <= new Datetime().subtract(DateType.Month, bookData.getDate()); i++) {
                                         dataList.add(new VirtualData(book, bookData, i));
                                     }
                                 }
@@ -167,13 +167,13 @@ public class UpdateManager implements IBookManage {
 
     // 取得开始日期
     @Override
-    public TDateTime getDateFrom() {
+    public Datetime getDateFrom() {
         return section.getDateFrom();
     }
 
     // 取得结束日期
     @Override
-    public TDateTime getDateTo() {
+    public Datetime getDateTo() {
         return section.getDateTo();
     }
 

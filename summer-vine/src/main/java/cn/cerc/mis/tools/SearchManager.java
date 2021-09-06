@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
-import cn.cerc.core.TDateTime;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.book.BookDataList;
@@ -47,7 +47,7 @@ public class SearchManager implements IBookManage {
     }
 
     @Override
-    public void setDateRange(TDateTime beginDate, TDateTime endDate, boolean forceExecute) {
+    public void setDateRange(Datetime beginDate, Datetime endDate, boolean forceExecute) {
         if (initMonth.compareTo(beginDate.getYearMonth()) > 0) {
             throw new RuntimeException(
                     String.format(res.getString(1, "起始日期(%s)小于开账年月(%s)"), beginDate.getYearMonth(), initMonth));
@@ -146,13 +146,13 @@ public class SearchManager implements IBookManage {
 
     // 取得开始日期
     @Override
-    public TDateTime getDateFrom() {
+    public Datetime getDateFrom() {
         return section.getDateFrom();
     }
 
     // 取得结束日期
     @Override
-    public TDateTime getDateTo() {
+    public Datetime getDateTo() {
         return section.getDateTo();
     }
 

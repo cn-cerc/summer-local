@@ -85,7 +85,7 @@ public class SvrSession extends CustomService {
         }
 
         Record headOut = getDataOut().getHead();
-        headOut.setField("LoginTime_", onlineInfo.getDateTime("LoginTime_"));
+        headOut.setField("LoginTime_", onlineInfo.getDatetime("LoginTime_"));
         headOut.setField("Language_", onlineInfo.getString("Language_"));
         copyData(userInfo, headOut);
         return true;
