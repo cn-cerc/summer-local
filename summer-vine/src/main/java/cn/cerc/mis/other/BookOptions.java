@@ -7,11 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.DataSet;
+import cn.cerc.core.FastDate;
 import cn.cerc.core.Record;
-import cn.cerc.core.TDate;
 import cn.cerc.db.core.IHandle;
-import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.BuildQuery;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.CenterService;
 import cn.cerc.mis.core.IOptionReader;
@@ -342,7 +342,7 @@ public class BookOptions {
     }
 
     // 从系统帐套中取开帐日期
-    private static TDate getBookCreateDate(IHandle handle) {
+    private static FastDate getBookCreateDate(IHandle handle) {
         CenterService svr = new CenterService(handle);
         svr.setService("ApiOurInfo.getBookCreateDate");
         if (!svr.exec("CorpNo_", handle.getCorpNo())) {
@@ -353,7 +353,7 @@ public class BookOptions {
         if (cdsTmp.size() == 0) {
             throw new RuntimeException(String.format("没有找到帐套：%s", handle.getCorpNo()));
         }
-        return cdsTmp.getDate("AppDate_");
+        return cdsTmp.getFastDate("AppDate_");
 
     }
 

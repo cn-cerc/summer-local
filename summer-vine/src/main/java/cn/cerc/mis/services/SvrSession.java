@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
 import cn.cerc.core.Record;
-import cn.cerc.core.TDateTime;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.CustomService;
@@ -39,7 +39,7 @@ public class SvrSession extends CustomService {
         }
 
         Record headOut = getDataOut().getHead();
-        headOut.setField("LoginTime_", TDateTime.now());
+        headOut.setField("LoginTime_", new Datetime());
         copyData(cdsUser, headOut);
         return true;
     }

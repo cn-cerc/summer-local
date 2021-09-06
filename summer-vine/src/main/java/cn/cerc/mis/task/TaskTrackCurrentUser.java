@@ -1,6 +1,7 @@
 package cn.cerc.mis.task;
 
-import cn.cerc.core.TDateTime;
+import cn.cerc.core.Datetime;
+import cn.cerc.core.Datetime.DateType;
 import cn.cerc.db.mysql.MysqlServerMaster;
 
 /**
@@ -21,14 +22,14 @@ public class TaskTrackCurrentUser extends AbstractTask {
         // 清除所有未正常登录的用户记录
         StringBuilder sql2 = new StringBuilder();
         sql2.append(String.format("update %s set Viability_=-1,LogoutTime_='%s' ", systemTable.getCurrentUser(),
-                TDateTime.now()));
+                new Datetime()));
 
         // 在线达24小时以上的用户
         sql2.append(String.format("where (Viability_>0 and Viability_<>%s) and (", FOREVER_VIABILITY));
         sql2.append("(hour(timediff(now(),LoginTime_)) > 24 and LogoutTime_ is null)");
 
         // 在早上5点以后，清除昨天的用户
-        if (TDateTime.now().getHours() > 5) {
+        if (new Datetime().get(DateType.Hour) > 5) {
             sql2.append(" or (datediff(now(),LoginTime_)=1)");
         }
 

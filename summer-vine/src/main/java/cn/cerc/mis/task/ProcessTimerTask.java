@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
 import cn.cerc.core.LanguageResource;
 import cn.cerc.core.Record;
-import cn.cerc.core.TDateTime;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
@@ -75,7 +75,7 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
                     continue;
                 }
                 try {
-                    String timeNow = TDateTime.now().getTime().substring(0, 5);
+                    String timeNow = new Datetime().getTime().substring(0, 5);
                     if (!"".equals(task.getTime()) && !task.getTime().equals(timeNow)) {
                         continue;
                     }

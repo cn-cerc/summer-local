@@ -2,11 +2,11 @@ package cn.cerc.mis.services;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
+import cn.cerc.core.Datetime;
 import cn.cerc.core.IUserLanguage;
 import cn.cerc.core.Record;
-import cn.cerc.core.TDateTime;
-import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.BuildQuery;
+import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
 import cn.cerc.db.oss.OssConnection;
 import cn.cerc.mis.core.CustomService;
@@ -73,7 +73,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
                 ds.setField("Path_", current.getString("path").trim());
                 ds.setField("Size_", current.getInt("size"));
                 ds.setField("AppUser_", getUserCode());
-                ds.setField("AppDate_", TDateTime.now());
+                ds.setField("AppDate_", new Datetime());
                 ds.post();
             }
 
