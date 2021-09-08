@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import cn.cerc.core.ClassResource;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.UICustomComponent;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.mvc.AbstractPage;
+import cn.cerc.ui.vcl.ext.UIBottom;
 
-public class UIFooter extends UICustomComponent {
+public class UIFooter extends UIComponent {
     private static final ClassResource res = new ClassResource(UIFooter.class, SummerUI.ID);
 
     private static final int MAX_MENUS = 7;
@@ -30,7 +30,7 @@ public class UIFooter extends UICustomComponent {
 
     @Override
     @Deprecated
-    public void setOwner(Component owner) {
+    public void setOwner(UIComponent owner) {
         super.setOwner(owner);
     }
 
@@ -61,9 +61,9 @@ public class UIFooter extends UICustomComponent {
         } else {
             html.println("<section role='footerButtons'>");
         }
-        for (Component component : this.getComponents()) {
-            if (component != this.operation && component instanceof UIComponent) {
-                ((UIComponent) component).output(html);
+        for (UIComponent component : this.getComponents()) {
+            if (component != this.operation) {
+                component.output(html);
             }
         }
         html.println("</section>");
@@ -106,7 +106,7 @@ public class UIFooter extends UICustomComponent {
 
     public void addButton(String caption, String url) {
         int count = 1;
-        for (Component obj : this.getComponents()) {
+        for (UIComponent obj : this.getComponents()) {
             if (obj instanceof UIBottom) {
                 count++;
             }

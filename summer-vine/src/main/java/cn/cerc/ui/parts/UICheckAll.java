@@ -3,6 +3,7 @@ package cn.cerc.ui.parts;
 import cn.cerc.core.ClassResource;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;
+import cn.cerc.ui.core.UIComponent;
 
 public class UICheckAll extends UIComponent {
     private static final ClassResource res = new ClassResource(UICheckAll.class, SummerUI.ID);

@@ -1,15 +1,16 @@
 package cn.cerc.ui.mvc;
 
-import cn.cerc.ui.core.Component;
-import cn.cerc.ui.parts.UISheetHelp;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import cn.cerc.ui.core.UIComponent;
+import cn.cerc.ui.parts.UISheetHelp;
 
 public class PageHelp {
     private static ApplicationContext app;
     private static String xmlFile = "classpath:page-help.xml";
 
-    public static UISheetHelp get(Component owner, String beanId) {
+    public static UISheetHelp get(UIComponent owner, String beanId) {
         if (app == null) {
             app = new FileSystemXmlApplicationContext(xmlFile);
         }

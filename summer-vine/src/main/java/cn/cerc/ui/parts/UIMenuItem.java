@@ -2,6 +2,7 @@ package cn.cerc.ui.parts;
 
 import cn.cerc.mis.core.MenuDisplay;
 import cn.cerc.ui.core.HtmlWriter;
+import cn.cerc.ui.core.UIComponent;
 
 public class UIMenuItem extends UIComponent {
     private String img = "";

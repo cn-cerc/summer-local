@@ -2,8 +2,8 @@ package cn.cerc.ui.parts;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlWriter;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.other.UrlMenu;
 
 public class UISheetLine extends UISheet {
@@ -40,12 +40,10 @@ public class UISheetLine extends UISheet {
         html.println("</div>");
         html.println("<div class=\"contents\">");
         html.println("<ul>");
-        for (Component component : getComponents()) {
-            if (component instanceof UIComponent) {
-                html.print("<li>");
-                ((UIComponent) component).output(html);
-                html.print("</li>");
-            }
+        for (UIComponent component : getComponents()) {
+            html.print("<li>");
+            component.output(html);
+            html.print("</li>");
         }
         html.println("</ul>");
         html.println("</div>");

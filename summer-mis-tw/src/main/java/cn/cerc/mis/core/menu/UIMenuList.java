@@ -1,7 +1,7 @@
 package cn.cerc.mis.core.menu;
 
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.parts.UIComponent;
+import cn.cerc.ui.core.UIComponent;
 
 import java.util.ArrayList;
 import java.util.List;

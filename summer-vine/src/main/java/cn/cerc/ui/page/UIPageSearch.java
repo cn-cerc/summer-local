@@ -15,15 +15,14 @@ import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.mis.rds.PassportRecord;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlContent;
 import cn.cerc.ui.core.IRightMenuLoad;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.grid.DataGrid;
 import cn.cerc.ui.grid.MutiPage;
 import cn.cerc.ui.menu.MenuList;
 import cn.cerc.ui.mvc.StartForms;
-import cn.cerc.ui.parts.UIComponent;
 import cn.cerc.ui.parts.UIFormHorizontal;
 import cn.cerc.ui.parts.UIFormVertical;
 import cn.cerc.ui.parts.UIHeader;
@@ -56,7 +55,7 @@ public class UIPageSearch extends UIPage {
         HttpServletRequest request = getRequest();
 
         // 添加分页控制
-        Component operaPages = null;
+        UIComponent operaPages = null;
         if (pages != null) {
             this.put("pages", pages);
             operaPages = new OperaPages(this.getToolBar(), this.getForm(), pages);
@@ -77,7 +76,7 @@ public class UIPageSearch extends UIPage {
         }
 
         // 系统通知消息
-        Component content = this.getContent();
+        UIComponent content = this.getContent();
         if (form instanceof AbstractForm) {
             if (header != null) {
                 header.initHeader();
@@ -85,7 +84,7 @@ public class UIPageSearch extends UIPage {
             if (content.getId() != null) {
                 request.setAttribute(content.getId(), content);
             }
-            for (Component component : content.getComponents()) {
+            for (UIComponent component : content.getComponents()) {
                 if (component.getId() != null) {
                     request.setAttribute(component.getId(), component);
                 }

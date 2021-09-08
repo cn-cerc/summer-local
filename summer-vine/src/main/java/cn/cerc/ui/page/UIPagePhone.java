@@ -13,13 +13,11 @@ import cn.cerc.mis.core.AppClient;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.IRightMenuLoad;
-import cn.cerc.ui.core.UICustomComponent;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.menu.MenuList;
 import cn.cerc.ui.mvc.StartForms;
-import cn.cerc.ui.parts.UIComponent;
 import cn.cerc.ui.parts.UIHeader;
 
 /**
@@ -67,7 +65,7 @@ public class UIPagePhone extends UIPage {
         }
 
         // 系统通知消息
-        Component content = this.getContent();
+        UIComponent content = this.getContent();
         if (form instanceof AbstractForm) {
             if (header != null) {
                 header.initHeader();
@@ -75,7 +73,7 @@ public class UIPagePhone extends UIPage {
             if (content.getId() != null) {
                 request.setAttribute(content.getId(), content);
             }
-            for (Component component : content.getComponents()) {
+            for (UIComponent component : content.getComponents()) {
                 if (component.getId() != null) {
                     request.setAttribute(component.getId(), component);
                 }
@@ -132,7 +130,7 @@ public class UIPagePhone extends UIPage {
     @Deprecated // 请使用：getDocument().getContext()
     public UIComponent getBody() {
         if (body == null) {
-            body = new UICustomComponent();
+            body = new UIComponent();
             body.setOwner(this.getContent());
             body.setId("search");
         }

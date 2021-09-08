@@ -2,16 +2,16 @@ package cn.cerc.ui.parts;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.UICustomComponent;
+import cn.cerc.ui.core.UIComponent;
 
-public class UISheet extends UICustomComponent {
+public class UISheet extends UIComponent {
     private static final ClassResource res = new ClassResource(UISheet.class, SummerUI.ID);
 
     private String caption = res.getString(1, "(无标题)");
     private String group = res.getString(2, "工具面板");
 
     public UISheet() {
-        super();
+        this(null);
     }
 
     public UISheet(UIComponent owner) {

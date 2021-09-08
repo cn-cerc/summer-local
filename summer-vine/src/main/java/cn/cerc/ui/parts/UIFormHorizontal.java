@@ -1,5 +1,10 @@
 package cn.cerc.ui.parts;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import cn.cerc.core.ClassConfig;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
@@ -7,11 +12,10 @@ import cn.cerc.core.Record;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.Component;
-import cn.cerc.ui.core.UICustomComponent;
 import cn.cerc.ui.core.DataSource;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.IField;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.fields.ButtonField;
 import cn.cerc.ui.fields.ExpendField;
@@ -19,14 +23,10 @@ import cn.cerc.ui.grid.lines.AbstractGridLine;
 import cn.cerc.ui.grid.lines.ExpenderGridLine;
 import cn.cerc.ui.other.SearchItem;
 import cn.cerc.ui.vcl.UILabel;
+import cn.cerc.ui.vcl.UISpan;
 import cn.cerc.ui.vcl.UIText;
-import cn.cerc.ui.vcl.ext.UISpan;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-
-public class UIFormHorizontal extends UICssComponent implements DataSource {
+public class UIFormHorizontal extends UIComponent implements DataSource {
     private static final ClassResource res = new ClassResource(UIFormHorizontal.class, SummerUI.ID);
     private static final ClassConfig config = new ClassConfig(UIFormVertical.class, SummerUI.ID);
 
@@ -169,7 +169,7 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
                 break;
             }
         }
-        for (Component component : this.getExpender().getComponents()) {
+        for (UIComponent component : this.getExpender().getComponents()) {
             if (component instanceof AbstractField) {
                 AbstractField field = (AbstractField) component;
                 html.print("<li");
@@ -213,7 +213,7 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
 
     public ButtonsFields getButtons() {
         if (buttons == null) {
-            buttons = new ButtonsFields(this);
+            buttons = new ButtonsFields(this, this);
         }
         return buttons;
     }
@@ -286,7 +286,7 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
 
     public AbstractGridLine getExpender() {
         if (expender == null) {
-            expender = new ExpenderGridLine(this);
+            expender = new ExpenderGridLine(this, this);
         }
 
         return expender;
@@ -310,11 +310,12 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
         this.enctype = enctype;
     }
 
-    public class ButtonsFields extends UICustomComponent implements DataSource {
+    public class ButtonsFields extends UIComponent implements DataSource {
         private DataSource dataSource;
         private List<AbstractField> fields = new ArrayList<>();
 
-        public ButtonsFields(DataSource dataView) {
+        public ButtonsFields(UIComponent owner, DataSource dataView) {
+            super(owner);
             this.dataSource = dataView;
         }
 
@@ -350,4 +351,5 @@ public class UIFormHorizontal extends UICssComponent implements DataSource {
             dataSource.updateValue(id, code);
         }
     }
+
 }

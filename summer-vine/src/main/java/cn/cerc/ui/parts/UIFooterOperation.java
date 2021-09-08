@@ -1,11 +1,11 @@
 package cn.cerc.ui.parts;
 
-import cn.cerc.ui.core.UICustomComponent;
+import cn.cerc.ui.core.UIComponent;
 
-public class UIFooterOperation extends UICustomComponent {
+public class UIFooterOperation extends UIComponent {
     private UICheckAll checkAll;
 
-    public UIFooterOperation(UICustomComponent owner) {
+    public UIFooterOperation(UIComponent owner) {
         super(owner);
     }
 

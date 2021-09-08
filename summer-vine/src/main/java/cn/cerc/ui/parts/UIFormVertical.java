@@ -9,15 +9,15 @@ import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.DataSource;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.IField;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.vcl.UIButton;
 import cn.cerc.ui.vcl.UIText;
 
-public class UIFormVertical extends UICssComponent implements DataSource {
+public class UIFormVertical extends UIComponent implements DataSource {
     private static final ClassResource res = new ClassResource(UIFormVertical.class, SummerUI.ID);
     private static final ClassConfig config = new ClassConfig(UIFormVertical.class, SummerUI.ID);
 
@@ -42,7 +42,7 @@ public class UIFormVertical extends UICssComponent implements DataSource {
 
     @Override
     @Deprecated
-    public void setOwner(Component owner) {
+    public void setOwner(UIComponent owner) {
         super.setOwner(owner);
     }
 

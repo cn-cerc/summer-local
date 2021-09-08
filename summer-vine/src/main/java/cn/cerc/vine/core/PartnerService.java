@@ -18,7 +18,6 @@ public class PartnerService extends RemoteService {
         this.setServer(server);
     }
 
-    @Deprecated
     public void setCorpNo(String corpNo) {
         IHandle handle = new BookHandle(this, corpNo);
         this.setSession(handle.getSession());

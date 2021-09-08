@@ -5,11 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.UICustomComponent;
+import cn.cerc.ui.core.UIComponent;
 
-public class UIToolbar extends UICustomComponent {
+public class UIToolbar extends UIComponent {
     private List<UISheet> sheets = new ArrayList<>();
 
     public UIToolbar(UIComponent owner) {
@@ -19,7 +18,7 @@ public class UIToolbar extends UICustomComponent {
 
     @Override
     @Deprecated
-    public void setOwner(Component owner) {
+    public void setOwner(UIComponent owner) {
         super.setOwner(owner);
     }
 

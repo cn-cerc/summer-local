@@ -1,7 +1,7 @@
 package cn.cerc.ui.parts;
 
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlWriter;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.other.UrlMenu;
 
 public class UISheetCard extends UISheet {
@@ -20,10 +20,10 @@ public class UISheetCard extends UISheet {
             url.output(html);
         }
         html.println("</label>");
-        for (Component component : this.getComponents()) {
+        for (UIComponent component : this.getComponents()) {
             if (component instanceof UIComponent) {
                 html.print("<div>");
-                ((UIComponent) component).output(html);
+                component.output(html);
                 html.print("</div>");
             }
         }

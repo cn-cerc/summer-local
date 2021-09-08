@@ -16,14 +16,15 @@ import cn.cerc.mis.core.IClient;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.ICorpInfo;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.mvc.AbstractPage;
 import cn.cerc.ui.phone.Block104;
+import cn.cerc.ui.vcl.ext.UIBottom;
 
-public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
+public class UIHeader extends UIComponent implements IUserLanguage, IHandle {
     private static final ClassConfig config = new ClassConfig(UIHeader.class, SummerUI.ID);
     private static final ClassResource res = new ClassResource(UIHeader.class, SummerUI.ID);
 
@@ -297,7 +298,7 @@ public class UIHeader extends UICssComponent implements IUserLanguage, IHandle {
 
     public void addButton(String caption, String url, String iconUrl) {
         int count = 1;
-        for (Component obj : this.getComponents()) {
+        for (UIComponent obj : this.getComponents()) {
             if (obj instanceof UIBottom) {
                 count++;
             }

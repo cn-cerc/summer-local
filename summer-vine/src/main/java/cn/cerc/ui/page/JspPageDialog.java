@@ -16,10 +16,10 @@ import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.AppClient;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.IForm;
-import cn.cerc.ui.core.Component;
 import cn.cerc.ui.core.HtmlContent;
 import cn.cerc.ui.core.IRightMenuLoad;
 import cn.cerc.ui.core.MutiGrid;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.grid.DataGrid;
 import cn.cerc.ui.grid.MutiPage;
@@ -103,7 +103,7 @@ public class JspPageDialog extends JspPage {
         request.setAttribute("form", form);
 
         // 添加分页控制
-        Component operaPages = null;
+        UIComponent operaPages = null;
         if (pages != null) {
             this.put("pages", pages);
             operaPages = new OperaPages(this.getToolBar(), this.getForm(), pages);

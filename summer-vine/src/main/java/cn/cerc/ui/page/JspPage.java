@@ -2,7 +2,7 @@ package cn.cerc.ui.page;
 
 import cn.cerc.mis.core.IForm;
 import cn.cerc.ui.core.JspFile;
-import cn.cerc.ui.parts.UIComponent;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.parts.UIFooter;
 import cn.cerc.ui.parts.UIHeader;
 import cn.cerc.ui.parts.UIToolbar;
