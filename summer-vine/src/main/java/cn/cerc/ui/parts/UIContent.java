@@ -24,7 +24,7 @@ public class UIContent extends UIComponent {
     @Override
     public void output(HtmlWriter html) {
         html.print("<section role='content'");
-        super.outputCss(html);
+        super.appendPropertys(html);
         html.println(">");
 
         super.output(html);

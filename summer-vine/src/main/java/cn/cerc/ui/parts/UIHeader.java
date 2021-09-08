@@ -121,7 +121,7 @@ public class UIHeader extends UIComponent implements IUserLanguage, IHandle {
         }
 
         html.print("<header role='header'");
-        super.outputCss(html);
+        super.appendPropertys(html);
         html.println(">");
         if (!"".equals(this.userName) && this.userName != null) {
             html.print("<div class='titel_top'>");

@@ -19,7 +19,9 @@ public class UIDocument extends UIComponent {
 
     @Override
     public void output(HtmlWriter html) {
-        html.println("<article role='document'>");
+        html.println("<article role='document'");
+        super.appendPropertys(html);
+        html.print(">");
         // 可选
         if (control != null) {
             html.println("<section role='control'>");
@@ -30,7 +32,6 @@ public class UIDocument extends UIComponent {
         html.println(content.toString());
         // 必须存在
         html.println(message.toString());
-        super.outputCss(html);
         html.print("</article>");
     }
 
