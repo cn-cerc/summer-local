@@ -40,12 +40,6 @@ public class UIFormVertical extends UIComponent implements DataSource {
         dataSet.append();
     }
 
-    @Override
-    @Deprecated
-    public void setOwner(UIComponent owner) {
-        super.setOwner(owner);
-    }
-
     public String getCSSClass() {
         return CSSClass;
     }

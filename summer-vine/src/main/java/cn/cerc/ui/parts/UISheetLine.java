@@ -22,15 +22,10 @@ public class UISheetLine extends UISheet {
             return;
         }
         html.println("<section");
-        if (this.cssStyle != null) {
-            html.print(" style=\"%s\"", this.cssStyle);
-        }
-        if (this.cssClass != null) {
-            html.print(" class=\"%s\"", this.cssClass);
-        }
         if (this.getId() != null) {
             html.print(" id=\"%s\"", this.getId());
         }
+        super.outputCss(html);
         html.println(">");
         html.print("<div class=\"title\">");
         html.print(this.getCaption());

@@ -28,12 +28,6 @@ public class UIFooter extends UIComponent {
         this.setId("bottom");
     }
 
-    @Override
-    @Deprecated
-    public void setOwner(UIComponent owner) {
-        super.setOwner(owner);
-    }
-
     public void setCheckAllTargetId(String targetId) {
         this.getOperation().getCheckAll().setTargetId(targetId);
     }

@@ -27,7 +27,9 @@ public class UISheetMenu extends UISheet {
             return;
         }
 
-        html.println("<section class='%s'>", this.cssClass);
+        html.println("<section");
+        super.outputCss(html);
+        html.print(">");
         if (caption != null) {
             html.println("<div class='nowpage'>");
             // icon.output(html);

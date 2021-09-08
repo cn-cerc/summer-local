@@ -105,9 +105,7 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
         if (this.action != null) {
             html.print(" action=\"%s\"", this.action);
         }
-        if (this.cssClass != null) {
-            html.print(" class=\"%s\"", this.cssClass);
-        }
+        super.outputCss(html);
         if (this.enctype != null) {
             html.print(" enctype=\"%s\"", this.enctype);
         }

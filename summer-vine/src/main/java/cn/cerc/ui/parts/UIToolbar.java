@@ -17,18 +17,12 @@ public class UIToolbar extends UIComponent {
     }
 
     @Override
-    @Deprecated
-    public void setOwner(UIComponent owner) {
-        super.setOwner(owner);
-    }
-
-    @Override
     public void output(HtmlWriter html) {
         html.print("<aside role='toolBar' id='%s'", this.getId());
         if (isEmpty()) {
             // html.print(" style='display:none'");
             // FIXME: 2019/6/16 此处需改进
-            this.cssStyle = "display:none";
+            this.setCssStyle("display:none");
         }
         super.outputCss(html);
         html.println(">");

@@ -18,12 +18,6 @@ public class UIDocument extends UIComponent {
     }
 
     @Override
-    @Deprecated
-    public void setOwner(UIComponent owner) {
-        super.setOwner(owner);
-    }
-
-    @Override
     public void output(HtmlWriter html) {
         html.println("<article role='document'>");
         // 可选
