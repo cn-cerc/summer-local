@@ -18,8 +18,10 @@ import jxl.write.WriteException;
 public class ExportService extends ExportExcel {
     private static final ClassResource res = new ClassResource(ExportService.class, SummerMIS.ID);
 
-    private String service;
-    private String exportKey;
+    private final String service;
+    private final String exportKey;
+
+    private DataSet dataIn;
 
     public ExportService(AbstractForm owner) {
         super(owner, owner.getResponse());
@@ -27,6 +29,10 @@ public class ExportService extends ExportExcel {
         HttpServletRequest request = owner.getRequest();
         service = request.getParameter("service");
         exportKey = request.getParameter("exportKey");
+        dataIn = new DataSet();
+        try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.User.ExportKey, this.getUserCode(), exportKey)) {
+            dataIn.fromJson(buff.getString("data"));
+        }
     }
 
     @Override
@@ -40,10 +46,9 @@ public class ExportService extends ExportExcel {
 
         PartnerService app = new PartnerService(this);
         app.setService(service);
-        try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.User.ExportKey, this.getUserCode(), exportKey)) {
-            app.getDataIn().close();
-            app.getDataIn().fromJson(buff.getString("data"));
-        }
+        app.getDataIn().close();
+        app.getDataIn().appendDataSet(dataIn);
+        app.getDataIn().getHead().copyValues(dataIn.getHead());
         if (!app.exec()) {
             this.export(app.getMessage());
             return;
@@ -59,6 +64,14 @@ public class ExportService extends ExportExcel {
         }
         this.getTemplate().setDataSet(dataOut);
         super.export();
+    }
+
+    public DataSet getDataIn() {
+        return dataIn;
+    }
+
+    public void setDataIn(DataSet dataIn) {
+        this.dataIn = dataIn;
     }
 
 }
