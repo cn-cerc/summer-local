@@ -126,6 +126,7 @@ public class JspPageDialog extends JspPage {
     public UIFooter getFooter() {
         if (footer == null) {
             footer = new UIFooter(this);
+            this.add(footer.getId(), footer);
         }
         return footer;
     }
