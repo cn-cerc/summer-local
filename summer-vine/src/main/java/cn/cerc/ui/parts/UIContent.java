@@ -15,24 +15,22 @@ public class UIContent extends UIComponent {
 
     public UIContent(UIDocument owner) {
         super(owner);
+        this.setRootLabel("section");
+        this.writeProperty("role", "content");
     }
 
+    @Deprecated
     public void append(HtmlContent content) {
         contents.add(content);
     }
 
     @Override
     public void output(HtmlWriter html) {
-        html.print("<section role='content'");
-        super.appendPropertys(html);
-        html.println(">");
-
+        this.beginOutput(html);
         super.output(html);
-        // 输出追加过来的内容
-        for (HtmlContent content : contents) {
+        for (HtmlContent content : contents) 
             content.output(html);
-        }
-        html.println("</section>");
+        this.endOutput(html);
     }
 
     public HttpServletRequest getRequest() {

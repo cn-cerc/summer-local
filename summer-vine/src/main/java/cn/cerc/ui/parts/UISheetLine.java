@@ -22,7 +22,7 @@ public class UISheetLine extends UISheet {
             return;
         }
         html.println("<section");
-        super.appendPropertys(html);
+        super.outputPropertys(html);
         html.println(">");
         html.print("<div class=\"title\">");
         html.print(this.getCaption());

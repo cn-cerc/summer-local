@@ -24,7 +24,7 @@ public class UIToolbar extends UIComponent {
             // FIXME: 2019/6/16 此处需改进
             this.setCssStyle("display:none");
         }
-        super.appendPropertys(html);
+        super.outputPropertys(html);
         html.println(">");
         html.println("<div style='overflow-y: auto; height: 100%; position: relative;'>");
 

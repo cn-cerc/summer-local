@@ -28,7 +28,7 @@ public class UISheetMenu extends UISheet {
         }
 
         html.println("<section");
-        super.appendPropertys(html);
+        super.outputPropertys(html);
         html.print(">");
         if (caption != null) {
             html.println("<div class='nowpage'>");

@@ -12,6 +12,8 @@ public class UIDocument extends UIComponent {
 
     public UIDocument(AbstractPage owner) {
         super(owner);
+        this.setRootLabel("article");
+        this.writeProperty("role", "document");
         content = new UIContent(this);
         content.setRequest(owner.getRequest());
         message = new UIMessage(this);
@@ -19,9 +21,7 @@ public class UIDocument extends UIComponent {
 
     @Override
     public void output(HtmlWriter html) {
-        html.println("<article role='document'");
-        super.appendPropertys(html);
-        html.print(">");
+        this.beginOutput(html);
         // 可选
         if (control != null) {
             html.println("<section role='control'>");
@@ -32,7 +32,7 @@ public class UIDocument extends UIComponent {
         html.println(content.toString());
         // 必须存在
         html.println(message.toString());
-        html.print("</article>");
+        this.endOutput(html);
     }
 
     @Deprecated
