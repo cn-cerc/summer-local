@@ -3,12 +3,12 @@ package cn.cerc.ui.parts;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.mvc.AbstractPage;
+import cn.cerc.ui.vcl.UISection;
 
 public class UIDocument extends UIComponent {
-    @Deprecated
-    private UIComponent control; // 可选存在
+    private UISection header; // 可选存在
     private UIContent content; // 必须存在
-    private UIMessage message; // 必须存在
+    private UIMessage footer; // 必须存在
 
     public UIDocument(AbstractPage owner) {
         super(owner);
@@ -16,39 +16,53 @@ public class UIDocument extends UIComponent {
         this.writeProperty("role", "document");
         content = new UIContent(this);
         content.setRequest(owner.getRequest());
-        message = new UIMessage(this);
+
+        footer = new UIMessage(this);
+        this.getComponents().remove(footer);
     }
 
     @Override
-    public void output(HtmlWriter html) {
-        this.beginOutput(html);
+    public void beginOutput(HtmlWriter html) {
+        super.beginOutput(html);
         // 可选
-        if (control != null) {
-            html.println("<section role='control'>");
-            html.println(control.toString());
-            html.println("</section>");
-        }
-        // 必须存在
-        html.println(content.toString());
-        // 必须存在
-        html.println(message.toString());
-        this.endOutput(html);
+        if (header != null)
+            html.println(header.toString());
     }
 
-    @Deprecated
-    public UIComponent getControl() {
-        if (control == null) {
-            control = new UIComponent(this);
+    @Override
+    public void endOutput(HtmlWriter html) {
+        // 必须存在
+        html.println(footer.toString());
+        super.endOutput(html);
+    }
+
+    public UISection getHeader() {
+        if (header == null) {
+            header = new UISection(this);
+            header.writeProperty("role", "control");
+            // 保障其在第一位
+            this.getComponents().remove(header);
+            this.getComponents().add(0, header);
         }
-        return control;
+        return header;
+    }
+
+    @Deprecated //改名为 getHeader
+    public UISection getControl() {
+        return this.getHeader();
     }
 
     public UIContent getContent() {
         return content;
     }
 
+    public UIMessage getFooter() {
+        return footer;
+    }
+
+    @Deprecated
     public UIMessage getMessage() {
-        return message;
+        return getFooter();
     }
 
 }

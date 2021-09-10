@@ -7,30 +7,26 @@ import javax.servlet.http.HttpServletRequest;
 
 import cn.cerc.ui.core.HtmlContent;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.UIComponent;
+import cn.cerc.ui.vcl.UISection;
 
-public class UIContent extends UIComponent {
+public class UIContent extends UISection {
     private List<HtmlContent> contents = new ArrayList<>();
     private HttpServletRequest request;
 
     public UIContent(UIDocument owner) {
         super(owner);
-        this.setRootLabel("section");
         this.writeProperty("role", "content");
     }
 
-    @Deprecated
     public void append(HtmlContent content) {
         contents.add(content);
     }
 
     @Override
-    public void output(HtmlWriter html) {
-        this.beginOutput(html);
-        super.output(html);
-        for (HtmlContent content : contents) 
+    public void endOutput(HtmlWriter html) {
+        for (HtmlContent content : contents)
             content.output(html);
-        this.endOutput(html);
+        super.endOutput(html);
     }
 
     public HttpServletRequest getRequest() {

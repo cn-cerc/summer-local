@@ -142,8 +142,8 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
                         html.println("</li>");
                         html.println("<li role=\"%s\" style=\"display: none;\">", field.getId());
                         html.print("<mark>");
-                        if (mark.getContent() != null) {
-                            html.println("%s", mark.getContent());
+                        if (mark.getText() != null) {
+                            html.println("%s", mark.getText());
                         }
                         for (String line : mark.getLines()) {
                             html.println("<p>%s</p>", line);
