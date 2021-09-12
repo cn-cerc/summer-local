@@ -23,32 +23,37 @@ public class UIDocument extends UIComponent {
     }
 
     @Override
-    public void beginOutput(HtmlWriter html) {
-        super.beginOutput(html);
-        // 可选
-        if (header != null)
-            html.println(header.toString());
-    }
-
-    @Override
-    public void endOutput(HtmlWriter html) {
-        // 必须存在
-        html.println(message.toString());
-        super.endOutput(html);
+    public void output(HtmlWriter html) {
+        this.beginOutput(html);
+        for (UIComponent item : this) {
+            if (item == header) {
+                item.output(html);
+                break;
+            }
+        }
+        for (UIComponent item : this) {
+            if (item != header && item != message) {
+                item.output(html);
+            }
+        }
+        for (UIComponent item : this) {
+            if (item == message) {
+                item.output(html);
+                break;
+            }
+        }
+        this.endOutput(html);
     }
 
     public UISection getHeader() {
         if (header == null) {
             header = new UISection(this);
             header.writeProperty("role", "control");
-            // 保障其在第一位
-            this.getComponents().remove(header);
-            this.getComponents().add(0, header);
         }
         return header;
     }
 
-    @Deprecated //改名为 getHeader
+    @Deprecated // 改名为 getHeader
     public UISection getControl() {
         return this.getHeader();
     }
