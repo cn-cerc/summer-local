@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.cerc.core.ClassConfig;
-import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.DataSource;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.IField;
 import cn.cerc.ui.core.UIComponent;
+import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.vcl.UIButton;
 import cn.cerc.ui.vcl.UIText;
 
-public class UIFormVertical extends UIComponent implements DataSource {
-    private static final ClassResource res = new ClassResource(UIFormVertical.class, SummerUI.ID);
+public class UIFormVertical extends UIComponent implements SearchSource {
     private static final ClassConfig config = new ClassConfig(UIFormVertical.class, SummerUI.ID);
 
     protected String CSSClass = "info";
@@ -48,12 +45,17 @@ public class UIFormVertical extends UIComponent implements DataSource {
         CSSClass = cSSClass;
     }
 
+    @Deprecated
+    public void addField(AbstractField field) {
+        this.addComponent(field);
+    }
+
     @Override
-    public void addField(IField field) {
-        if (field instanceof AbstractField) {
-            fields.add((AbstractField) field);
+    public void addComponent(UIComponent child) {
+        if (child instanceof AbstractField) {
+            fields.add((AbstractField) child);
         } else {
-            throw new RuntimeException(String.format(res.getString(1, "不支持的数据类型：%s"), field.getClass().getName()));
+            super.addComponent(child);
         }
     }
 
@@ -169,11 +171,16 @@ public class UIFormVertical extends UIComponent implements DataSource {
         return null;
     }
 
-    @Override
     public DataSet getDataSet() {
         return dataSet;
     }
 
+    @Override
+    public Record getCurrent() {
+        return this.dataSet.getCurrent();
+    }
+
+    @Deprecated
     public Record getRecord() {
         return dataSet.getCurrent();
     }
@@ -212,4 +219,5 @@ public class UIFormVertical extends UIComponent implements DataSource {
         buttons.add(button);
         return button;
     }
+
 }

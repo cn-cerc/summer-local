@@ -43,7 +43,7 @@ public class JspPageDialog extends JspPage {
 
     public JspPageDialog(IForm form) {
         super();
-        setForm(form);
+        setOrigin(form);
     }
 
     public void addExportFile(String service, String key) {

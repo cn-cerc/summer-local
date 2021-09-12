@@ -5,200 +5,139 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.cerc.core.ClassConfig;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
-import cn.cerc.mis.cdn.CDN;
+import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.SummerUI;
-import cn.cerc.ui.core.DataSource;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.IField;
+import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.fields.ButtonField;
 import cn.cerc.ui.fields.ExpendField;
-import cn.cerc.ui.grid.lines.AbstractGridLine;
-import cn.cerc.ui.grid.lines.ExpenderGridLine;
 import cn.cerc.ui.other.SearchItem;
+import cn.cerc.ui.vcl.UIForm;
 import cn.cerc.ui.vcl.UILabel;
 import cn.cerc.ui.vcl.UISpan;
-import cn.cerc.ui.vcl.UIText;
 
-public class UIFormHorizontal extends UIComponent implements DataSource {
+public class UIFormHorizontal extends UIForm implements SearchSource {
     private static final ClassResource res = new ClassResource(UIFormHorizontal.class, SummerUI.ID);
-    private static final ClassConfig config = new ClassConfig(UIFormVertical.class, SummerUI.ID);
 
-    protected String method = "post";
     protected HttpServletRequest request;
     protected List<AbstractField> fields = new ArrayList<>();
-    protected String action;
     private DataSet dataSet;
-    private String enctype;
 
     private ButtonsFields buttons;
     private MemoryBuffer buff;
     private UIComponent levelSide;
     private ButtonField submit;
     private boolean readAll;
-    private AbstractGridLine expender;
+    private ExpenderPanel expender;
     private UILabel title;
 
-    public UIFormHorizontal(UIComponent owner, HttpServletRequest request) {
+    public UIFormHorizontal(UIComponent owner) {
         super(owner);
-        this.setCssClass("search");
-        this.request = request;
         this.setId("form1");
         this.setCssClass("search");
+
+        this.request = ((IForm) this.getOrigin()).getRequest();
         request.setAttribute(this.getId(), this);
+
         this.dataSet = new DataSet();
         dataSet.append();
         this.title = new UILabel();
+        this.title.setCssClass("ui-title");
+        UISpan span = new UISpan(this.title);
+        span.setCssClass("ui-title-operate");
+        span.setText("");
         this.setSearchTitle(res.getString(1, "搜索查询"));
     }
 
-    public Record getRecord() {
+    @Override
+    public Record getCurrent() {
         return dataSet.getCurrent();
     }
 
+    @Deprecated
+    public Record getRecord() {
+        return getCurrent();
+    }
+
     public void setRecord(Record record) {
-        dataSet.getCurrent().copyValues(record, record.getFieldDefs());
+        getCurrent().copyValues(record, record.getFieldDefs());
         dataSet.setRecNo(dataSet.size());
-        // this.record = record;
+    }
+
+    @Deprecated
+    public void addField(AbstractField field) {
+        this.addComponent(field);
     }
 
     @Override
-    public void addField(IField field) {
-        if (field instanceof SearchItem) {
-            ((SearchItem) field).setSearch(true);
-        }
-        if (field instanceof AbstractField) {
-            fields.add((AbstractField) field);
-        } else {
-            throw new RuntimeException(String.format(res.getString(2, "不支持的数据类型：%s"), field.getClass().getName()));
-        }
-    }
+    public void addComponent(UIComponent child) {
+        if (child instanceof AbstractField) {
+            if (child instanceof SearchItem)
+                ((SearchItem) child).setSearch(true);
 
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
+            fields.add((AbstractField) child);
+        }
+        super.addComponent(child);
     }
 
     public void setSearchTitle(String title) {
-        UISpan span = new UISpan();
-        span.setCssClass("ui-title-operate");
-        span.setText("");
-        this.title.setCssClass("ui-title");
-        this.title.setText(String.format("%s%s", title, span.toString()));
+        this.title.setText(title);
+    }
+
+    @Override
+    public void beginOutput(HtmlWriter html) {
+        readAll();
+
+        title.output(html);
+        super.beginOutput(html);
     }
 
     @Override
     public void output(HtmlWriter html) {
-        readAll();
-
-        title.output(html);
-        html.print("<form method=\"%s\"", this.method);
-        if (this.action != null) {
-            html.print(" action=\"%s\"", this.action);
-        }
-        super.outputPropertys(html);
-        if (this.enctype != null) {
-            html.print(" enctype=\"%s\"", this.enctype);
-        }
-        html.println(">");
+        this.beginOutput(html);
 
         // 输出隐藏字段
         for (AbstractField field : fields) {
-            if (field.isHidden()) {
-                field.output(html);
-            }
+            if (field.isHidden())
+                field.outputOfFormHorizontal(html);
         }
 
         html.println("<ul>");
         // 输出正常查询字段
         for (AbstractField field : fields) {
-            if (!field.isHidden()) {
-                html.print("<li");
-                if (field.getRole() != null) {
-                    html.print(" role='%s'", field.getRole());
-                }
-                if (field instanceof ExpendField) {
-                    html.print(" class=\"select\"");
-                }
-                html.println(">");
-
-                try {
-                    field.output(html);
-
-                    UIText mark = field.getMark();
-                    if (mark != null) {
-                        html.println("<a href=\"javascript:displaySwitch('%s')\">", field.getId());
-                        html.println("<img src=\"%s\" />", CDN.get(config.getClassProperty("icon", "")));
-                        html.println("</a>");
-                        html.println("</li>");
-                        html.println("<li role=\"%s\" style=\"display: none;\">", field.getId());
-                        html.print("<mark>");
-                        if (mark.getText() != null) {
-                            html.println("%s", mark.getText());
-                        }
-                        for (String line : mark.getLines()) {
-                            html.println("<p>%s</p>", line);
-                        }
-                        html.println("</mark>");
-                    }
-                } catch (Exception e) {
-                    html.print("<label>");
-                    html.print(e.getMessage());
-                    html.print("</label>");
-                }
-                html.println("</li>");
-            }
+            if (!field.isHidden())
+                field.outputOfFormHorizontal(html);
         }
-
         // 输出可折叠字段
-        String hid = "hidden";
-        for (AbstractField field : fields) {
-            if (field instanceof ExpendField) {
-                hid = ((ExpendField) field).getHiddenId();
-                break;
-            }
-        }
-        for (UIComponent component : this.getExpender().getComponents()) {
-            if (component instanceof AbstractField) {
-                AbstractField field = (AbstractField) component;
-                html.print("<li");
-                html.print(" role='%s'", hid);
-                html.print(" style=\"display: none;\"");
-                html.println(">");
-                try {
-                    field.output(html);
-                } catch (Exception e) {
-                    html.print("<label>");
-                    html.print(e.getMessage());
-                    html.print("</label>");
+        if (this.expender != null) {
+            for (UIComponent field : this.fields) {
+                if (field instanceof ExpendField) {
+                    this.expender.setHiddenId(((ExpendField) field).getHiddenId());
+                    break;
                 }
-                html.println("</li>");
             }
+            this.expender.output(html);
         }
-
         html.println("</ul>");
-        if (buttons != null) {
-            html.println("<div>");
-            for (AbstractField field : buttons.fields) {
-                field.output(html);
-            }
-            html.println("</div>");
-        }
-        html.println("<div></div>");
-        html.println("</form>");
 
-        if (levelSide != null) {
+        if (buttons != null)
+            buttons.output(html);
+
+        html.println("<div></div>");
+        this.endOutput(html);
+    }
+
+    @Override
+    public void endOutput(HtmlWriter html) {
+        super.endOutput(html);
+        if (levelSide != null)
             levelSide.output(html);
-        }
     }
 
     public MemoryBuffer getBuffer() {
@@ -211,7 +150,7 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
 
     public ButtonsFields getButtons() {
         if (buttons == null) {
-            buttons = new ButtonsFields(this, this);
+            buttons = new ButtonsFields(this);
         }
         return buttons;
     }
@@ -249,9 +188,8 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
         }
 
         // 将可折叠字段的值存入到dataSet中
-        for (IField field : this.getExpender().getFields()) {
-            ((AbstractField) field).updateField();
-        }
+        if (this.expender != null)
+            this.expender.updateField();
 
         readAll = true;
         return submit;
@@ -278,21 +216,10 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
         return this.submit;
     }
 
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
-    }
-
-    public AbstractGridLine getExpender() {
-        if (expender == null) {
-            expender = new ExpenderGridLine(this, this);
-        }
-
-        return expender;
-    }
-
-    @Override
-    public DataSet getDataSet() {
-        return dataSet;
+    public ExpenderPanel getExpender() {
+        if (this.expender == null)
+            this.expender = new ExpenderPanel(this);
+        return this.expender;
     }
 
     @Override
@@ -300,54 +227,51 @@ public class UIFormHorizontal extends UIComponent implements DataSource {
         return false;
     }
 
-    public String getEnctype() {
-        return enctype;
-    }
+    public class ButtonsFields extends UIComponent implements SearchSource {
+        private SearchSource source;
 
-    public void setEnctype(String enctype) {
-        this.enctype = enctype;
-    }
-
-    public class ButtonsFields extends UIComponent implements DataSource {
-        private DataSource dataSource;
-        private List<AbstractField> fields = new ArrayList<>();
-
-        public ButtonsFields(UIComponent owner, DataSource dataView) {
+        public ButtonsFields(UIComponent owner) {
             super(owner);
-            this.dataSource = dataView;
-        }
-
-        @Override
-        public void addField(IField field) {
-            if (field instanceof AbstractField) {
-                fields.add((AbstractField) field);
-            } else {
-                throw new RuntimeException(String.format(res.getString(2, "不支持的数据类型：%s"), field.getClass().getName()));
+            this.setRootLabel("div");
+            // 查找最近的数据源
+            UIComponent root = owner;
+            while (root != null) {
+                if (root instanceof SearchSource) {
+                    this.source = (SearchSource) root;
+                    break;
+                }
+                root = root.getOwner();
             }
         }
 
         public List<AbstractField> getFields() {
-            return this.fields;
+            List<AbstractField> fields = new ArrayList<>();
+            for (UIComponent child : this) {
+                if (child instanceof AbstractField)
+                    fields.add((AbstractField) child);
+            }
+            return fields;
         }
 
         public void remove(AbstractField field) {
-            fields.remove(field);
+            this.getComponents().remove(field);
         }
 
         @Override
-        public DataSet getDataSet() {
-            return dataSource.getDataSet();
+        public Record getCurrent() {
+            return source.getCurrent();
         }
 
         @Override
         public boolean isReadonly() {
-            return dataSource.isReadonly();
+            return source.isReadonly();
         }
 
         @Override
         public void updateValue(String id, String code) {
-            dataSource.updateValue(id, code);
+            source.updateValue(id, code);
         }
+
     }
 
 }

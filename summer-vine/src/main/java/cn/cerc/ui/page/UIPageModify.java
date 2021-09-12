@@ -30,8 +30,7 @@ public class UIPageModify extends UIPage {
     private UIComponent body;
 
     public UIPageModify(IForm form) {
-        super();
-        setForm(form);
+        super(form);
         initCssFile();
         initJsFile();
     }

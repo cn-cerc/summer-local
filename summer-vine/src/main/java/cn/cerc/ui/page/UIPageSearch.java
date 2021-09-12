@@ -36,9 +36,8 @@ public class UIPageSearch extends UIPage {
     private MutiPage pages;
     private String searchWaitingId = "";
 
-    public UIPageSearch(IForm form) {
-        super();
-        setForm(form);
+    public UIPageSearch(IForm owner) {
+        super(owner);
         initCssFile();
         initJsFile();
     }
@@ -141,14 +140,14 @@ public class UIPageSearch extends UIPage {
     }
 
     public UIFormHorizontal createSearch(MemoryBuffer buff) {
-        UIFormHorizontal search = new UIFormHorizontal(this.getDocument().getControl(), this.getRequest());
+        UIFormHorizontal search = new UIFormHorizontal(this.getDocument().getHeader());
         search.setBuffer(buff);
         this.setSearchWaitingId(search.getId());
         return search;
     }
 
     public DataGrid createGrid(UIComponent owner, DataSet dataSet) {
-        DataGrid grid = new DataGrid(this.getForm(), owner);
+        DataGrid grid = new DataGrid(owner);
         grid.setDataSet(dataSet);
         pages = grid.getPages();
         return grid;

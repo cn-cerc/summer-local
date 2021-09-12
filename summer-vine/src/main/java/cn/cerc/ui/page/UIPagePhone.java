@@ -31,8 +31,7 @@ public class UIPagePhone extends UIPage {
     private static final ClassConfig config = new ClassConfig(UIPagePhone.class, null);
 
     public UIPagePhone(IForm form) {
-        super();
-        setForm(form);
+        super(form);
         initCssFile();
         this.addCssFile(config.getProperty("phone-block.css", "jui/phone/phone-block.css"));
         initJsFile();

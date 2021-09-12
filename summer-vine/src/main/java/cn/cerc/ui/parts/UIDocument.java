@@ -8,7 +8,8 @@ import cn.cerc.ui.vcl.UISection;
 public class UIDocument extends UIComponent {
     private UISection header; // 可选存在
     private UIContent content; // 必须存在
-    private UIMessage footer; // 必须存在
+    @Deprecated
+    private UIMessage message; // 必须存在
 
     public UIDocument(AbstractPage owner) {
         super(owner);
@@ -17,8 +18,8 @@ public class UIDocument extends UIComponent {
         content = new UIContent(this);
         content.setRequest(owner.getRequest());
 
-        footer = new UIMessage(this);
-        this.getComponents().remove(footer);
+        message = new UIMessage(this);
+        this.getComponents().remove(message);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class UIDocument extends UIComponent {
     @Override
     public void endOutput(HtmlWriter html) {
         // 必须存在
-        html.println(footer.toString());
+        html.println(message.toString());
         super.endOutput(html);
     }
 
@@ -56,13 +57,9 @@ public class UIDocument extends UIComponent {
         return content;
     }
 
-    public UIMessage getFooter() {
-        return footer;
-    }
-
     @Deprecated
     public UIMessage getMessage() {
-        return getFooter();
+        return message;
     }
 
 }

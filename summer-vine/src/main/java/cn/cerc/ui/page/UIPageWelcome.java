@@ -7,8 +7,7 @@ import cn.cerc.mis.core.IForm;
 public class UIPageWelcome extends UIPage {
 
     public UIPageWelcome(IForm form) {
-        super();
-        this.setForm(form);
+        super(form);
     }
 
     @Override

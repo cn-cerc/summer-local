@@ -30,6 +30,7 @@ import cn.cerc.ui.parts.UISheetHelp;
 import cn.cerc.ui.parts.UIToolbar;
 
 public abstract class UIPage extends AbstractPage {
+
     private static final ClassResource res = new ClassResource(UIPage.class, SummerUI.ID);
 
     private List<String> cssFiles = new ArrayList<>();
@@ -46,6 +47,10 @@ public abstract class UIPage extends AbstractPage {
     private UIFooter footer;
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
     private String jspFile;
+    
+    public UIPage(IForm owner) {
+        super(owner);
+    }
 
     @Override
     public final String execute() throws ServletException, IOException {

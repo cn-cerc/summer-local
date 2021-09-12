@@ -31,8 +31,7 @@ public class UIPageBill extends UIPage {
     private String searchWaitingId = "";
 
     public UIPageBill(IForm form) {
-        super();
-        setForm(form);
+        super(form);
         initCssFile();
         initJsFile();
     }
@@ -120,7 +119,7 @@ public class UIPageBill extends UIPage {
     }
 
     public UIFormHorizontal createSearch() {
-        UIFormHorizontal search = new UIFormHorizontal(this.getDocument().getControl(), this.getRequest());
+        UIFormHorizontal search = new UIFormHorizontal(this.getDocument().getHeader());
         search.setCssClass("modify");
         this.setSearchWaitingId(search.getId());
         return search;

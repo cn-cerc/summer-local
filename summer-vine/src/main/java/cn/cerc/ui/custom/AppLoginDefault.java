@@ -55,7 +55,7 @@ public class AppLoginDefault implements IAppLogin {
             return "redirect:install?device=phone";
         }
 
-        jspPage.setForm(form);
+        jspPage.setOrigin(form);
         jspPage.setJspFile(Application.getConfig().getJspLoginFile());
         jspPage.add("homePage", Application.getConfig().getWelcomePage());
         jspPage.add("needVerify", "false");

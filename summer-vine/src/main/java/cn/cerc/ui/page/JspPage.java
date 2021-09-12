@@ -14,18 +14,18 @@ public class JspPage extends JspFile {
     private UIToolbar toolBar;
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
     private UIFooter footer;
-    
+
     public JspPage() {
-        super();
+        super(null);
     }
 
-    public JspPage(IForm form) {
-        super(form);
+    public JspPage(IForm owner) {
+        super(owner);
     }
 
     @Deprecated
-    public JspPage(IForm form, String jspFile) {
-        super(form);
+    public JspPage(IForm owner, String jspFile) {
+        super(owner);
         this.setJspFile(jspFile);
     }
 

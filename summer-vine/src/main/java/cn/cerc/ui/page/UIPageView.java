@@ -21,8 +21,7 @@ public class UIPageView extends UIPage {
     private String caption;
 
     public UIPageView(IForm form) {
-        super();
-        setForm(form);
+        super(form);
         initCssFile();
         initJsFile();
 
