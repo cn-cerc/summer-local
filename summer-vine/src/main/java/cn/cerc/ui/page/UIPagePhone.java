@@ -129,8 +129,7 @@ public class UIPagePhone extends UIPage {
     @Deprecated // 请使用：getDocument().getContext()
     public UIComponent getBody() {
         if (body == null) {
-            body = new UIComponent();
-            body.setOwner(this.getContent());
+            body = new UIComponent(this.getContent());
             body.setId("search");
         }
         return body;

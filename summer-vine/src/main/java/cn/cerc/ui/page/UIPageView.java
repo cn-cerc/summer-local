@@ -9,7 +9,6 @@ import cn.cerc.core.ISession;
 import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.IForm;
-import cn.cerc.ui.code.IFormInfo;
 import cn.cerc.ui.core.IRightMenuLoad;
 import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;

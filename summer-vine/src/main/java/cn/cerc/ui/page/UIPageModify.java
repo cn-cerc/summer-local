@@ -128,8 +128,7 @@ public class UIPageModify extends UIPage {
 
     public UIComponent getBody() {
         if (body == null) {
-            body = new UIComponent();
-            body.setOwner(this.getDocument().getContent());
+            body = new UIComponent(this.getDocument().getContent());
             body.setId("search");
         }
         return body;

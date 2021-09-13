@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import cn.cerc.core.Utils;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
-import cn.cerc.ui.code.IFormInfo;
 import cn.cerc.ui.menu.MenuList;
+import cn.cerc.ui.page.IFormInfo;
 
 @Component
 public class FormInfoDefault implements IFormInfo {
