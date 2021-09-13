@@ -21,6 +21,7 @@ import cn.cerc.ui.other.SearchItem;
 import cn.cerc.ui.vcl.UIForm;
 import cn.cerc.ui.vcl.UILabel;
 import cn.cerc.ui.vcl.UISpan;
+import cn.cerc.ui.vcl.UIUl;
 
 public class UIFormHorizontal extends UIForm implements SearchSource {
     private static final ClassResource res = new ClassResource(UIFormHorizontal.class, SummerUI.ID);
@@ -28,7 +29,6 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
     protected HttpServletRequest request;
     protected List<AbstractField> fields = new ArrayList<>();
     private DataSet dataSet;
-
     private ButtonsFields buttons;
     private MemoryBuffer buff;
     private UIComponent levelSide;
@@ -36,6 +36,9 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
     private boolean readAll;
     private ExpenderPanel expender;
     private UILabel title;
+    private UIFirstSearch firstSearch;
+    private UIComponent hiddenSpace;
+    private UIUl contentSpace;
 
     public UIFormHorizontal(UIComponent owner) {
         super(owner);
@@ -53,6 +56,12 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
         span.setCssClass("ui-title-operate");
         span.setText("");
         this.setSearchTitle(res.getString(1, "搜索查询"));
+
+        this.firstSearch = new UIFirstSearch(this);
+        this.firstSearch.setCssClass("firstSearch");
+
+        this.hiddenSpace = new UIComponent(this);
+        this.contentSpace = new UIUl(this);
     }
 
     @Override
@@ -102,34 +111,39 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
     public void output(HtmlWriter html) {
         this.beginOutput(html);
 
-        // 输出隐藏字段
+        for (UIComponent child : contentSpace)
+            child.setOwner(null);
+
         for (AbstractField field : fields) {
-            if (field.isHidden())
-                field.outputOfFormHorizontal(html);
+            if (!firstSearch.getComponents().contains(field))
+                field.setOwner(field.isHidden() ? hiddenSpace : contentSpace);
         }
 
-        html.println("<ul>");
+        hiddenSpace.output(html);
+
+        if (firstSearch.getComponentCount() > 0)
+            firstSearch.output(html);
+
         // 输出正常查询字段
-        for (AbstractField field : fields) {
-            if (!field.isHidden())
-                field.outputOfFormHorizontal(html);
-        }
-        // 输出可折叠字段
-        if (this.expender != null) {
-            for (UIComponent field : this.fields) {
-                if (field instanceof ExpendField) {
-                    this.expender.setHiddenId(((ExpendField) field).getHiddenId());
-                    break;
-                }
+        for (UIComponent child : contentSpace) {
+            if (child instanceof ExpendField)
+                this.expender.setHiddenId(((ExpendField) child).getHiddenId());
+            if ((child != expender) && (child instanceof AbstractField)) {
+                AbstractField field = (AbstractField) child;
+                if (!firstSearch.getComponents().contains(field))
+                    field.outputOfFormHorizontal(contentSpace);
             }
-            this.expender.output(html);
         }
-        html.println("</ul>");
+        // 输出可折叠字段, 需将之移到最尾部
+        if (this.expender != null) {
+            contentSpace.removeComponent(expender);
+            contentSpace.addComponent(expender);
+        }
+        contentSpace.output(html);
 
         if (buttons != null)
             buttons.output(html);
 
-        html.println("<div></div>");
         this.endOutput(html);
     }
 
@@ -218,7 +232,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
 
     public ExpenderPanel getExpender() {
         if (this.expender == null)
-            this.expender = new ExpenderPanel(this);
+            this.expender = new ExpenderPanel(this.contentSpace);
         return this.expender;
     }
 
@@ -272,6 +286,44 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
             source.updateValue(id, code);
         }
 
+    }
+
+    public class UIFirstSearch extends UIComponent implements SearchSource {
+        private SearchSource source;
+
+        public UIFirstSearch(UIComponent owner) {
+            super(owner);
+            this.setRootLabel("div");
+            // 查找最近的数据源
+            UIComponent root = owner;
+            while (root != null) {
+                if (root instanceof SearchSource) {
+                    this.source = (SearchSource) root;
+                    break;
+                }
+                root = root.getOwner();
+            }
+        }
+
+        @Override
+        public Record getCurrent() {
+            return source.getCurrent();
+        }
+
+        @Override
+        public boolean isReadonly() {
+            return source.isReadonly();
+        }
+
+        @Override
+        public void updateValue(String id, String code) {
+            source.updateValue(id, code);
+        }
+
+    }
+
+    public final UIFirstSearch getFirstSearch() {
+        return firstSearch;
     }
 
 }
