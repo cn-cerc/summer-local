@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Record;
+import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.SummerUI;
@@ -19,9 +20,13 @@ import cn.cerc.ui.fields.ButtonField;
 import cn.cerc.ui.fields.ExpendField;
 import cn.cerc.ui.other.SearchItem;
 import cn.cerc.ui.vcl.UIForm;
+import cn.cerc.ui.vcl.UIImage;
 import cn.cerc.ui.vcl.UILabel;
+import cn.cerc.ui.vcl.UILi;
 import cn.cerc.ui.vcl.UISpan;
+import cn.cerc.ui.vcl.UIText;
 import cn.cerc.ui.vcl.UIUl;
+import cn.cerc.ui.vcl.UIUrl;
 
 public class UIFormHorizontal extends UIForm implements SearchSource {
     private static final ClassResource res = new ClassResource(UIFormHorizontal.class, SummerUI.ID);
@@ -50,7 +55,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
 
         this.dataSet = new DataSet();
         dataSet.append();
-        this.title = new UILabel();
+        this.title = new UILabel(null);
         this.title.setCssClass("ui-title");
         UISpan span = new UISpan(this.title);
         span.setCssClass("ui-title-operate");
@@ -85,7 +90,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
     }
 
     @Override
-    public void addComponent(UIComponent child) {
+    public UIComponent addComponent(UIComponent child) {
         if (child instanceof AbstractField) {
             if (child instanceof SearchItem)
                 ((SearchItem) child).setSearch(true);
@@ -93,6 +98,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
             fields.add((AbstractField) child);
         }
         super.addComponent(child);
+        return this;
     }
 
     public void setSearchTitle(String title) {
@@ -115,23 +121,49 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
             child.setOwner(null);
 
         for (AbstractField field : fields) {
-            if (!firstSearch.getComponents().contains(field))
-                field.setOwner(field.isHidden() ? hiddenSpace : contentSpace);
+            if (firstSearch.getComponents().contains(field))
+                continue;
+            field.setOwner(field.isHidden() ? hiddenSpace : null);
         }
-
         hiddenSpace.output(html);
 
         if (firstSearch.getComponentCount() > 0)
             firstSearch.output(html);
 
         // 输出正常查询字段
-        for (UIComponent child : contentSpace) {
-            if (child instanceof ExpendField)
-                this.expender.setHiddenId(((ExpendField) child).getHiddenId());
-            if ((child != expender) && (child instanceof AbstractField)) {
-                AbstractField field = (AbstractField) child;
-                if (!firstSearch.getComponents().contains(field))
-                    field.outputOfFormHorizontal(contentSpace);
+        for (AbstractField field : fields) {
+            if (firstSearch.getComponents().contains(field))
+                continue;
+            if (field instanceof ExpendField) {
+                this.expender.setHiddenId(((ExpendField) field).getHiddenId());
+                continue;
+            }
+            if (field.isHidden())
+                continue;
+            
+            UIText mark = field.getMark();
+            if (mark != null) {
+                UILi li1 = new UILi(null);
+                li1.writeProperty("role", field.getId());
+                if (field instanceof ExpendField)
+                    li1.setCssClass("select");
+                li1.setText(field.toString());
+                UIUrl url = new UIUrl(li1);
+                url.setHref(String.format("javascript:displaySwitch(\"%s\")", field.getId()));
+                new UIImage(url).setSrc(CDN.get(AbstractField.getIconConfig()));
+                contentSpace.addComponent(li1);
+                //
+                UILi li2 = new UILi(null);
+                li2.writeProperty("role", field.getId()).setCssStyle("display: none;");
+                li2.setText(mark.setRootLabel("mark").toString());
+                contentSpace.addComponent(li2);
+            } else {
+                UILi li = new UILi(null);
+                li.writeProperty("role", field.getRole());
+                if (field instanceof ExpendField)
+                    li.setCssClass("select");
+                li.setText(field.toString());
+                contentSpace.addComponent(li);
             }
         }
         // 输出可折叠字段, 需将之移到最尾部

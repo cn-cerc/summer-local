@@ -9,8 +9,8 @@ import cn.cerc.core.Record;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;
-import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.SearchSource;
+import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.vcl.UIButton;
 import cn.cerc.ui.vcl.UIText;
@@ -51,12 +51,13 @@ public class UIFormVertical extends UIComponent implements SearchSource {
     }
 
     @Override
-    public void addComponent(UIComponent child) {
+    public UIComponent addComponent(UIComponent child) {
         if (child instanceof AbstractField) {
             fields.add((AbstractField) child);
         } else {
             super.addComponent(child);
         }
+        return this;
     }
 
     public String getAction() {

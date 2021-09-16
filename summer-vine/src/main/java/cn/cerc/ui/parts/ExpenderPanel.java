@@ -39,7 +39,7 @@ public class ExpenderPanel extends UIComponent implements SearchSource {
                 try {
                     field.output(html);
                 } catch (Exception e) {
-                    html.print(new UILabel().setText(e.getMessage()).toString());
+                    html.print(new UILabel(null).setText(e.getMessage()).toString());
                 }
                 html.println("</li>");
             } else {
@@ -73,10 +73,11 @@ public class ExpenderPanel extends UIComponent implements SearchSource {
     }
 
     @Override
-    public void addComponent(UIComponent child) {
+    public UIComponent addComponent(UIComponent child) {
         if (child instanceof AbstractField)
             ((AbstractField) child).setVisible(this.isVisible());
         super.addComponent(child);
+        return this;
     }
 
     public final String getHiddenId() {
