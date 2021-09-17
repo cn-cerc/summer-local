@@ -134,12 +134,10 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
         for (AbstractField field : fields) {
             if (firstSearch.getComponents().contains(field))
                 continue;
-            if (field instanceof ExpendField) {
-                this.expender.setHiddenId(((ExpendField) field).getHiddenId());
-                continue;
-            }
             if (field.isHidden())
                 continue;
+            if (field instanceof ExpendField) 
+                this.expender.setHiddenId(((ExpendField) field).getHiddenId());
             
             UIText mark = field.getMark();
             if (mark != null) {
