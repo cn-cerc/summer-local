@@ -7,8 +7,9 @@ import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.fields.AbstractField;
 import cn.cerc.ui.vcl.UILabel;
+import cn.cerc.ui.vcl.UILi;
 
-public class ExpenderPanel extends UIComponent implements SearchSource {
+public class ExpenderPanel extends UILi implements SearchSource {
     protected DataSource source;
     private String hiddenId = "hidden";
     private boolean visible = true;
