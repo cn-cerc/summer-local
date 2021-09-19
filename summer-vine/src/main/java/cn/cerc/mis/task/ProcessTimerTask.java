@@ -13,7 +13,7 @@ import cn.cerc.core.ClassResource;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
 import cn.cerc.core.LanguageResource;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
@@ -119,7 +119,7 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
             throw new RuntimeException(svr.getMessage());
         }
 
-        Record record = svr.getDataOut().getHead();
+        DataRow record = svr.getDataOut().getHead();
 
         session.setProperty(ISession.TOKEN, token);
         session.setProperty(ISession.CORP_NO, StubHandle.DefaultBook);
@@ -153,7 +153,7 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
 
         CenterService svr = new CenterService(handle);
         svr.setService("ApiToken.getToken");
-        Record headIn = svr.getDataIn().getHead();
+        DataRow headIn = svr.getDataIn().getHead();
         headIn.setField("userCode", userCode);
         headIn.setField("password", password);
         headIn.setField("clientId", machineCode);

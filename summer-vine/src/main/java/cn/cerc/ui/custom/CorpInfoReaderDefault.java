@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.mysql.MysqlQuery;
@@ -19,11 +19,11 @@ import cn.cerc.mis.services.ICorpInfoReader;
 public class CorpInfoReaderDefault implements ICorpInfoReader, IMemoryCache {
     @Autowired
     private ISystemTable systemTable;
-    private Map<String, Record> items = new ConcurrentHashMap<>();
+    private Map<String, DataRow> items = new ConcurrentHashMap<>();
     private String beanName;
 
     @Override
-    public Record getCorpInfo(IHandle handle, String corpNo) {
+    public DataRow getCorpInfo(IHandle handle, String corpNo) {
         if (items.containsKey(corpNo))
             return items.get(corpNo);
 
@@ -38,7 +38,7 @@ public class CorpInfoReaderDefault implements ICorpInfoReader, IMemoryCache {
                 return null;
             }
 
-            Record result = new Record();
+            DataRow result = new DataRow();
             result.setField("CorpNo_", ds.getString("CorpNo_"));
             result.setField("ShortName_", ds.getString("ShortName_"));
             result.setField("Name_", ds.getString("Name_"));

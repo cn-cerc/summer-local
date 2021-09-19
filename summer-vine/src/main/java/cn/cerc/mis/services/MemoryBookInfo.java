@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.SummerMIS;
@@ -21,7 +21,7 @@ public class MemoryBookInfo {
         }
 
         ICorpInfoReader reader = Application.getBean(ICorpInfoReader.class);
-        Record record = reader.getCorpInfo(handle, corpNo);
+        DataRow record = reader.getCorpInfo(handle, corpNo);
 
         BookInfoRecord item = new BookInfoRecord();
         if (record == null) {

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.DataSet;
 import cn.cerc.core.FastDate;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.mysql.BuildQuery;
 import cn.cerc.db.mysql.MysqlQuery;
@@ -449,7 +449,7 @@ public class BookOptions {
 
         CenterService svr2 = new CenterService(handle);
         svr2.setService("ApiOurInfo.appendToCorpOption");
-        Record headIn = svr2.getDataIn().getHead();
+        DataRow headIn = svr2.getDataIn().getHead();
         headIn.setField("CorpNo_", corpNo);
         headIn.setField("Code_", paramKey);
         headIn.setField("Name_", paramName);

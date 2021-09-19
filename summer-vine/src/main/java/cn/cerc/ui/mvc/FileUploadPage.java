@@ -19,7 +19,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.IUserLanguage;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.db.core.ServerConfig;
 import cn.cerc.db.oss.OssConnection;
 import cn.cerc.mis.core.IPage;
@@ -173,7 +173,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
 
             LocalService svr = new LocalService(this, "SvrFileUpload.append");
             DataSet dsIn = svr.getDataIn();
-            Record headIn = svr.getDataIn().getHead();
+            DataRow headIn = svr.getDataIn().getHead();
             headIn.setField("tb", tb);
             headIn.setField("tbNo", tbNo);
 
@@ -194,7 +194,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
                     String currentFile = uploadPage + "/" + item.getName();
                     oss.upload(currentFile, item.getInputStream());
 
-                    Record fileInfo = dsIn.append().getCurrent();
+                    DataRow fileInfo = dsIn.append().getCurrent();
                     fileInfo.setField("name", item.getName());
                     fileInfo.setField("path", currentFile);
                     fileInfo.setField("size", item.getSize());

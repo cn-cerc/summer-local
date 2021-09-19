@@ -4,7 +4,7 @@ import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.IUserLanguage;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.db.mysql.BuildQuery;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
@@ -26,7 +26,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
     private static final String TABLE_FILEUPLOADS = "file_uploads";
 
     public boolean search() throws DataValidateException {
-        Record headIn = getDataIn().getHead();
+        DataRow headIn = getDataIn().getHead();
         DataValidateException.stopRun(res.getString(1, "请指定单号"), !headIn.hasValue("tbNo"));
 
         BuildQuery f = new BuildQuery(this);
@@ -39,7 +39,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
     }
 
     public boolean append() throws DataValidateException {
-        Record headIn = getDataIn().getHead();
+        DataRow headIn = getDataIn().getHead();
         DataValidateException.stopRun(res.getString(2, "上传失败，单别不能为空！"), !headIn.hasValue("tb"));
         DataValidateException.stopRun(res.getString(3, "上传失败，单号不能为空！"), !headIn.hasValue("tbNo"));
 
@@ -50,7 +50,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
             MysqlQuery ds = new MysqlQuery(this);
             DataSet dataIn = getDataIn();
             while (dataIn.fetch()) {
-                Record current = dataIn.getCurrent();
+                DataRow current = dataIn.getCurrent();
 
                 DataValidateException.stopRun(res.getString(4, "上传失败，文件大小不能为空！"), !current.hasValue("size"));
                 DataValidateException.stopRun(res.getString(5, "上传失败，文件名不能为空！"), !current.hasValue("name"));
@@ -82,7 +82,7 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
     }
 
     public boolean delete() throws DataValidateException {
-        Record headIn = getDataIn().getHead();
+        DataRow headIn = getDataIn().getHead();
         DataValidateException.stopRun(res.getString(8, "请指定单号！"), !headIn.hasValue("tbNo"));
         DataValidateException.stopRun(res.getString(9, "请指定文件名！"), !headIn.hasValue("name"));
 

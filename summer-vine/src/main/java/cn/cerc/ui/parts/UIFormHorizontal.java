@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.other.MemoryBuffer;
@@ -70,16 +70,16 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
     }
 
     @Override
-    public Record getCurrent() {
+    public DataRow getCurrent() {
         return dataSet.getCurrent();
     }
 
     @Deprecated
-    public Record getRecord() {
+    public DataRow getRecord() {
         return getCurrent();
     }
 
-    public void setRecord(Record record) {
+    public void setRecord(DataRow record) {
         getCurrent().copyValues(record, record.getFieldDefs());
         dataSet.setRecNo(dataSet.size());
     }
@@ -302,7 +302,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
         }
 
         @Override
-        public Record getCurrent() {
+        public DataRow getCurrent() {
             return source.getCurrent();
         }
 
@@ -336,7 +336,7 @@ public class UIFormHorizontal extends UIForm implements SearchSource {
         }
 
         @Override
-        public Record getCurrent() {
+        public DataRow getCurrent() {
             return source.getCurrent();
         }
 

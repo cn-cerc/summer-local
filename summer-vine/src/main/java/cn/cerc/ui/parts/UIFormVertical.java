@@ -5,7 +5,7 @@ import java.util.List;
 
 import cn.cerc.core.ClassConfig;
 import cn.cerc.core.DataSet;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;
@@ -177,16 +177,16 @@ public class UIFormVertical extends UIComponent implements SearchSource {
     }
 
     @Override
-    public Record getCurrent() {
+    public DataRow getCurrent() {
         return this.dataSet.getCurrent();
     }
 
     @Deprecated
-    public Record getRecord() {
+    public DataRow getRecord() {
         return dataSet.getCurrent();
     }
 
-    public void setRecord(Record record) {
+    public void setRecord(DataRow record) {
         dataSet.getCurrent().copyValues(record, record.getFieldDefs());
         dataSet.setRecNo(dataSet.size());
     }

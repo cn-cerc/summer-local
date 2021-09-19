@@ -7,7 +7,7 @@ import cn.cerc.core.ClassResource;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.CustomService;
@@ -20,7 +20,7 @@ public class SvrSession extends CustomService {
     private static final ClassResource res = new ClassResource(SvrSession.class, SummerMIS.ID);
 
     public boolean byUserCode() throws ServiceException, UserNotFindException {
-        Record headIn = getDataIn().getHead();
+        DataRow headIn = getDataIn().getHead();
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "CorpNo_"),
                 !headIn.hasValue("CorpNo_"));
         String corpNo = headIn.getString("CorpNo_");
@@ -38,7 +38,7 @@ public class SvrSession extends CustomService {
             throw new UserNotFindException(userCode);
         }
 
-        Record headOut = getDataOut().getHead();
+        DataRow headOut = getDataOut().getHead();
         headOut.setField("LoginTime_", new Datetime());
         copyData(cdsUser, headOut);
         return true;
@@ -51,7 +51,7 @@ public class SvrSession extends CustomService {
      * 
      */
     public boolean byToken() throws ServiceException {
-        Record headIn = getDataIn().getHead();
+        DataRow headIn = getDataIn().getHead();
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "token"), !headIn.hasValue("token"));
         String token = headIn.getString("token");
 
@@ -84,14 +84,14 @@ public class SvrSession extends CustomService {
             return false;
         }
 
-        Record headOut = getDataOut().getHead();
+        DataRow headOut = getDataOut().getHead();
         headOut.setField("LoginTime_", onlineInfo.getDatetime("LoginTime_"));
         headOut.setField("Language_", onlineInfo.getString("Language_"));
         copyData(userInfo, headOut);
         return true;
     }
 
-    private void copyData(DataSet ds, Record headOut) {
+    private void copyData(DataSet ds, DataRow headOut) {
         headOut.setField("UserID_", ds.getString("ID_"));
         headOut.setField("UserCode_", ds.getString("Code_"));
         headOut.setField("UserName_", ds.getString("UserName_"));

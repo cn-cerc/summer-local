@@ -1,7 +1,7 @@
 package cn.cerc.ui.parts;
 
 import cn.cerc.core.DataSource;
-import cn.cerc.core.Record;
+import cn.cerc.core.DataRow;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.core.UIComponent;
@@ -58,7 +58,7 @@ public class ExpenderPanel extends UILi implements SearchSource {
     }
 
     @Override
-    public Record getCurrent() {
+    public DataRow getCurrent() {
         return source.getCurrent();
     }
 
