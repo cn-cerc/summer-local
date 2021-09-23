@@ -69,8 +69,8 @@ public class ExpenderPanel extends UILi implements SearchSource {
 
     @Override
     public void updateValue(String id, String code) {
-        if (this.getOwner() instanceof SearchSource)
-            ((SearchSource) this.getOwner()).updateValue(id, code);
+        if (this.source instanceof SearchSource)
+            ((SearchSource) this.source).updateValue(id, code);
     }
 
     @Override
