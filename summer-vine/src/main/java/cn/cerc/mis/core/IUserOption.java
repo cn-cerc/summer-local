@@ -11,7 +11,7 @@ public interface IUserOption extends IVineOption {
             if (buff.isNull()) {
                 IOptionReader reader = Application.getBean(handle, IOptionReader.class);
                 String value = reader.getUserValue(handle.getUserCode(), getKey(), "");
-                buff.setField("Value_", value);
+                buff.setValue("Value_", value);
             }
             return buff.getString("Value_");
         }

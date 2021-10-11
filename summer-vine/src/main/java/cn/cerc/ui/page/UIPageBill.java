@@ -18,7 +18,7 @@ import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.menu.MenuList;
 import cn.cerc.ui.mvc.StartForms;
-import cn.cerc.ui.parts.UIFormHorizontal;
+import cn.cerc.ui.parts.UIFormSearch;
 import cn.cerc.ui.parts.UIFormVertical;
 import cn.cerc.ui.parts.UIHeader;
 
@@ -118,8 +118,8 @@ public class UIPageBill extends UIPage {
         out.println("</html>");
     }
 
-    public UIFormHorizontal createSearch() {
-        UIFormHorizontal search = new UIFormHorizontal(this.getDocument().getHeader());
+    public UIFormSearch createSearch() {
+        UIFormSearch search = new UIFormSearch(this.getDocument().getHeader());
         search.setCssClass("modify");
         this.setSearchWaitingId(search.getId());
         return search;

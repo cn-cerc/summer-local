@@ -154,12 +154,12 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
         CenterService svr = new CenterService(handle);
         svr.setService("ApiToken.getToken");
         DataRow headIn = svr.getDataIn().getHead();
-        headIn.setField("userCode", userCode);
-        headIn.setField("password", password);
-        headIn.setField("clientId", machineCode);
-        headIn.setField("device", AppClient.pc);
-        headIn.setField("languageId", LanguageResource.appLanguage);
-        headIn.setField("access", AccessLevel.Access_Task);// 访问层级获取队列授权
+        headIn.setValue("userCode", userCode);
+        headIn.setValue("password", password);
+        headIn.setValue("clientId", machineCode);
+        headIn.setValue("device", AppClient.pc);
+        headIn.setValue("languageId", LanguageResource.appLanguage);
+        headIn.setValue("access", AccessLevel.Access_Task);// 访问层级获取队列授权
         if (!svr.exec()) {
             throw new RuntimeException(svr.getMessage());
         }

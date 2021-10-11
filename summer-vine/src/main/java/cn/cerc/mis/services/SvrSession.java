@@ -39,7 +39,7 @@ public class SvrSession extends CustomService {
         }
 
         DataRow headOut = getDataOut().getHead();
-        headOut.setField("LoginTime_", new Datetime());
+        headOut.setValue("LoginTime_", new Datetime());
         copyData(cdsUser, headOut);
         return true;
     }
@@ -85,23 +85,23 @@ public class SvrSession extends CustomService {
         }
 
         DataRow headOut = getDataOut().getHead();
-        headOut.setField("LoginTime_", onlineInfo.getDatetime("LoginTime_"));
-        headOut.setField("Language_", onlineInfo.getString("Language_"));
+        headOut.setValue("LoginTime_", onlineInfo.getDatetime("LoginTime_"));
+        headOut.setValue("Language_", onlineInfo.getString("Language_"));
         copyData(userInfo, headOut);
         return true;
     }
 
     private void copyData(DataSet ds, DataRow headOut) {
-        headOut.setField("UserID_", ds.getString("ID_"));
-        headOut.setField("UserCode_", ds.getString("Code_"));
-        headOut.setField("UserName_", ds.getString("UserName_"));
-        headOut.setField("CorpNo_", ds.getString("CorpNo_"));
+        headOut.setValue("UserID_", ds.getString("ID_"));
+        headOut.setValue("UserCode_", ds.getString("Code_"));
+        headOut.setValue("UserName_", ds.getString("UserName_"));
+        headOut.setValue("CorpNo_", ds.getString("CorpNo_"));
         if (ds.getBoolean("DiyRole_")) {
-            headOut.setField("RoleCode_", ds.getString("Code_"));
+            headOut.setValue("RoleCode_", ds.getString("Code_"));
         } else {
-            headOut.setField("RoleCode_", ds.getString("RoleCode_"));
+            headOut.setValue("RoleCode_", ds.getString("RoleCode_"));
         }
-        headOut.setField("ProxyUsers_", ds.getString("ProxyUsers_"));
+        headOut.setValue("ProxyUsers_", ds.getString("ProxyUsers_"));
     }
 
 }

@@ -20,7 +20,7 @@ public interface IBookOption extends IVineOption {
             if (buff.isNull()) {
                 IOptionReader reader = Application.getBean(handle, IOptionReader.class);
                 String value = reader.getCorpValue(handle.getCorpNo(), getKey(), def);
-                buff.setField("Value_", value);
+                buff.setValue("Value_", value);
             }
             return buff.getString("Value_");
         }

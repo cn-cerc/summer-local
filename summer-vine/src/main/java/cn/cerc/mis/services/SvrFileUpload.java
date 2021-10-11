@@ -66,14 +66,14 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
                 }
 
                 ds.append();
-                ds.setField("CorpNo_", getCorpNo());
-                ds.setField("TB_", tb);
-                ds.setField("TBNo_", tbNo);
-                ds.setField("Name_", current.getString("name").trim());
-                ds.setField("Path_", current.getString("path").trim());
-                ds.setField("Size_", current.getInt("size"));
-                ds.setField("AppUser_", getUserCode());
-                ds.setField("AppDate_", new Datetime());
+                ds.setValue("CorpNo_", getCorpNo());
+                ds.setValue("TB_", tb);
+                ds.setValue("TBNo_", tbNo);
+                ds.setValue("Name_", current.getString("name").trim());
+                ds.setValue("Path_", current.getString("path").trim());
+                ds.setValue("Size_", current.getInt("size"));
+                ds.setValue("AppUser_", getUserCode());
+                ds.setValue("AppDate_", new Datetime());
                 ds.post();
             }
 

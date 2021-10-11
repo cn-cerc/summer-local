@@ -244,7 +244,7 @@ public class BookOptions {
             if (buff.isNull()) {
                 IOptionReader reader = Application.getBean(handle, IOptionReader.class);
                 String value = reader.getCorpValue(handle.getCorpNo(), ACode, defaultValue);
-                buff.setField("Value_", value);
+                buff.setValue("Value_", value);
             }
             return buff.getString("Value_");
         }
@@ -256,7 +256,7 @@ public class BookOptions {
                 log.info("reset buffer.");
                 IOptionReader reader = Application.getBean(handle, IOptionReader.class);
                 String value = reader.getCorpValue(handle.getCorpNo(), ACode, defaultValue);
-                buff.setField("Value_", value);
+                buff.setValue("Value_", value);
             }
             return buff.getString("Value_");
         }
@@ -321,7 +321,7 @@ public class BookOptions {
                     if ("".equals(result)) {
                         result = getBookCreateDate(handle).getYearMonth();
                         ds.edit();
-                        ds.setField("Value_", result);
+                        ds.setValue("Value_", result);
                         ds.post();
                     }
                 } else {
@@ -329,7 +329,7 @@ public class BookOptions {
                     BookOptions app = new BookOptions(handle);
                     app.appendToCorpOption(corpNo, paramKey, result);
                 }
-                buff.setField("Value_", result);
+                buff.setValue("Value_", result);
 
             }
             result = buff.getString("Value_");
@@ -450,10 +450,10 @@ public class BookOptions {
         CenterService svr2 = new CenterService(handle);
         svr2.setService("ApiOurInfo.appendToCorpOption");
         DataRow headIn = svr2.getDataIn().getHead();
-        headIn.setField("CorpNo_", corpNo);
-        headIn.setField("Code_", paramKey);
-        headIn.setField("Name_", paramName);
-        headIn.setField("Value_", def);
+        headIn.setValue("CorpNo_", corpNo);
+        headIn.setValue("Code_", paramKey);
+        headIn.setValue("Name_", paramName);
+        headIn.setValue("Value_", def);
         if (!svr2.exec()) {
             throw new RuntimeException(svr2.getMessage());
         }

@@ -39,22 +39,22 @@ public class CorpInfoReaderDefault implements ICorpInfoReader, IMemoryCache {
             }
 
             DataRow result = new DataRow();
-            result.setField("CorpNo_", ds.getString("CorpNo_"));
-            result.setField("ShortName_", ds.getString("ShortName_"));
-            result.setField("Name_", ds.getString("Name_"));
-            result.setField("Address_", ds.getString("Address_"));
-            result.setField("Tel_", ds.getString("Tel_"));
-            result.setField("FastTel_", ds.getString("FastTel_"));
-            result.setField("ManagerPhone_", ds.getString("ManagerPhone_"));
-            result.setField("StartHost_", ds.getString("StartHost_"));
-            result.setField("Contact_", ds.getString("Contact_"));
-            result.setField("Authentication_", ds.getString("Authentication_"));
-            result.setField("Industry_", ds.getString("Industry_"));
-            result.setField("Status_", ds.getInt("Status_"));
-            result.setField("Type_", ds.getInt("Type_"));
-            result.setField("Currency_", ds.getString("Currency_"));
-            result.setField("Email_", ds.getString("CorpMailbox_"));
-            result.setField("Fax_", ds.getString("Fax_"));
+            result.setValue("CorpNo_", ds.getString("CorpNo_"));
+            result.setValue("ShortName_", ds.getString("ShortName_"));
+            result.setValue("Name_", ds.getString("Name_"));
+            result.setValue("Address_", ds.getString("Address_"));
+            result.setValue("Tel_", ds.getString("Tel_"));
+            result.setValue("FastTel_", ds.getString("FastTel_"));
+            result.setValue("ManagerPhone_", ds.getString("ManagerPhone_"));
+            result.setValue("StartHost_", ds.getString("StartHost_"));
+            result.setValue("Contact_", ds.getString("Contact_"));
+            result.setValue("Authentication_", ds.getString("Authentication_"));
+            result.setValue("Industry_", ds.getString("Industry_"));
+            result.setValue("Status_", ds.getInt("Status_"));
+            result.setValue("Type_", ds.getInt("Type_"));
+            result.setValue("Currency_", ds.getString("Currency_"));
+            result.setValue("Email_", ds.getString("CorpMailbox_"));
+            result.setValue("Fax_", ds.getString("Fax_"));
 
             items.put(corpNo, result);
             return result;

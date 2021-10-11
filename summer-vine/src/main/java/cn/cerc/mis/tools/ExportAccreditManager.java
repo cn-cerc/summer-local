@@ -25,7 +25,7 @@ public class ExportAccreditManager implements IAccreditManager {
             if (buff.isNull()) {
                 IOptionReader reader = Application.getBean(handle, IOptionReader.class);
                 String value = reader.getUserValue(handle.getUserCode(), optCode, "");
-                buff.setField("Value_", value);
+                buff.setValue("Value_", value);
             }
             return buff.getString("Value_");
         }

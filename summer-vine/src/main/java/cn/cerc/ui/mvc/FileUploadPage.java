@@ -37,7 +37,7 @@ import cn.cerc.ui.fields.UploadField;
 import cn.cerc.ui.grid.DataGrid;
 import cn.cerc.ui.page.UIPageSearch;
 import cn.cerc.ui.page.upload.FileUploadBasePage;
-import cn.cerc.ui.parts.UIFormHorizontal;
+import cn.cerc.ui.parts.UIFormSearch;
 import cn.cerc.ui.parts.UIHeader;
 import cn.cerc.ui.parts.UISheetHelp;
 import cn.cerc.ui.parts.UIToolbar;
@@ -77,10 +77,10 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
         try (MemoryBuffer buff = new MemoryBuffer(BufferType.getUserForm, getUserCode(), getAction())) {
             String tb = getTb();
             String tbNo = getTbNo();
-            buff.setField("tbNo", tbNo);
-            buff.setField("tb", tb);
+            buff.setValue("tbNo", tbNo);
+            buff.setValue("tb", tb);
 
-            UIFormHorizontal upload = jspPage.createSearch(buff);
+            UIFormSearch upload = jspPage.createSearch(buff);
             upload.setSearchTitle(res.getString(6, "上传文件"));
             upload.setAction(getAction() + "?page=1");
             upload.setCssClass("search sales-search");
@@ -92,7 +92,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             upload.readAll();
 
             LocalService svr = new LocalService(this, "SvrFileUpload.search");
-            svr.getDataIn().getHead().setField("tbNo", tbNo);
+            svr.getDataIn().getHead().setValue("tbNo", tbNo);
             if (!svr.exec()) {
                 jspPage.setMessage(svr.getMessage());
                 return jspPage;
@@ -140,7 +140,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             String msg = buff.getString("msg");
             if (msg != null && !"".equals(msg)) {
                 jspPage.setMessage(msg);
-                buff.setField("msg", "");
+                buff.setValue("msg", "");
             }
         }
         return jspPage;
@@ -164,7 +164,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             ServletFileUpload upload = new ServletFileUpload(factory);
 
             if (typeStr == null || "".equals(typeStr)) {
-                buff.setField("msg", res.getString(16, "请限定所支持的文件类型"));
+                buff.setValue("msg", res.getString(16, "请限定所支持的文件类型"));
                 return jspPage;
             }
 
@@ -174,20 +174,20 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             LocalService svr = new LocalService(this, "SvrFileUpload.append");
             DataSet dsIn = svr.getDataIn();
             DataRow headIn = svr.getDataIn().getHead();
-            headIn.setField("tb", tb);
-            headIn.setField("tbNo", tbNo);
+            headIn.setValue("tb", tb);
+            headIn.setValue("tbNo", tbNo);
 
             for (FileItem item : uploadFiles) {
                 if (item != null && !item.isFormField() && item.getSize() > 0 && isSurpots(item.getName())) {
                     // 以字节为单位
                     if (item.getSize() > singleMaxSize) {
-                        buff.setField("msg", String.format(res.getString(17, "文件过大！单个文件最大不能超过%s"), singleMaxSize));
+                        buff.setValue("msg", String.format(res.getString(17, "文件过大！单个文件最大不能超过%s"), singleMaxSize));
                         return jspPage;
                     }
 
                     int pointIndex = item.getName().lastIndexOf(".");
                     if (pointIndex > maxNameLength) {
-                        buff.setField("msg", String.format(res.getString(18, "文件名过长！单个文件最大不能超过%s个字"), maxNameLength));
+                        buff.setValue("msg", String.format(res.getString(18, "文件名过长！单个文件最大不能超过%s个字"), maxNameLength));
                         return jspPage;
                     }
 
@@ -195,22 +195,22 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
                     oss.upload(currentFile, item.getInputStream());
 
                     DataRow fileInfo = dsIn.append().getCurrent();
-                    fileInfo.setField("name", item.getName());
-                    fileInfo.setField("path", currentFile);
-                    fileInfo.setField("size", item.getSize());
+                    fileInfo.setValue("name", item.getName());
+                    fileInfo.setValue("path", currentFile);
+                    fileInfo.setValue("size", item.getSize());
                 }
             }
 
             if (dsIn.eof()) {
-                buff.setField("msg", res.getString(19, "请选择文件！"));
+                buff.setValue("msg", res.getString(19, "请选择文件！"));
                 return jspPage;
             }
 
             if (!svr.exec()) {
-                buff.setField("msg", svr.getMessage());
+                buff.setValue("msg", svr.getMessage());
                 return jspPage;
             }
-            buff.setField("msg", res.getString(20, "上传成功！"));
+            buff.setValue("msg", res.getString(20, "上传成功！"));
             return jspPage;
         } catch (FileUploadException | IOException e) {
             e.printStackTrace();
@@ -225,11 +225,11 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             String tbNo = getTbNo();
             String name = getRequest().getParameter("name");
             LocalService svr = new LocalService(this, "SvrFileUpload.delete");
-            svr.getDataIn().getHead().setField("tbNo", tbNo).setField("name", name);
+            svr.getDataIn().getHead().setValue("tbNo", tbNo).setValue("name", name);
             if (!svr.exec()) {
-                buff.setField("msg", svr.getMessage());
+                buff.setValue("msg", svr.getMessage());
             } else {
-                buff.setField("msg", res.getString(21, "删除成功！"));
+                buff.setValue("msg", res.getString(21, "删除成功！"));
             }
             return jspPage;
         }
