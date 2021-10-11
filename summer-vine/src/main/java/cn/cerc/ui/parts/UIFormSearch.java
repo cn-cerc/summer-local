@@ -11,7 +11,6 @@ import cn.cerc.core.DataSet;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.other.MemoryBuffer;
-import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.core.UIComponent;
@@ -28,9 +27,10 @@ import cn.cerc.ui.vcl.UISpan;
 import cn.cerc.ui.vcl.UIText;
 import cn.cerc.ui.vcl.UIUl;
 import cn.cerc.ui.vcl.UIUrl;
+import cn.cerc.vine.SummerVine;
 
 public class UIFormSearch extends UIForm implements SearchSource, ISearchPanelStyle {
-    private static final ClassResource res = new ClassResource(UIFormSearch.class, SummerUI.ID);
+    private static final ClassResource res = new ClassResource(UIFormSearch.class, SummerVine.ID);
     protected HttpServletRequest request;
     protected List<AbstractField> fields = new ArrayList<>();
     private DataSet dataSet;
@@ -136,9 +136,9 @@ public class UIFormSearch extends UIForm implements SearchSource, ISearchPanelSt
                 continue;
             if (field.isHidden())
                 continue;
-            if (field instanceof ExpendField) 
+            if (field instanceof ExpendField)
                 this.expender.setHiddenId(((ExpendField) field).getHiddenId());
-            
+
             UIText mark = field.getMark();
             if (mark != null) {
                 UILi li1 = new UILi(null);
