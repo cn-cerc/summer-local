@@ -22,11 +22,6 @@ public class StartDocs extends HttpServlet {
         super();
     }
 
-    public static void main(String[] args) {
-        String path = StartDocs.class.getClass().getResource("/").getPath();
-        System.out.println(path);
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!ServerConfig.enableDocService()) {
@@ -119,4 +114,10 @@ public class StartDocs extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
+
+    public static void main(String[] args) {
+        String path = StartDocs.class.getClass().getResource("/").getPath();
+        System.out.println(path);
+    }
+
 }
