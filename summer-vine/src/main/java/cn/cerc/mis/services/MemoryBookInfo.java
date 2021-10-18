@@ -24,7 +24,7 @@ public class MemoryBookInfo {
         DataRow record = reader.getCorpInfo(handle, corpNo);
 
         BookInfoRecord item = new BookInfoRecord();
-        if (record == null) {
+        if (record == null || record.size() == 0) {
             log.error(String.format("corpNo %s not find.", corpNo));
             item.setCode(corpNo);
             return item;

@@ -34,7 +34,7 @@ public class CorpInfoReaderDefault implements ICorpInfoReader, IMemoryCache {
             ds.add("from %s where CorpNo_=N'%s'", systemTable.getBookInfo(), corpNo);
             ds.open();
             if (ds.eof()) {
-                items.put(corpNo, null);
+                items.put(corpNo, new DataRow());
                 return null;
             }
 
