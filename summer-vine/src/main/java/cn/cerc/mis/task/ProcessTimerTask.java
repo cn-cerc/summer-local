@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
 import cn.cerc.core.LanguageResource;
-import cn.cerc.core.DataRow;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ServerConfig;
@@ -125,7 +125,7 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
         session.setProperty(ISession.CORP_NO, StubHandle.DefaultBook);
         session.setProperty(ISession.USER_CODE, StubHandle.DefaultUser);
         session.setProperty(Application.ClientIP, "0.0.0.0");
-        session.setProperty(Application.UserId, record.getString("UserID_"));
+//        session.setProperty(Application.UserId, record.getString("UserID_"));
         session.setProperty(Application.LoginTime, record.getDatetime("LoginTime_"));
         session.setProperty(Application.ProxyUsers, record.getString("ProxyUsers_"));
         session.setProperty(ISession.USER_NAME, record.getString("UserName_"));
