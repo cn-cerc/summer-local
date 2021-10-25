@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.ISession;
-import cn.cerc.core.DataRow;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.CustomService;
@@ -74,9 +74,11 @@ public class SvrSession extends CustomService {
 
         String userCode = onlineInfo.getString("UserCode_");
         MysqlQuery userInfo = new MysqlQuery(this);
-        userInfo.add("select ID_,Code_,DiyRole_,RoleCode_,CorpNo_, Name_ as UserName_,ProxyUsers_");
-        userInfo.add("from %s", systemTable.getUserInfo());
-        userInfo.add("where Code_='%s'", userCode);
+        userInfo.add(
+                "select a.ID_,a.Code_,a.DiyRole_,a.RoleCode_,a.CorpNo_,a.Name_ as UserName_,a.ProxyUsers_,b.Type_");
+        userInfo.add("from %s a", systemTable.getUserInfo());
+        userInfo.add("inner join %s b on a.CorpNo_=b.CorpNo_", systemTable.getBookInfo());
+        userInfo.add("where a.Code_='%s'", userCode);
         userInfo.open();
         if (userInfo.eof()) {
             log.warn(String.format("userCode %s 没有找到！", userCode));
@@ -102,6 +104,7 @@ public class SvrSession extends CustomService {
             headOut.setValue("RoleCode_", ds.getString("RoleCode_"));
         }
         headOut.setValue("ProxyUsers_", ds.getString("ProxyUsers_"));
+        headOut.setValue("Version_", ds.getString("Type_"));
     }
 
 }
