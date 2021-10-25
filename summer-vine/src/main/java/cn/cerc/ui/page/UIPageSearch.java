@@ -14,7 +14,7 @@ import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.mis.other.MemoryBuffer;
-import cn.cerc.mis.rds.PassportRecord;
+import cn.cerc.mis.security.PassportRecord;
 import cn.cerc.ui.core.HtmlContent;
 import cn.cerc.ui.core.IRightMenuLoad;
 import cn.cerc.ui.core.UIComponent;
