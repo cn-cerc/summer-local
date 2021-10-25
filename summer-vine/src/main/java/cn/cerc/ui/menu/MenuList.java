@@ -16,9 +16,9 @@ import cn.cerc.db.core.Handle;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.redis.Redis;
 import cn.cerc.mis.core.CenterService;
-import cn.cerc.mis.core.SystemBufferType;
 import cn.cerc.mis.language.R;
 import cn.cerc.mis.other.IDataList;
+import cn.cerc.mis.other.MemoryBuffer;
 import cn.cerc.ui.SummerUI;
 
 /**
@@ -37,7 +37,7 @@ public class MenuList extends Handle implements IDataList, IUserLanguage {
 
     private MenuList(IHandle handle) {
         super(handle);
-        buffKey = String.format("%d.%s.%d", SystemBufferType.getObject.ordinal(), this.getClass().getName(), Version);
+        buffKey = MemoryBuffer.buildObjectKey(getClass(), Version);
     }
 
     public String getName(String menu) {
