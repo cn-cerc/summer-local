@@ -11,8 +11,8 @@ import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.config.ApplicationConfig;
+import cn.cerc.mis.core.AppClient;
 import cn.cerc.mis.core.Application;
-import cn.cerc.mis.core.IClient;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.ui.SummerUI;
@@ -94,7 +94,7 @@ public class UIHeader extends UIComponent implements IUserLanguage, IHandle {
 
         homePage = new UrlRecord(defaultPage, res.getString(1, "开始"));
 
-        IClient client = page.getForm().getClient();
+        AppClient client = page.getForm().getClient();
         boolean isShowBar = config.getBoolean("app.ui.head.show", true);
         if (!client.isPhone() && isShowBar) {
             currentUser = res.getString(2, "用户");
