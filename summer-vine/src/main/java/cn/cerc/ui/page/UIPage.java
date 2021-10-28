@@ -13,6 +13,7 @@ import cn.cerc.core.Utils;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.IForm;
+import cn.cerc.mis.core.SupportScriptFile;
 import cn.cerc.mis.language.R;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlContent;
@@ -29,7 +30,7 @@ import cn.cerc.ui.parts.UIHeader;
 import cn.cerc.ui.parts.UISheetHelp;
 import cn.cerc.ui.parts.UIToolbar;
 
-public abstract class UIPage extends AbstractPage {
+public abstract class UIPage extends AbstractPage implements SupportScriptFile {
 
     private static final ClassResource res = new ClassResource(UIPage.class, SummerUI.ID);
 
@@ -47,7 +48,7 @@ public abstract class UIPage extends AbstractPage {
     private UIFooter footer;
     // FIXME 此处调用不合理，为保障编译通过先保留 2021/3/14
     private String jspFile;
-    
+
     public UIPage(IForm owner) {
         super(owner);
     }
@@ -87,9 +88,13 @@ public abstract class UIPage extends AbstractPage {
         jsFiles.add(address);
     }
 
-    public final void addScriptFile(String file) {
-        file = CDN.get(file);
-        jsFiles.add(file);
+    @Override
+    public final void addScriptFile(String value) {
+        String fileName = value;
+        if (!fileName.toLowerCase().startsWith("http"))
+            fileName = CDN.get(value);
+        if (jsFiles.indexOf(fileName) == -1)
+            jsFiles.add(fileName);
     }
 
     public final void addScriptCode(HtmlContent scriptCode) {
