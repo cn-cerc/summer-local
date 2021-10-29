@@ -14,7 +14,9 @@ import cn.cerc.mis.core.CustomService;
 import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.core.ServiceException;
 import cn.cerc.mis.other.UserNotFindException;
+import cn.cerc.mis.security.Permission;
 
+@Permission(Permission.GUEST)
 public class SvrSession extends CustomService {
     private static final Logger log = LoggerFactory.getLogger(SvrSession.class);
     private static final ClassResource res = new ClassResource(SvrSession.class, SummerMIS.ID);
