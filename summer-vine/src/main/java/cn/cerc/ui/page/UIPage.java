@@ -189,6 +189,9 @@ public abstract class UIPage extends AbstractPage implements SupportScriptFile {
         if (!menuCode.equals(formId)) {
             return toolBar;
         }
+        if (handle._isAllowGuest()) {
+            return toolBar;
+        }
 
         // 输出菜单信息
         MenuModel item = MenuList.create(handle).get(formId);
