@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 
 import cn.cerc.core.ClassResource;
 import cn.cerc.core.Utils;
+import cn.cerc.db.core.ServerConfig;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.IForm;
@@ -299,6 +300,11 @@ public abstract class UIPage extends AbstractPage implements SupportScriptFile {
         this.addScriptFile(config.getString("jquery.js", "js/jquery.js"));
         this.addScriptFile(config.getString("summer.js", "js/summer.js"));
         this.addScriptFile(config.getString("myapp.js", "js/myapp.js"));
+        if (ServerConfig.isServerDevelop()) {
+            this.addScriptFile("http://127.0.0.1:81/autumn-ui.js");
+        }else {
+            this.addScriptFile("js/autumn-ui.js");
+        }
     }
 
     @Deprecated
