@@ -297,6 +297,9 @@ public abstract class UIPage extends AbstractPage implements SupportScriptFile {
 
     protected void initJsFile() {
         this.addScriptFile(config.getString("jquery.js", "js/jquery.js"));
+        this.addScriptFile("https://cdn.bootcdn.net/ajax/libs/react/16.13.1/umd/react.production.min.js");
+        this.addScriptFile("https://cdn.bootcdn.net/ajax/libs/react-dom/16.13.1/umd/react-dom.production.min.js");
+        this.addScriptFile("https://cdn.bootcdn.net/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js");
         this.addScriptFile(config.getString("summer.js", "js/summer.js"));
         this.addScriptFile(config.getString("myapp.js", "js/myapp.js"));
         this.addScriptFile(config.getString("autumn-ui.js", "js/autumn-ui.js"));
