@@ -302,7 +302,7 @@ public abstract class UIPage extends AbstractPage implements SupportScriptFile {
         this.addScriptFile("https://oss.diteng.site/resources/reactjs/babel.min.js");
         this.addScriptFile(config.getString("summer.js", "js/summer.js"));
         this.addScriptFile(config.getString("myapp.js", "js/myapp.js"));
-        this.addScriptFile(config.getString("autumn-ui.js", "js/autumn-ui.js"));
+        this.addScriptFile(config.getString("aui.js", "js/aui.js"));
     }
 
     @Deprecated
