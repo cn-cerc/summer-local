@@ -10,7 +10,6 @@ import cn.cerc.core.IUserLanguage;
 import cn.cerc.core.Utils;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.cdn.CDN;
-import cn.cerc.mis.config.ApplicationConfig;
 import cn.cerc.mis.core.AppClient;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.core.IForm;
@@ -131,8 +130,8 @@ public class UIHeader extends UIComponent implements IUserLanguage, IHandle {
             html.print("<span>%s</span>", welcome);
             html.print("<div class='user_right'>");
             html.print(
-                    "<span>%s：<i><a href='%sTFrmChooseAccount' style='margin-left:0.5em;'>%s</a></i><i>/</i><i>%s</i></span>",
-                    currentUser, ApplicationConfig.App_Path, corpNoName, userName);
+                    "<span>%s：<i><a href='/public/TFrmChooseAccount' style='margin-left:0.5em;'>%s</a></i><i>/</i><i>%s</i></span>",
+                    currentUser, corpNoName, userName);
             html.print("<a href='%s'>%s</a>", exitSystem.getUrl(), exitSystem.getName());
             html.print("</div>");
             html.print("</div>");
