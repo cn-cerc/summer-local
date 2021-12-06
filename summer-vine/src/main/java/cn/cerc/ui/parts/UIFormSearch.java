@@ -70,17 +70,17 @@ public class UIFormSearch extends UIForm implements SearchSource, ISearchPanelSt
     }
 
     @Override
-    public DataRow getCurrent() {
-        return dataSet.getCurrent();
+    public DataRow current() {
+        return dataSet.current();
     }
 
     @Deprecated
     public DataRow getRecord() {
-        return getCurrent();
+        return current();
     }
 
     public void setRecord(DataRow record) {
-        getCurrent().copyValues(record, record.getFieldDefs());
+        current().copyValues(record, record.fields());
         dataSet.setRecNo(dataSet.size());
     }
 
@@ -302,8 +302,8 @@ public class UIFormSearch extends UIForm implements SearchSource, ISearchPanelSt
         }
 
         @Override
-        public DataRow getCurrent() {
-            return source.getCurrent();
+        public DataRow current() {
+            return source.current();
         }
 
         @Override
@@ -336,8 +336,8 @@ public class UIFormSearch extends UIForm implements SearchSource, ISearchPanelSt
         }
 
         @Override
-        public DataRow getCurrent() {
-            return source.getCurrent();
+        public DataRow current() {
+            return source.current();
         }
 
         @Override

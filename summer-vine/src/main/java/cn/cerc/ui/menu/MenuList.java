@@ -81,9 +81,9 @@ public class MenuList extends Handle implements IDataList, IUserLanguage {
         CenterService svr = new CenterService(this);
         svr.setService("ApiMenus.getMenus");
         if (!svr.exec()) {
-            throw new RuntimeException(svr.getMessage());
+            throw new RuntimeException(svr.message());
         }
-        DataSet cdsMenu = svr.getDataOut();
+        DataSet cdsMenu = svr.dataOut();
         while (cdsMenu.fetch()) {
             String key = cdsMenu.getString("Code_");
             MenuModel item = new MenuModel();

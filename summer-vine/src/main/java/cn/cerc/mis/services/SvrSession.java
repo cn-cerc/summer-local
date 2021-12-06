@@ -22,13 +22,13 @@ public class SvrSession extends CustomService {
     private static final ClassResource res = new ClassResource(SvrSession.class, SummerMIS.ID);
 
     public boolean byUserCode() throws ServiceException, UserNotFindException {
-        DataRow headIn = getDataIn().getHead();
+        DataRow headIn = dataIn().head();
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "CorpNo_"),
-                !headIn.hasValue("CorpNo_"));
+                !headIn.has("CorpNo_"));
         String corpNo = headIn.getString("CorpNo_");
 
         DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "UserCode_"),
-                !headIn.hasValue("UserCode_"));
+                !headIn.has("UserCode_"));
         String userCode = headIn.getString("UserCode_");
 
         MysqlQuery cdsUser = new MysqlQuery(this);
@@ -40,7 +40,7 @@ public class SvrSession extends CustomService {
             throw new UserNotFindException(userCode);
         }
 
-        DataRow headOut = getDataOut().getHead();
+        DataRow headOut = dataOut().head();
         headOut.setValue("LoginTime_", new Datetime());
         copyData(cdsUser, headOut);
         return true;
@@ -53,8 +53,8 @@ public class SvrSession extends CustomService {
      * 
      */
     public boolean byToken() throws ServiceException {
-        DataRow headIn = getDataIn().getHead();
-        DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "token"), !headIn.hasValue("token"));
+        DataRow headIn = dataIn().head();
+        DataValidateException.stopRun(String.format(res.getString(1, "%s 不允许为空"), "token"), !headIn.has("token"));
         String token = headIn.getString("token");
 
         MysqlQuery onlineInfo = new MysqlQuery(this);
@@ -88,7 +88,7 @@ public class SvrSession extends CustomService {
             return false;
         }
 
-        DataRow headOut = getDataOut().getHead();
+        DataRow headOut = dataOut().head();
         headOut.setValue("LoginTime_", onlineInfo.getDatetime("LoginTime_"));
         headOut.setValue("Language_", onlineInfo.getString("Language_"));
         copyData(userInfo, headOut);

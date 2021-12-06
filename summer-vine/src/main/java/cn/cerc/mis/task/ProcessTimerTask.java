@@ -116,10 +116,10 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
         CenterService svr = new CenterService(this);
         svr.setService("SvrSession.byUserCode");
         if (!svr.exec("CorpNo_", StubHandle.DefaultBook, "UserCode_", StubHandle.DefaultUser)) {
-            throw new RuntimeException(svr.getMessage());
+            throw new RuntimeException(svr.message());
         }
 
-        DataRow record = svr.getDataOut().getHead();
+        DataRow record = svr.dataOut().head();
 
         session.setProperty(ISession.TOKEN, token);
         session.setProperty(ISession.CORP_NO, StubHandle.DefaultBook);
@@ -153,7 +153,7 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
 
         CenterService svr = new CenterService(handle);
         svr.setService("ApiToken.getToken");
-        DataRow headIn = svr.getDataIn().getHead();
+        DataRow headIn = svr.dataIn().head();
         headIn.setValue("userCode", userCode);
         headIn.setValue("password", password);
         headIn.setValue("clientId", machineCode);
@@ -161,9 +161,9 @@ public class ProcessTimerTask extends TimerTask implements ApplicationContextAwa
         headIn.setValue("languageId", LanguageResource.appLanguage);
         headIn.setValue("access", AccessLevel.Access_Task);// 访问层级获取队列授权
         if (!svr.exec()) {
-            throw new RuntimeException(svr.getMessage());
+            throw new RuntimeException(svr.message());
         }
-        String token = svr.getDataOut().getHead().getString("token");
+        String token = svr.dataOut().head().getString("token");
         log.debug("userCode {} token {}", userCode, token);
         if (Utils.isEmpty(token)) {
             throw new RuntimeException(res.getString(3, "服务器没有返回token"));

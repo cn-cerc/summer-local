@@ -31,7 +31,7 @@ public class ExportService extends ExportExcel {
         exportKey = request.getParameter("exportKey");
         dataIn = new DataSet();
         try (MemoryBuffer buff = new MemoryBuffer(SystemBuffer.User.ExportKey, this.getUserCode(), exportKey)) {
-            dataIn.fromJson(buff.getString("data"));
+            dataIn.setJson(buff.getString("data"));
         }
     }
 
@@ -46,15 +46,15 @@ public class ExportService extends ExportExcel {
 
         PartnerService app = new PartnerService(this);
         app.setService(service);
-        app.getDataIn().close();
-        app.getDataIn().appendDataSet(dataIn);
-        app.getDataIn().getHead().copyValues(dataIn.getHead());
+        app.dataIn().clear();
+        app.dataIn().appendDataSet(dataIn);
+        app.dataIn().head().copyValues(dataIn.head());
         if (!app.exec()) {
-            this.export(app.getMessage());
+            this.export(app.message());
             return;
         }
 
-        DataSet dataOut = app.getDataOut();
+        DataSet dataOut = app.dataOut();
         // 对分类进行处理
         dataOut.first();
         while (dataOut.fetch()) {
@@ -66,8 +66,13 @@ public class ExportService extends ExportExcel {
         super.export();
     }
 
-    public DataSet getDataIn() {
+    public DataSet dataIn() {
         return dataIn;
+    }
+
+    @Deprecated
+    public final DataSet getDataIn() {
+        return dataIn();
     }
 
     public void setDataIn(DataSet dataIn) {

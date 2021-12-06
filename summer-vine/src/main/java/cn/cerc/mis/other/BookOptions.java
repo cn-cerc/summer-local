@@ -277,7 +277,7 @@ public class BookOptions {
 
     // 是否启动与ERP同步
     public static boolean isEnableSyncERP(IHandle handle, DataSet dataIn) {
-        if (dataIn.getHead().exists("SyncERPToVine")) {
+        if (dataIn.head().exists("SyncERPToVine")) {
             return false;
         }
         return getEnabled(handle, EnableSyncERP);
@@ -346,10 +346,10 @@ public class BookOptions {
         CenterService svr = new CenterService(handle);
         svr.setService("ApiOurInfo.getBookCreateDate");
         if (!svr.exec("CorpNo_", handle.getCorpNo())) {
-            throw new RuntimeException(svr.getMessage());
+            throw new RuntimeException(svr.message());
         }
 
-        DataSet cdsTmp = svr.getDataOut();
+        DataSet cdsTmp = svr.dataOut();
         if (cdsTmp.size() == 0) {
             throw new RuntimeException(String.format("没有找到帐套：%s", handle.getCorpNo()));
         }
@@ -439,9 +439,9 @@ public class BookOptions {
         CenterService svr1 = new CenterService(handle);
         svr1.setService("ApiOurInfo.getVineOptionsByCode");
         if (!svr1.exec("CorpNo_", handle.getCorpNo(), "Code_", paramKey)) {
-            throw new RuntimeException(svr1.getMessage());
+            throw new RuntimeException(svr1.message());
         }
-        DataSet dataSet = svr1.getDataOut();
+        DataSet dataSet = svr1.dataOut();
         if (!dataSet.eof()) {
             return;
         }
@@ -449,13 +449,13 @@ public class BookOptions {
 
         CenterService svr2 = new CenterService(handle);
         svr2.setService("ApiOurInfo.appendToCorpOption");
-        DataRow headIn = svr2.getDataIn().getHead();
+        DataRow headIn = svr2.dataIn().head();
         headIn.setValue("CorpNo_", corpNo);
         headIn.setValue("Code_", paramKey);
         headIn.setValue("Name_", paramName);
         headIn.setValue("Value_", def);
         if (!svr2.exec()) {
-            throw new RuntimeException(svr2.getMessage());
+            throw new RuntimeException(svr2.message());
         }
 
     }

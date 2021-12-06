@@ -92,16 +92,16 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             upload.readAll();
 
             LocalService svr = new LocalService(this, "SvrFileUpload.search");
-            svr.getDataIn().getHead().setValue("tbNo", tbNo);
+            svr.dataIn().head().setValue("tbNo", tbNo);
             if (!svr.exec()) {
-                jspPage.setMessage(svr.getMessage());
+                jspPage.setMessage(svr.message());
                 return jspPage;
             }
 
             ServerConfig config = ServerConfig.getInstance();
             String ossSite = config.getProperty("oss.site") + "/";
 
-            DataGrid gird = jspPage.createGrid(jspPage.getContent(), svr.getDataOut());
+            DataGrid gird = jspPage.createGrid(jspPage.getContent(), svr.dataOut());
             ItField it = new ItField(gird);
             it.setWidth(1);
             StringField fileFld = new StringField(gird, res.getString(9, "文件名"), "Name_", 3);
@@ -172,8 +172,8 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             OssConnection oss = (OssConnection) getProperty(OssConnection.sessionId);
 
             LocalService svr = new LocalService(this, "SvrFileUpload.append");
-            DataSet dsIn = svr.getDataIn();
-            DataRow headIn = svr.getDataIn().getHead();
+            DataSet dsIn = svr.dataIn();
+            DataRow headIn = svr.dataIn().head();
             headIn.setValue("tb", tb);
             headIn.setValue("tbNo", tbNo);
 
@@ -194,7 +194,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
                     String currentFile = uploadPage + "/" + item.getName();
                     oss.upload(currentFile, item.getInputStream());
 
-                    DataRow fileInfo = dsIn.append().getCurrent();
+                    DataRow fileInfo = dsIn.append().current();
                     fileInfo.setValue("name", item.getName());
                     fileInfo.setValue("path", currentFile);
                     fileInfo.setValue("size", item.getSize());
@@ -207,7 +207,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             }
 
             if (!svr.exec()) {
-                buff.setValue("msg", svr.getMessage());
+                buff.setValue("msg", svr.message());
                 return jspPage;
             }
             buff.setValue("msg", res.getString(20, "上传成功！"));
@@ -225,9 +225,9 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             String tbNo = getTbNo();
             String name = getRequest().getParameter("name");
             LocalService svr = new LocalService(this, "SvrFileUpload.delete");
-            svr.getDataIn().getHead().setValue("tbNo", tbNo).setValue("name", name);
+            svr.dataIn().head().setValue("tbNo", tbNo).setValue("name", name);
             if (!svr.exec()) {
-                buff.setValue("msg", svr.getMessage());
+                buff.setValue("msg", svr.message());
             } else {
                 buff.setValue("msg", res.getString(21, "删除成功！"));
             }

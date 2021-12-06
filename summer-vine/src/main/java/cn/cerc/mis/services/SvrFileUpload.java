@@ -1,10 +1,10 @@
 package cn.cerc.mis.services;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.Datetime;
 import cn.cerc.core.IUserLanguage;
-import cn.cerc.core.DataRow;
 import cn.cerc.db.mysql.BuildQuery;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
@@ -26,35 +26,35 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
     private static final String TABLE_FILEUPLOADS = "file_uploads";
 
     public boolean search() throws DataValidateException {
-        DataRow headIn = getDataIn().getHead();
-        DataValidateException.stopRun(res.getString(1, "请指定单号"), !headIn.hasValue("tbNo"));
+        DataRow headIn = dataIn().head();
+        DataValidateException.stopRun(res.getString(1, "请指定单号"), !headIn.has("tbNo"));
 
         BuildQuery f = new BuildQuery(this);
         f.add("select * from %s", TABLE_FILEUPLOADS);
         f.byField("CorpNo_", getCorpNo());
         f.byField("TBNo_", headIn.getString("tbNo"));
 
-        getDataOut().appendDataSet(f.open());
+        dataOut().appendDataSet(f.open());
         return true;
     }
 
     public boolean append() throws DataValidateException {
-        DataRow headIn = getDataIn().getHead();
-        DataValidateException.stopRun(res.getString(2, "上传失败，单别不能为空！"), !headIn.hasValue("tb"));
-        DataValidateException.stopRun(res.getString(3, "上传失败，单号不能为空！"), !headIn.hasValue("tbNo"));
+        DataRow headIn = dataIn().head();
+        DataValidateException.stopRun(res.getString(2, "上传失败，单别不能为空！"), !headIn.has("tb"));
+        DataValidateException.stopRun(res.getString(3, "上传失败，单号不能为空！"), !headIn.has("tbNo"));
 
         String tb = headIn.getString("tb");
         String tbNo = headIn.getString("tbNo");
 
         try (Transaction tx = new Transaction(this)) {
             MysqlQuery ds = new MysqlQuery(this);
-            DataSet dataIn = getDataIn();
+            DataSet dataIn = dataIn();
             while (dataIn.fetch()) {
-                DataRow current = dataIn.getCurrent();
+                DataRow current = dataIn.current();
 
-                DataValidateException.stopRun(res.getString(4, "上传失败，文件大小不能为空！"), !current.hasValue("size"));
-                DataValidateException.stopRun(res.getString(5, "上传失败，文件名不能为空！"), !current.hasValue("name"));
-                DataValidateException.stopRun(res.getString(6, "上传失败，文件路径不能为空！"), !current.hasValue("path"));
+                DataValidateException.stopRun(res.getString(4, "上传失败，文件大小不能为空！"), !current.has("size"));
+                DataValidateException.stopRun(res.getString(5, "上传失败，文件名不能为空！"), !current.has("name"));
+                DataValidateException.stopRun(res.getString(6, "上传失败，文件路径不能为空！"), !current.has("path"));
 
                 ds.clear();
                 ds.add("select * from %s", TABLE_FILEUPLOADS);
@@ -82,9 +82,9 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
     }
 
     public boolean delete() throws DataValidateException {
-        DataRow headIn = getDataIn().getHead();
-        DataValidateException.stopRun(res.getString(8, "请指定单号！"), !headIn.hasValue("tbNo"));
-        DataValidateException.stopRun(res.getString(9, "请指定文件名！"), !headIn.hasValue("name"));
+        DataRow headIn = dataIn().head();
+        DataValidateException.stopRun(res.getString(8, "请指定单号！"), !headIn.has("tbNo"));
+        DataValidateException.stopRun(res.getString(9, "请指定文件名！"), !headIn.has("name"));
 
         String tbNo = headIn.getString("tbNo").trim();
         String name = headIn.getString("name").trim();

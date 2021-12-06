@@ -178,17 +178,17 @@ public class UIFormEdit extends UIComponent implements SearchSource, IEditPanelS
     }
 
     @Override
-    public DataRow getCurrent() {
-        return this.dataSet.getCurrent();
+    public DataRow current() {
+        return this.dataSet.current();
     }
 
     @Deprecated
     public DataRow getRecord() {
-        return dataSet.getCurrent();
+        return dataSet.current();
     }
 
     public void setRecord(DataRow record) {
-        dataSet.getCurrent().copyValues(record, record.getFieldDefs());
+        dataSet.current().copyValues(record, record.fields());
         dataSet.setRecNo(dataSet.size());
     }
 
