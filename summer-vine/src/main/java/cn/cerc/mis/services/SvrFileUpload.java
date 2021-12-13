@@ -8,7 +8,7 @@ import cn.cerc.core.IUserLanguage;
 import cn.cerc.db.mysql.BuildQuery;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.db.mysql.Transaction;
-import cn.cerc.db.oss.OssConnection;
+import cn.cerc.db.oss.AliyunStorage;
 import cn.cerc.mis.core.CustomService;
 import cn.cerc.mis.core.DataValidateException;
 import cn.cerc.mis.language.R;
@@ -62,7 +62,8 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
                 ds.setMaximum(1);
                 ds.open();
                 if (!ds.eof()) {
-                    DataValidateException.stopRun(String.format(res.getString(7, "%s 文件已存在！"), ds.getString("Name_")), true);
+                    DataValidateException.stopRun(String.format(res.getString(7, "%s 文件已存在！"), ds.getString("Name_")),
+                            true);
                 }
 
                 ds.append();
@@ -98,14 +99,10 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
             ds.open();
             DataValidateException.stopRun(res.getString(10, "删除失败，文件不存在！"), ds.eof());
 
-            OssConnection oss = (OssConnection) getSession().getProperty(OssConnection.sessionId);
-
             while (ds.fetch()) {
-                oss.delete(ds.getString("Path_"));
-
+                AliyunStorage.delete(ds.getString("Path_"));
                 ds.delete();
             }
-
             return tx.commit();
         }
     }

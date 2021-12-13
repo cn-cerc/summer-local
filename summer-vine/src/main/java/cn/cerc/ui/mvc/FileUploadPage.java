@@ -17,11 +17,11 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.cerc.core.ClassResource;
+import cn.cerc.core.DataRow;
 import cn.cerc.core.DataSet;
 import cn.cerc.core.IUserLanguage;
-import cn.cerc.core.DataRow;
 import cn.cerc.db.core.ServerConfig;
-import cn.cerc.db.oss.OssConnection;
+import cn.cerc.db.oss.AliyunStorage;
 import cn.cerc.mis.core.IPage;
 import cn.cerc.mis.core.LocalService;
 import cn.cerc.mis.core.RedirectPage;
@@ -169,7 +169,6 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
             }
 
             List<FileItem> uploadFiles = upload.parseRequest(getRequest());
-            OssConnection oss = (OssConnection) getProperty(OssConnection.sessionId);
 
             LocalService svr = new LocalService(this, "SvrFileUpload.append");
             DataSet dsIn = svr.dataIn();
@@ -192,7 +191,7 @@ public class FileUploadPage extends FileUploadBasePage implements IUserLanguage 
                     }
 
                     String currentFile = uploadPage + "/" + item.getName();
-                    oss.upload(currentFile, item.getInputStream());
+                    AliyunStorage.upload(currentFile, item.getInputStream());
 
                     DataRow fileInfo = dsIn.append().current();
                     fileInfo.setValue("name", item.getName());
