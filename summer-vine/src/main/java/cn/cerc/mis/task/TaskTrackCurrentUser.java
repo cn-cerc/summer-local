@@ -1,7 +1,7 @@
 package cn.cerc.mis.task;
 
-import cn.cerc.core.Datetime;
-import cn.cerc.core.Datetime.DateType;
+import cn.cerc.db.core.Datetime;
+import cn.cerc.db.core.Datetime.DateType;
 import cn.cerc.db.mysql.MysqlServerMaster;
 
 /**

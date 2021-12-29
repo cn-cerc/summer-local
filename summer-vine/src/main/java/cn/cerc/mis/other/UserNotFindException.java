@@ -1,6 +1,6 @@
 package cn.cerc.mis.other;
 
-import cn.cerc.core.ClassResource;
+import cn.cerc.db.core.ClassResource;
 import cn.cerc.mis.SummerMIS;
 
 public class UserNotFindException extends Exception {

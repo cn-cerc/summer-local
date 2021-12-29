@@ -1,6 +1,6 @@
 package cn.cerc.ui.page;
 
-import cn.cerc.core.ISession;
+import cn.cerc.db.core.ISession;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.ui.parts.UIDocument;
 import cn.cerc.ui.parts.UIMenuList;

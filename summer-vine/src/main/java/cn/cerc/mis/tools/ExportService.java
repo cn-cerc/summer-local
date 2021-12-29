@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.cerc.core.ClassResource;
-import cn.cerc.core.DataSet;
+import cn.cerc.db.core.ClassResource;
+import cn.cerc.db.core.DataSet;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.SystemBuffer;

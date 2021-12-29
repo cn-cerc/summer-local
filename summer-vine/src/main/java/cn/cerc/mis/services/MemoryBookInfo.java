@@ -3,10 +3,10 @@ package cn.cerc.mis.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.cerc.core.ClassResource;
-import cn.cerc.core.DataRow;
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.ClassResource;
+import cn.cerc.db.core.DataRow;
 import cn.cerc.db.core.IHandle;
+import cn.cerc.db.core.Utils;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.core.Application;
 import cn.cerc.mis.other.BookVersion;

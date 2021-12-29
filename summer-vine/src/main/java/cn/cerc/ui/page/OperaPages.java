@@ -2,8 +2,8 @@ package cn.cerc.ui.page;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.cerc.core.ClassResource;
-import cn.cerc.core.IUserLanguage;
+import cn.cerc.db.core.ClassResource;
+import cn.cerc.db.core.IUserLanguage;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.ui.SummerUI;

@@ -1,6 +1,6 @@
 package cn.cerc.ui.parts;
 
-import cn.cerc.core.ClassResource;
+import cn.cerc.db.core.ClassResource;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.UIComponent;
 

@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.cerc.core.DataRow;
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.DataRow;
 import cn.cerc.db.core.IHandle;
+import cn.cerc.db.core.Utils;
 import cn.cerc.db.mysql.MysqlQuery;
 import cn.cerc.mis.cache.CacheResetMode;
 import cn.cerc.mis.cache.IMemoryCache;

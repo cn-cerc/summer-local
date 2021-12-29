@@ -3,9 +3,9 @@ package cn.cerc.ui.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.cerc.core.ClassConfig;
-import cn.cerc.core.DataRow;
-import cn.cerc.core.DataSet;
+import cn.cerc.db.core.ClassConfig;
+import cn.cerc.db.core.DataRow;
+import cn.cerc.db.core.DataSet;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.core.HtmlWriter;

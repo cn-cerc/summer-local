@@ -1,6 +1,6 @@
 package cn.cerc.vine.core;
 
-import cn.cerc.core.ClassConfig;
+import cn.cerc.db.core.ClassConfig;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.mis.client.IServiceServer;
 import cn.cerc.vine.SummerVine;

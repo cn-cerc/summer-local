@@ -2,7 +2,7 @@ package cn.cerc.ui.custom;
 
 import org.springframework.stereotype.Component;
 
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.Utils;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.mis.language.R;
 import cn.cerc.ui.menu.MenuList;

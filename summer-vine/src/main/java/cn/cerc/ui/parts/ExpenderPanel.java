@@ -1,7 +1,7 @@
 package cn.cerc.ui.parts;
 
-import cn.cerc.core.DataRow;
-import cn.cerc.core.DataSource;
+import cn.cerc.db.core.DataRow;
+import cn.cerc.db.core.DataSource;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.SearchSource;
 import cn.cerc.ui.core.UIComponent;

@@ -3,7 +3,7 @@ package cn.cerc.ui.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.Utils;
 import cn.cerc.ui.core.HtmlWriter;
 import cn.cerc.ui.core.UrlRecord;
 import cn.cerc.ui.vcl.UIButton;

@@ -1,6 +1,6 @@
 package cn.cerc.ui.docs;
 
-import cn.cerc.core.ClassResource;
+import cn.cerc.db.core.ClassResource;
 import cn.cerc.mis.core.IForm;
 import cn.cerc.ui.SummerUI;
 import cn.cerc.ui.parts.UISheetHelp;

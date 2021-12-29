@@ -6,9 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.cerc.core.DataSet;
-import cn.cerc.core.FastDate;
-import cn.cerc.core.DataRow;
+import cn.cerc.db.core.DataRow;
+import cn.cerc.db.core.DataSet;
+import cn.cerc.db.core.FastDate;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.mysql.BuildQuery;
 import cn.cerc.db.mysql.MysqlQuery;

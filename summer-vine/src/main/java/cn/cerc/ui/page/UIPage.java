@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import cn.cerc.core.ClassResource;
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.ClassResource;
+import cn.cerc.db.core.Utils;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.AbstractForm;
 import cn.cerc.mis.core.IForm;

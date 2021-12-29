@@ -1,6 +1,6 @@
 package cn.cerc.mis.core;
 
-import cn.cerc.core.ClassConfig;
+import cn.cerc.db.core.ClassConfig;
 import cn.cerc.mis.SummerMIS;
 
 public enum HTMLResource {

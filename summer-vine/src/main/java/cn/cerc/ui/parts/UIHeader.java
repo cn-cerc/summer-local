@@ -3,12 +3,12 @@ package cn.cerc.ui.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.cerc.core.ClassConfig;
-import cn.cerc.core.ClassResource;
-import cn.cerc.core.ISession;
-import cn.cerc.core.IUserLanguage;
-import cn.cerc.core.Utils;
+import cn.cerc.db.core.ClassConfig;
+import cn.cerc.db.core.ClassResource;
 import cn.cerc.db.core.IHandle;
+import cn.cerc.db.core.ISession;
+import cn.cerc.db.core.IUserLanguage;
+import cn.cerc.db.core.Utils;
 import cn.cerc.mis.cdn.CDN;
 import cn.cerc.mis.core.AppClient;
 import cn.cerc.mis.core.Application;
