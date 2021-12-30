@@ -2,6 +2,9 @@ package cn.cerc.mis.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import cn.cerc.db.core.ClassResource;
 import cn.cerc.db.core.DataRow;
@@ -17,6 +20,8 @@ import cn.cerc.mis.other.UserNotFindException;
 import cn.cerc.mis.security.Permission;
 
 @Permission(Permission.GUEST)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SvrSession extends CustomService {
     private static final Logger log = LoggerFactory.getLogger(SvrSession.class);
     private static final ClassResource res = new ClassResource(SvrSession.class, SummerMIS.ID);

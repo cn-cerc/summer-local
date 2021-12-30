@@ -1,5 +1,9 @@
 package cn.cerc.mis.services;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import cn.cerc.db.core.ClassResource;
 import cn.cerc.db.core.DataRow;
 import cn.cerc.db.core.DataSet;
@@ -17,6 +21,8 @@ import cn.cerc.ui.SummerUI;
 /**
  * 文件上传服务
  */
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SvrFileUpload extends CustomService implements IUserLanguage {
     private static final ClassResource res = new ClassResource(SvrFileUpload.class, SummerUI.ID);
 
