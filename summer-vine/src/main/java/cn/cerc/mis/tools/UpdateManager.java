@@ -64,7 +64,7 @@ public class UpdateManager implements IBookManage {
         dataList = new BookDataList(new DurationSection(beginDate, new Datetime()));
     }
 
-    public void execute() throws DataUpdateException {
+    public void execute() throws ServiceException {
         locked = true; // 防止调用错误
 
         if (session == null) {
