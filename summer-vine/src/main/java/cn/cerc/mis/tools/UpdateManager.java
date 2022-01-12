@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import cn.cerc.db.core.ClassResource;
 import cn.cerc.db.core.Datetime;
+import cn.cerc.db.core.Datetime.DateType;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ISession;
-import cn.cerc.db.core.Datetime.DateType;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.book.BookDataList;
 import cn.cerc.mis.book.IBook;
@@ -18,6 +18,7 @@ import cn.cerc.mis.book.IBookData;
 import cn.cerc.mis.book.IBookManage;
 import cn.cerc.mis.book.UpdateBook;
 import cn.cerc.mis.book.VirtualData;
+import cn.cerc.mis.core.ServiceException;
 import cn.cerc.mis.other.BookOptions;
 
 public class UpdateManager implements IBookManage {
@@ -64,7 +65,7 @@ public class UpdateManager implements IBookManage {
         dataList = new BookDataList(new DurationSection(beginDate, new Datetime()));
     }
 
-    public void execute() throws DataUpdateException {
+    public void execute() throws ServiceException {
         locked = true; // 防止调用错误
 
         if (session == null) {
