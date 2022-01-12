@@ -53,7 +53,6 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
         String tbNo = headIn.getString("tbNo");
 
         try (Transaction tx = new Transaction(this)) {
-            MysqlQuery ds = new MysqlQuery(this);
             DataSet dataIn = dataIn();
             while (dataIn.fetch()) {
                 DataRow current = dataIn.current();
@@ -62,13 +61,14 @@ public class SvrFileUpload extends CustomService implements IUserLanguage {
                 DataValidateException.stopRun(res.getString(5, "上传失败，文件名不能为空！"), !current.has("name"));
                 DataValidateException.stopRun(res.getString(6, "上传失败，文件路径不能为空！"), !current.has("path"));
 
-                ds.clear();
+                MysqlQuery ds = new MysqlQuery(this);
                 ds.add("select * from %s", TABLE_FILEUPLOADS);
                 ds.add("where Path_='%s'", current.getString("path").trim());
                 ds.setMaximum(1);
                 ds.open();
                 if (!ds.eof()) {
-                    DataValidateException.stopRun(String.format(res.getString(7, "%s 文件已存在！"), ds.getString("Name_")), true);
+                    DataValidateException.stopRun(String.format(res.getString(7, "%s 文件已存在！"), ds.getString("Name_")),
+                            true);
                 }
 
                 ds.append();
