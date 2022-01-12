@@ -11,6 +11,7 @@ import cn.cerc.db.core.Datetime;
 import cn.cerc.db.core.Datetime.DateType;
 import cn.cerc.db.core.IHandle;
 import cn.cerc.db.core.ISession;
+import cn.cerc.db.core.ServiceException;
 import cn.cerc.mis.SummerMIS;
 import cn.cerc.mis.book.BookDataList;
 import cn.cerc.mis.book.IBook;
@@ -18,7 +19,6 @@ import cn.cerc.mis.book.IBookData;
 import cn.cerc.mis.book.IBookManage;
 import cn.cerc.mis.book.UpdateBook;
 import cn.cerc.mis.book.VirtualData;
-import cn.cerc.mis.core.ServiceException;
 import cn.cerc.mis.other.BookOptions;
 
 public class UpdateManager implements IBookManage {

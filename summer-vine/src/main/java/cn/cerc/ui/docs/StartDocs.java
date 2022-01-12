@@ -1,17 +1,18 @@
 package cn.cerc.ui.docs;
 
-import cn.cerc.db.core.ClassResource;
-import cn.cerc.db.core.ServerConfig;
-import cn.cerc.ui.SummerUI;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+
+import cn.cerc.db.core.ClassResource;
+import cn.cerc.db.core.ServerConfig;
+import cn.cerc.ui.SummerUI;
 
 public class StartDocs extends HttpServlet {
     private static final ClassResource res = new ClassResource(StartDocs.class, SummerUI.ID);
