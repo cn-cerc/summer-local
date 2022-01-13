@@ -19,7 +19,6 @@ import cn.cerc.mis.book.IBookData;
 import cn.cerc.mis.book.IBookManage;
 import cn.cerc.mis.book.UpdateBook;
 import cn.cerc.mis.book.VirtualData;
-import cn.cerc.mis.core.ServiceException;
 import cn.cerc.mis.other.BookOptions;
 
 public class UpdateManager implements IBookManage {
@@ -48,7 +47,8 @@ public class UpdateManager implements IBookManage {
     }
 
     public UpdateManager(IHandle handle) {
-        this.setSession(handle.getSession());;
+        this.setSession(handle.getSession());
+        ;
         initMonth = BookOptions.getAccInitYearMonth(handle);
     }
 
@@ -108,7 +108,8 @@ public class UpdateManager implements IBookManage {
                             boolean ok = book.enroll(bookData, false);
                             if (ok && book.isKnowMonth()) {
                                 if (new Datetime().subtract(DateType.Month, bookData.getDate()) > 0) {
-                                    for (int i = 1; i <= new Datetime().subtract(DateType.Month, bookData.getDate()); i++) {
+                                    for (int i = 1; i <= new Datetime().subtract(DateType.Month,
+                                            bookData.getDate()); i++) {
                                         dataList.add(new VirtualData(book, bookData, i));
                                     }
                                 }
