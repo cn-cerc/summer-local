@@ -1,4 +1,4 @@
-package cn.cerc.sms;
+package cn.cerc.local.sms;
 
 import org.junit.Before;
 import org.junit.Test;
