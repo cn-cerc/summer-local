@@ -53,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>summer-db</artifactId>
+            <artifactId>summer-data</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
