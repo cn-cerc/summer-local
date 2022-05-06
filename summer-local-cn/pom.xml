@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.cerc</groupId>
         <artifactId>summer-local</artifactId>
-        <version>11.1.0-SNAPSHOT</version>
+        <version>11.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>summer-local-cn</artifactId>
