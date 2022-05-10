@@ -3,8 +3,6 @@ package cn.cerc.local.sms;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.cerc.local.sms.YunpianSMS;
-
 public class YunpianSMSTest {
 
     private YunpianSMS yunpian;
