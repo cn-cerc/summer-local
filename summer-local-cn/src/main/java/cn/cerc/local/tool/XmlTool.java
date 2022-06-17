@@ -29,7 +29,8 @@ public class XmlTool {
      * @param root  指定的根节点名称
      */
     public static <T> String transferToXml(T value, String root) throws JsonProcessingException {
-        XmlMapper mapper = XmlMapper.builder().defaultUseWrapper(false)
+        XmlMapper mapper = XmlMapper.builder()
+                .defaultUseWrapper(false)
                 .serializationInclusion(JsonInclude.Include.NON_NULL) // 字段为 null，自动忽略，不再序列化
                 // .enable(SerializationFeature.INDENT_OUTPUT) // 格式化输出 xml
                 .enable(MapperFeature.USE_STD_BEAN_NAMING) // 设置转换模式

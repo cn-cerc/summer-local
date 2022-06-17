@@ -15,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JacksonXMLTest {
 
     public static void main(String[] args) throws JsonProcessingException {
-        XmlMapper xmlMapper = XmlMapper.builder().defaultUseWrapper(false)
+        XmlMapper xmlMapper = XmlMapper.builder()
+                .defaultUseWrapper(false)
                 .serializationInclusion(JsonInclude.Include.NON_NULL) // 字段为 null，自动忽略，不再序列化
                 // .enable(SerializationFeature.INDENT_OUTPUT) // 格式化输出 xml
                 .enable(MapperFeature.USE_STD_BEAN_NAMING) // 设置转换模式
