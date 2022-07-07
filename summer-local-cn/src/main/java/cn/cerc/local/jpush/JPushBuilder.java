@@ -57,10 +57,17 @@ public class JPushBuilder {
         IosAlert iosAlert = IosAlert.newBuilder().setTitleAndBody(this.title, "", this.message).build();
 
         builder.setNotification(Notification.newBuilder()
-                .addPlatformNotification(AndroidNotification.newBuilder().setAlert(message).setTitle(this.title)
-                        .addExtras(this.extras).build())
-                .addPlatformNotification(IosNotification.newBuilder().setAlert(iosAlert).incrBadge(1)
-                        .addExtras(this.extras).setSound(this.sound).build())
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert(message)
+                        .setTitle(this.title)
+                        .addExtras(this.extras)
+                        .build())
+                .addPlatformNotification(IosNotification.newBuilder()
+                        .setAlert(iosAlert)
+                        .incrBadge(1)
+                        .addExtras(this.extras)
+                        .setSound(this.sound)
+                        .build())
                 .build()).build();
         // 设置生产环境 iOS 平台专用
         builder.setOptions(Options.newBuilder().setApnsProduction(true).build()).build();
