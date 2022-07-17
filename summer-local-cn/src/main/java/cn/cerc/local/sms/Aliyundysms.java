@@ -7,18 +7,14 @@ import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponseBody;
 import com.aliyun.teaopenapi.models.Config;
+import com.google.gson.Gson;
 
 import cn.cerc.db.SummerDB;
 import cn.cerc.db.core.ClassResource;
-import cn.cerc.db.core.IConfig;
 
 public class Aliyundysms {
     private static final ClassResource res = new ClassResource(Aliyundysms.class, SummerDB.ID);
     private static final Logger log = LoggerFactory.getLogger(Aliyundysms.class);
-
-    public static final String SingName = "dayu.singName";
-    public static final String aliyun_accessKeyId = "oss.accessKeyId";
-    public static final String aliyun_accessSecret = "oss.accessKeySecret";
 
     // 环境配置
     private final String accessKeyId;
@@ -36,10 +32,10 @@ public class Aliyundysms {
     // 执行结果
     private String message;
 
-    public Aliyundysms(IConfig conf) {
-        this.signName = conf.getProperty(SingName, "地藤");
-        this.accessKeyId = conf.getProperty(aliyun_accessKeyId);
-        this.accessSecret = conf.getProperty(aliyun_accessSecret);
+    public Aliyundysms(String signName, String accessKeyId, String accessSecret) {
+        this.signName = signName;
+        this.accessKeyId = accessKeyId;
+        this.accessSecret = accessSecret;
     }
 
     public boolean send(String outId, String templateParam) {
@@ -83,6 +79,7 @@ public class Aliyundysms {
 
             SendSmsResponseBody response = client.sendSms(request).getBody();
             log.info("----------------阿里云短信接口返回的数据----------------");
+            log.info("请求信息 {}", new Gson().toJson(this));
             log.info("Code={}", response.getCode());
             log.info("Message={}", response.getMessage());
             log.info("RequestId={}", response.getRequestId());
