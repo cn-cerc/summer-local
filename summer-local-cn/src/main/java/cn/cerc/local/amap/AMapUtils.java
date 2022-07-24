@@ -3,6 +3,7 @@ package cn.cerc.local.amap;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import cn.cerc.db.core.Curl;
 import cn.cerc.db.core.Utils;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AMapUtils {
 
-    private static final String API_URL = "https://restapi.amap.com/v3";
     /**
      * 地球半径,单位 km
      */
@@ -33,22 +33,16 @@ public class AMapUtils {
     public static AMapGeoResponse geo(String address) {
         Curl curl = new Curl();
         curl.put("key", AMapConfig.Web_Service_Key).put("address", address);
-        String json = curl.doGet(API_URL + "/geocode/geo");
+        String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
             AMapGeoResponse response = JSON.parseObject(json, AMapGeoResponse.class);
-            if ("1".equals(response.getStatus())) {
-                log.warn("高德接口请求成功 API:{} 参数:{} 返回:{}", API_URL + "/geocode/geo",
-                        new Gson().toJson(curl.getParameters()), json);
+            log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+            if ("1".equals(response.getStatus()))
                 return response;
-            } else {
-                log.warn("高德接口请求失败 API:{} 参数:{} 返回:{}", API_URL + "/geocode/geo",
-                        new Gson().toJson(curl.getParameters()), json);
+            else
                 return null;
-            }
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             e.printStackTrace();
-            log.warn("高德接口请求失败 API:{} 参数:{} 返回:{}", API_URL + "/geocode/geo", new Gson().toJson(curl.getParameters()),
-                    json);
             return null;
         }
     }
@@ -93,28 +87,27 @@ public class AMapUtils {
      * 输出：113.848362,22.600957
      */
     public static String getLonLat(String address) {
-        if (Utils.isEmpty(address)) {
+        if (Utils.isEmpty(address))
             return null;
-        }
+
         address = address.replaceAll("[\\s\\t\\n\\r]", "").trim();
-        if (Utils.isEmpty(address)) {
+        if (Utils.isEmpty(address))
             return null;
-        }
 
         Curl curl = new Curl();
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("address", address);
         String response = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         log.debug(response);
-        if (Utils.isEmpty(response)) {
+        if (Utils.isEmpty(response))
             return "";
-        }
 
         JsonNode node = JsonTool.getNode(response, "geocodes");
         if (node == null) {
             log.error("address: {}, response {}", address, response);
             return null;
         }
+
         if (node.isArray()) {
             JsonNode index = node.get(0);
             if (index == null) {
@@ -125,26 +118,26 @@ public class AMapUtils {
         return "";
     }
 
-    /*
-     * https://lbs.amap.com/service/api/restapi?location=117.007792,31.275725+&
-     * poitype=&radius=1000&extensions=base&batch=false&roadlevel=1
-     */
-
     /**
      * 传入内容规则：经度在前，纬度在后，经纬度间以“,”分割，经纬度小数点后不要超过 6 位。如果需要解析多个经纬度的话，请用"|"进行间隔，并且将 batch
      * 参数设置为 true，最多支持传入 20 对坐标点。每对点坐标之间用"|"分割。
      * 
      * @param location
-     * @return
      */
     public static AMapRegeoResponse getAddress(String location) {
         Curl curl = new Curl();
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("location", location);
         String response = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
-        System.out.println(response);
-        AMapRegeoResponse regeo = new Gson().fromJson(response, AMapRegeoResponse.class);
-        return regeo;
+        log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), response);
+
+        try {
+            AMapRegeoResponse regeo = new Gson().fromJson(response, AMapRegeoResponse.class);
+            return regeo;
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
