@@ -50,10 +50,25 @@ public class AMapUtilsTest {
 
     @Test
     public void test_getAddress() {
-        String location = "117.51,26.77";
+        String location = "119.790168,25.498720";
         AMapRegeoResponse regeo = AMapUtils.getAddress(location);
+        log.info("{}", regeo);
         AddressComponent item = regeo.getRegeocode().getAddressComponent();
         log.info("{} 逆地理编码地址 {} {} {}", location, item.getProvince(), item.getCity(), item.getDistrict());
+    }
+
+    @Test
+    public void test_getUserLocation() {
+        String ip = "113.87.154.66";
+        log.info("ip {} 转坐标 {}", ip, AMapUtils.getLonLatFromIP(ip));
+    }
+
+    public static void main(String[] args) {
+        String a = "113.848362";
+        System.out.println(a.length());
+
+        String b = "22.600957";
+        System.out.println(b.length());
     }
 
 }
