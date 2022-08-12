@@ -39,14 +39,17 @@ public class AMapRegeoResponse {
             private Neighborhood neighborhood;
             private String citycode;
 
+            /**
+             * 街道信息
+             */
             @Setter
             @Getter
             public static class StreetNumber {
-                private String number;
-                private String location;
-                private String direction;
-                private String distance;
-                private String street;
+                private Object number;
+                private Object location;
+                private Object direction;
+                private Object distance;
+                private Object street;
             }
 
             @Setter
