@@ -1,11 +1,12 @@
 package cn.cerc.local.amap;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import cn.cerc.local.amap.response.AMapGeoResponse;
 import cn.cerc.local.amap.response.AMapGeoResponse.Geocodes;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
 
 @Slf4j
 public class AMapUtilsTest {
@@ -48,7 +49,7 @@ public class AMapUtilsTest {
 
     @Test
     public void test_getAddress() {
-        String location = "114.057868,22.543099";
+        String location = "113.848362,22.600957";
         AMapRegeoResponse regeo = AMapUtils.getAddress(location);
         log.info("{}", regeo);
         AMapRegeoResponse.Regeocode.AddressComponent item = regeo.getRegeocode().getAddressComponent();

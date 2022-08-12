@@ -1,9 +1,9 @@
 package cn.cerc.local.amap.response;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 逆地理编码返回对象
@@ -34,7 +34,7 @@ public class AMapRegeoResponse {
             private StreetNumber streetNumber;
             private String country;
             private String township;
-            private List<List<?>> businessAreas;
+            private List<Object> businessAreas;
             private Building building;
             private Neighborhood neighborhood;
             private String citycode;
@@ -52,8 +52,8 @@ public class AMapRegeoResponse {
             @Setter
             @Getter
             public static class Building {
-                private String name;
-                private String type;
+                private Object name;
+                private Object type;
             }
 
             @Setter
