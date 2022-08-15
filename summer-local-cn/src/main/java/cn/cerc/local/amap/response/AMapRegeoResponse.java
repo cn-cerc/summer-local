@@ -30,10 +30,10 @@ public class AMapRegeoResponse {
             private String province;
             private String adcode;
             private String district;
-            private String towncode;
+            private Object towncode;
             private StreetNumber streetNumber;
             private String country;
-            private String township;
+            private Object township;
             private List<Object> businessAreas;
             private Building building;
             private Neighborhood neighborhood;
