@@ -1,15 +1,16 @@
 package cn.cerc.local.amap;
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import cn.cerc.db.core.Curl;
 import cn.cerc.db.core.Utils;
 import cn.cerc.local.amap.response.AMapGeoResponse;
 import cn.cerc.local.amap.response.AMapIPResponse;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
 import cn.cerc.local.tool.JsonTool;
-import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,7 +41,7 @@ public class AMapUtils {
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
             AMapGeoResponse response = JSON.parseObject(json, AMapGeoResponse.class);
-            log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+            log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
             if ("1".equals(response.getStatus()))
                 return response;
             else
@@ -102,7 +103,7 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("address", address);
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
-        log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
         if (Utils.isEmpty(json))
             return "";
 
@@ -134,7 +135,7 @@ public class AMapUtils {
         curl.put("location", location);
         String json = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
         System.out.println(json);
-        log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
 
         try {
             return new Gson().fromJson(json, AMapRegeoResponse.class);
@@ -150,7 +151,7 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("ip", ip);
         String json = curl.doGet("https://restapi.amap.com/v3/ip");
-        log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
         try {
             AMapIPResponse response = new Gson().fromJson(json, AMapIPResponse.class);
             return AMapUtils.getLonLat(String.join("", response.getProvince(), response.getCity()));
