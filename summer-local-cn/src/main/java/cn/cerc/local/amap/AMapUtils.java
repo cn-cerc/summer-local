@@ -134,7 +134,6 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("location", location);
         String json = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
-        System.out.println(json);
         log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
 
         try {
