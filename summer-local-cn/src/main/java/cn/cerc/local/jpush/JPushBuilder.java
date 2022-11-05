@@ -3,7 +3,6 @@ package cn.cerc.local.jpush;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +72,6 @@ public class JPushBuilder {
         // 设置生产环境 iOS 平台专用
         builder.setOptions(Options.newBuilder().setApnsProduction(true).build()).build();
         PushPayload payload = builder.build();
-        System.out.println(new Gson().toJson(payload));
         try {
             PushResult result = JPushConfig.getClient().sendPush(payload);
             log.debug("Got result - " + result);
