@@ -146,6 +146,11 @@ public class AMapUtils {
 
     public static String getLonLatFromIP(String ip) {
         // https://restapi.amap.com/v3/ip?ip=114.247.50.2&output=xml&key=<用户的key>
+
+        // 开发环境返回公司经纬度
+        if ("127.0.0.1".equals(ip))
+            return "113.848362,22.600957";
+
         Curl curl = new Curl();
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("ip", ip);
