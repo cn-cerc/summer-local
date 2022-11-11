@@ -51,9 +51,9 @@ public class GeodeticSystem {
      */
     public static double[] GCJ02ToWGS84(double lon, double lat) {
         double[] gps = transform(lon, lat);
-        double lontitude = lon * 2 - gps[0];
-        double latitude = lat * 2 - gps[1];
-        return new double[] { lontitude, latitude };
+        gps[0] = lon * 2 - gps[0];
+        gps[1] = lat * 2 - gps[1];
+        return gps;
     }
 
     /**
