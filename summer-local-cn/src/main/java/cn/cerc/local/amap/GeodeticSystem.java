@@ -6,6 +6,11 @@ import cn.cerc.db.core.Utils;
  * 坐标系转换
  */
 public class GeodeticSystem {
+
+    /**
+     * 圆周率
+     */
+    private static double pi = 3.1415926535897932384626;
     /**
      * 长半轴
      */
@@ -39,14 +44,27 @@ public class GeodeticSystem {
     }
 
     /**
+     * GCJ02转WGS84
+     * 
+     * @param lon GCJ02坐标系的经度
+     * @param lat GCJ02坐标系的纬度
+     */
+    public static double[] GCJ02ToWGS84(double lon, double lat) {
+        double[] gps = transform(lon, lat);
+        double lontitude = lon * 2 - gps[0];
+        double latitude = lat * 2 - gps[1];
+        return new double[] { lontitude, latitude };
+    }
+
+    /**
      * 纬度计算
      *
      * @param lon 经度
      * @param lat 纬度
      */
     private static double transformToLat(double lon, double lat) {
-        double ret =
-                -100.0 + 2.0 * lon + 3.0 * lat + 0.2 * lat * lat + 0.1 * lon * lat + 0.2 * Math.sqrt(Math.abs(lon));
+        double ret = -100.0 + 2.0 * lon + 3.0 * lat + 0.2 * lat * lat + 0.1 * lon * lat
+                + 0.2 * Math.sqrt(Math.abs(lon));
         ret += (20.0 * Math.sin(6.0 * lon * Math.PI) + 20.0 * Math.sin(2.0 * lon * Math.PI)) * 2.0 / 3.0;
         ret += (20.0 * Math.sin(lat * Math.PI) + 40.0 * Math.sin(lat / 3.0 * Math.PI)) * 2.0 / 3.0;
         ret += (160.0 * Math.sin(lat / 12.0 * Math.PI) + 320 * Math.sin(lat * Math.PI / 30.0)) * 2.0 / 3.0;
@@ -78,6 +96,28 @@ public class GeodeticSystem {
             return true;
         else
             return lat < 0.8293 || lat > 55.8271;
+    }
+
+    /**
+     * 
+     * @param lon 经度
+     * @param lat 纬度
+     */
+    private static double[] transform(double lon, double lat) {
+        if (isForeign(lon, lat))
+            return new double[] { lon, lat };
+
+        double dLon = transformToLon(lon - 105.0, lat - 35.0);
+        double dLat = transformToLat(lon - 105.0, lat - 35.0);
+        double radLat = lat / 180.0 * pi;
+        double magic = Math.sin(radLat);
+        magic = 1 - ee * magic * magic;
+        double sqrtMagic = Math.sqrt(magic);
+        dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
+        dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);
+        double mgLon = lon + dLon;
+        double mgLat = lat + dLat;
+        return new double[] { mgLon, mgLat };
     }
 
 }
