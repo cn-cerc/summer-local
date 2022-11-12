@@ -8,10 +8,6 @@ import cn.cerc.db.core.Utils;
 public class GeodeticSystem {
 
     /**
-     * 圆周率
-     */
-    private static double pi = 3.1415926535897932384626;
-    /**
      * 长半轴
      */
     private static final double a = 6378245.0d;
@@ -50,7 +46,7 @@ public class GeodeticSystem {
      * @param lat GCJ02坐标系的纬度
      */
     public static double[] GCJ02ToWGS84(double lon, double lat) {
-        double[] gps = transform(lon, lat);
+        double[] gps = WGS84ToGCJ02(lon, lat);
         gps[0] = lon * 2 - gps[0];
         gps[1] = lat * 2 - gps[1];
         return gps;
@@ -97,27 +93,4 @@ public class GeodeticSystem {
         else
             return lat < 0.8293 || lat > 55.8271;
     }
-
-    /**
-     * 
-     * @param lon 经度
-     * @param lat 纬度
-     */
-    private static double[] transform(double lon, double lat) {
-        if (isForeign(lon, lat))
-            return new double[] { lon, lat };
-
-        double dLon = transformToLon(lon - 105.0, lat - 35.0);
-        double dLat = transformToLat(lon - 105.0, lat - 35.0);
-        double radLat = lat / 180.0 * pi;
-        double magic = Math.sin(radLat);
-        magic = 1 - ee * magic * magic;
-        double sqrtMagic = Math.sqrt(magic);
-        dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
-        dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);
-        double mgLon = lon + dLon;
-        double mgLat = lat + dLat;
-        return new double[] { mgLon, mgLat };
-    }
-
 }
