@@ -6,7 +6,6 @@ import cn.cerc.db.core.Utils;
  * 坐标系转换
  */
 public class GeodeticSystem {
-
     /**
      * 长半轴
      */
@@ -47,9 +46,9 @@ public class GeodeticSystem {
      */
     public static double[] GCJ02ToWGS84(double lon, double lat) {
         double[] gps = WGS84ToGCJ02(lon, lat);
-        gps[0] = lon * 2 - gps[0];
-        gps[1] = lat * 2 - gps[1];
-        return gps;
+        double lontitude = lon * 2 - gps[0];
+        double latitude = lat * 2 - gps[1];
+        return new double[] { lontitude, latitude };
     }
 
     /**
@@ -93,4 +92,5 @@ public class GeodeticSystem {
         else
             return lat < 0.8293 || lat > 55.8271;
     }
+
 }
