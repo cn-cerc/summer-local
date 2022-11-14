@@ -45,10 +45,20 @@ public class GeodeticSystem {
      * @param lat GCJ02坐标系的纬度
      */
     public static double[] GCJ02ToWGS84(double lon, double lat) {
-        double[] gps = WGS84ToGCJ02(lon, lat);
-        double lontitude = lon * 2 - gps[0];
-        double latitude = lat * 2 - gps[1];
-        return new double[] { lontitude, latitude };
+        if (isForeign(lon, lat))
+            return new double[] { lon, lat };
+
+        double dlat = transformToLat(lon - 105.0, lat - 35.0);
+        double dlon = transformToLon(lon - 105.0, lat - 35.0);
+        double radlat = lat / 180.0 * Math.PI;
+        double magic = Math.sin(radlat);
+        magic = 1 - ee * magic * magic;
+        double sqrtMagic = Math.sqrt(magic);
+        dlat = (dlat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+        dlon = (dlon * 180.0) / (a / sqrtMagic * Math.cos(radlat) * Math.PI);
+        double mglon = lon * 2 - (lon + dlon);
+        double mglat = lat * 2 - (lat + dlat);
+        return new double[] { Utils.roundTo(mglon, -6), Utils.roundTo(mglat, -6) };
     }
 
     /**
