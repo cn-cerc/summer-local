@@ -39,14 +39,37 @@ public class GeodeticSystem {
     }
 
     /**
+     * GCJ02转WGS84
+     * 
+     * @param lon GCJ02坐标系的经度
+     * @param lat GCJ02坐标系的纬度
+     */
+    public static double[] GCJ02ToWGS84(double lon, double lat) {
+        if (isForeign(lon, lat))
+            return new double[] { lon, lat };
+
+        double dlat = transformToLat(lon - 105.0, lat - 35.0);
+        double dlon = transformToLon(lon - 105.0, lat - 35.0);
+        double radlat = lat / 180.0 * Math.PI;
+        double magic = Math.sin(radlat);
+        magic = 1 - ee * magic * magic;
+        double sqrtMagic = Math.sqrt(magic);
+        dlat = (dlat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+        dlon = (dlon * 180.0) / (a / sqrtMagic * Math.cos(radlat) * Math.PI);
+        double mglon = lon * 2 - (lon + dlon);
+        double mglat = lat * 2 - (lat + dlat);
+        return new double[] { Utils.roundTo(mglon, -6), Utils.roundTo(mglat, -6) };
+    }
+
+    /**
      * 纬度计算
      *
      * @param lon 经度
      * @param lat 纬度
      */
     private static double transformToLat(double lon, double lat) {
-        double ret =
-                -100.0 + 2.0 * lon + 3.0 * lat + 0.2 * lat * lat + 0.1 * lon * lat + 0.2 * Math.sqrt(Math.abs(lon));
+        double ret = -100.0 + 2.0 * lon + 3.0 * lat + 0.2 * lat * lat + 0.1 * lon * lat
+                + 0.2 * Math.sqrt(Math.abs(lon));
         ret += (20.0 * Math.sin(6.0 * lon * Math.PI) + 20.0 * Math.sin(2.0 * lon * Math.PI)) * 2.0 / 3.0;
         ret += (20.0 * Math.sin(lat * Math.PI) + 40.0 * Math.sin(lat / 3.0 * Math.PI)) * 2.0 / 3.0;
         ret += (160.0 * Math.sin(lat / 12.0 * Math.PI) + 320 * Math.sin(lat * Math.PI / 30.0)) * 2.0 / 3.0;
