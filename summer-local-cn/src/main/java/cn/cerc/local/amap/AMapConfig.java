@@ -23,7 +23,7 @@ public class AMapConfig {
     /**
      * 地图 JSAPI 版本
      */
-    public static final String Version = "2.0";
+    public static final String Version = "1.4.15";
 
     /**
      * Web服务key，用于坐标获取，静态地图等服务
