@@ -79,7 +79,7 @@ public class Aliyundysms {
 
             SendSmsResponseBody response = client.sendSms(request).getBody();
             log.info("----------------阿里云短信接口返回的数据----------------");
-            log.info("请求信息 {}", new Gson().toJson(this));
+            log.warn("发送请求 {} ，服务响应 {}", new Gson().toJson(this), response.getMessage());
             log.info("Code={}", response.getCode());
             log.info("Message={}", response.getMessage());
             log.info("RequestId={}", response.getRequestId());
