@@ -22,10 +22,6 @@ public class AMapConfig {
      * Web端(js-api)应用key
      */
     public static final String Web_Api_Key = ServerConfig.getInstance().getProperty("amap.web.api.key");
-    /**
-     * Web端(js-api)应用安全密钥
-     */
-    public static final String Web_Api_Secret = ServerConfig.getInstance().getProperty("amap.web.api.secret");
 
     /**
      * 中国地理中心-陕西省泾阳县永乐镇北流村
