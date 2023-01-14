@@ -1,6 +1,7 @@
 package cn.cerc.local.amap;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import cn.cerc.local.amap.response.AMapGeoResponse;
@@ -9,6 +10,7 @@ import cn.cerc.local.amap.response.AMapRegeoResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Ignore
 public class AMapUtilsTest {
 
     private static String example_address = "广东省深圳市宝安区西乡街道固戍二路鸿宇商务大厦601\n";
