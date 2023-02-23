@@ -95,7 +95,7 @@ public class AMapUtils {
         if (Utils.isEmpty(address))
             return null;
 
-        address = address.replaceAll("[\\s\\t\\n\\r]", "").trim();
+        address = address.replaceAll("[\\s\\t\\n\\r]", "").replaceAll("请选择", "").replaceAll("(无)", "").trim();
         if (Utils.isEmpty(address))
             return null;
 
