@@ -1,5 +1,8 @@
 package cn.cerc.local.amap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
@@ -7,6 +10,7 @@ import com.google.gson.JsonSyntaxException;
 
 import cn.cerc.db.core.Curl;
 import cn.cerc.db.core.Utils;
+import cn.cerc.local.amap.response.AMapDrivingResponse;
 import cn.cerc.local.amap.response.AMapGeoResponse;
 import cn.cerc.local.amap.response.AMapIPResponse;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
@@ -29,6 +33,8 @@ public class AMapUtils {
      * 中国地理中心-陕西省泾阳县永乐镇北流村
      */
     public static final String Center_Coordinates = "108.919244,34.539972";
+
+    public static final String NO_STEPS = "1";
 
     /**
      * 地理编码 https://lbs.amap.com/api/webservice/guide/api/georegeo#regeo
@@ -164,4 +170,55 @@ public class AMapUtils {
         }
     }
 
+    /**
+     * 获取从起点到终点，沿途各个途径点的线路里程（驾车线路规划）
+     * 
+     * @param wayPoints 途经点，包括起点与终点
+     * @return 路线距离（米）
+     */
+    public static double getDrivingDistance(List<String> wayPoints) {
+        List<List<String>> totalPoints = groupList(wayPoints, 16);
+        double totalDistance = 0d;
+        for (List<String> list : totalPoints) {
+            int lastOne = list.size() - 1;
+            String origin = list.get(0);// 起点
+            String destination = list.get(lastOne);// 终点
+            String waypoints = String.join(";", list);
+            Curl curl = new Curl();
+            curl.put("key", AMapConfig.Web_Service_Key);
+            curl.put("nosteps", NO_STEPS);
+            curl.put("origin", origin);// 起点
+            curl.put("destination", destination);// 终点
+            curl.put("waypoints", waypoints);// 途经点
+            String json = curl.doGet("https://restapi.amap.com/v3/direction/driving");
+            AMapDrivingResponse response = JSON.parseObject(json, AMapDrivingResponse.class);
+            log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
+            if (response.getStatus() == 1) {
+                totalDistance += response.getRoute().getPaths().get(0).getDistance();
+            }
+        }
+        return totalDistance;
+    }
+
+    /**
+     * 按数量对List进行分组
+     * 
+     * @param list 待分组的List
+     * @param num  每组数量
+     */
+    private static <T> List<List<T>> groupList(List<T> list, int num) {
+        List<List<T>> group = new ArrayList<List<T>>();
+        if (list == null || list.size() == 0)
+            return group;
+
+        if (num <= 0)
+            return group;
+
+        int count = 0;
+        while (count < list.size()) {
+            group.add(new ArrayList<T>(list.subList(count, (count + num) > list.size() ? list.size() : count + num)));
+            count += num;
+        }
+        return group;
+    }
 }
