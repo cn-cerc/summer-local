@@ -1,7 +1,10 @@
 package cn.cerc.local.amap;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -221,4 +224,37 @@ public class AMapUtils {
         }
         return group;
     }
+
+    public static void main(String[] args) {
+        List<String> original = new ArrayList<>();
+        for (int i = 1; i <= 33; i++) {
+            original.add(String.valueOf(i));
+        }
+
+        Map<Integer, List<String>> items = new LinkedHashMap<>();
+        int count = 0;
+        int group = 0;
+        List<String> list = new ArrayList<>();
+        for (String string : original) {
+            list.add(string);
+            count++;
+            if (count % 16 == 0) {
+                items.put(group++, list);
+                count = 0;
+                list = new ArrayList<>();
+            }
+        }
+        int total = group * 16;
+        if (total < original.size()) {
+            list = new ArrayList<>();
+            for (int i = 0; i < original.size() - total; i++) {
+                list.add(original.get(total + i));
+            }
+            items.put(group++, list);
+        }
+
+        System.out.println(new Gson().toJson(original));
+        System.out.println(new Gson().toJson(items));
+    }
+
 }
