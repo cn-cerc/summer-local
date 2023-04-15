@@ -227,10 +227,19 @@ public class AMapUtils {
 
     public static void main(String[] args) {
         List<String> original = new ArrayList<>();
-        for (int i = 1; i <= 33; i++) {
+        for (int i = 1; i <= 50000; i++) {
             original.add(String.valueOf(i));
         }
+        int num = 16;
+        long start = System.nanoTime();
+//        splitList(original, num); // 8452222
 
+        groupList(original, num);
+        System.out.println(System.nanoTime() - start);
+        
+    }
+
+    private static Map<Integer, List<String>> splitList(List<String> original, int num) {
         Map<Integer, List<String>> items = new LinkedHashMap<>();
         int count = 0;
         int group = 0;
@@ -238,13 +247,13 @@ public class AMapUtils {
         for (String string : original) {
             list.add(string);
             count++;
-            if (count % 16 == 0) {
+            if (count % num == 0) {
                 items.put(group++, list);
                 count = 0;
                 list = new ArrayList<>();
             }
         }
-        int total = group * 16;
+        int total = group * num;
         if (total < original.size()) {
             list = new ArrayList<>();
             for (int i = 0; i < original.size() - total; i++) {
@@ -252,9 +261,7 @@ public class AMapUtils {
             }
             items.put(group++, list);
         }
-
-        System.out.println(new Gson().toJson(original));
-        System.out.println(new Gson().toJson(items));
+        return items;
     }
 
 }
