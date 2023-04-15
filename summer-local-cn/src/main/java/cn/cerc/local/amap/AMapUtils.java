@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -232,11 +231,26 @@ public class AMapUtils {
         }
         int num = 16;
         long start = System.nanoTime();
-        Map<Integer, List<String>> items = splitList(original, num); // 8452222
+//        Map<Integer, List<String>> items = splitList(original, num); // 8452222
 //        System.out.println(list.size());
-//        List<List<String>> groupList = groupList(original, num);//2658265
+//        groupList(original, num);// 2658265
+        List<List<String>> list = split(original, num);
         System.out.println(System.nanoTime() - start);
+//        System.out.println(new Gson().toJson(list));
+    }
 
+    private static <T> List<List<T>> split(List<T> original, int num) {
+        int length = original.size();
+        int group = (length + num - 1) / num;
+        List<List<T>> newList = new ArrayList<>(num);
+        for (int i = 0; i < group; i++) {
+            // 开始位置
+            int start = i * num;
+            // 结束位置
+            int end = (i + 1) * num < length ? (i + 1) * num : length;
+            newList.add(original.subList(start, end));
+        }
+        return newList;
     }
 
     private static <T> Map<Integer, List<T>> splitList(List<T> original, int num) {
