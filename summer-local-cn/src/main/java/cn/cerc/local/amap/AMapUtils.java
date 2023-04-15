@@ -232,19 +232,19 @@ public class AMapUtils {
         }
         int num = 16;
         long start = System.nanoTime();
-//        splitList(original, num); // 8452222
-
-        groupList(original, num);
+        Map<Integer, List<String>> items = splitList(original, num); // 8452222
+//        System.out.println(list.size());
+//        List<List<String>> groupList = groupList(original, num);//2658265
         System.out.println(System.nanoTime() - start);
-        
+
     }
 
-    private static Map<Integer, List<String>> splitList(List<String> original, int num) {
-        Map<Integer, List<String>> items = new LinkedHashMap<>();
+    private static <T> Map<Integer, List<T>> splitList(List<T> original, int num) {
+        Map<Integer, List<T>> items = new LinkedHashMap<>();
         int count = 0;
         int group = 0;
-        List<String> list = new ArrayList<>();
-        for (String string : original) {
+        List<T> list = new ArrayList<>();
+        for (T string : original) {
             list.add(string);
             count++;
             if (count % num == 0) {
