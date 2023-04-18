@@ -11,8 +11,31 @@ public class AMapIPResponse {
     private String info;
     private String infocode;
     private String province;
-    private String city;
-    private String adcode;
-    private String rectangle;
+    private Object city;
+    private Object adcode;
+    private Object rectangle;
 
+    public String getCity() {
+        return city instanceof String ? (String) city : "";
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAdcode() {
+        return adcode instanceof String ? (String) adcode : "";
+    }
+
+    public void setAdcode(Object adcode) {
+        this.adcode = adcode;
+    }
+
+    public String getRectangle() {
+        return rectangle instanceof String ? (String) rectangle : "";
+    }
+
+    public void setRectangle(Object rectangle) {
+        this.rectangle = rectangle;
+    }
 }
