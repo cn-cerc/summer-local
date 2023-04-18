@@ -44,12 +44,39 @@ public class AMapDrivingResponse {
         private String orientation;
         private String distance;
         private String tolls;
-        private String toll_distance;
-        private String[] toll_road;
+        private Object toll_distance;
+        private Object toll_road;
         private String duration;
         private String polyline;
-        private String action;
-        private String[] assistant_action;
+        private Object action;
+        private Object assistant_action;
+        private List<Tmc> tmcs;
+        private List<City> citys;
+    }
+
+    @Getter
+    @Setter
+    public static class Tmc {
+        private Object lcode;
+        private String distance;
+        private String status;
+        private String polyline;
+    }
+
+    @Getter
+    @Setter
+    public static class City {
+        private String name;
+        private String citycode;
+        private String adcode;
+        private List<District> districts;
+    }
+
+    @Getter
+    @Setter
+    public static class District {
+        private String name;
+        private String adcode;
     }
 
 }

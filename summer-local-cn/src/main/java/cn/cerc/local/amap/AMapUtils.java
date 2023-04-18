@@ -1,5 +1,6 @@
 package cn.cerc.local.amap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -176,7 +177,7 @@ public class AMapUtils {
      * @return 路线距离（米）
      */
     public static double getDrivingDistance(List<String> wayPoints) {
-        List<List<String>> totalPoints = Utils.groupList(wayPoints, 16);
+        List<List<String>> totalPoints = groupList(wayPoints, 16);
         double totalDistance = 0d;
         for (List<String> list : totalPoints) {
             int lastOne = list.size() - 1;
@@ -199,4 +200,27 @@ public class AMapUtils {
         return totalDistance;
     }
 
+    /**
+     * 按数量对List连续分组
+     * 
+     * @param original 原始组List
+     * @param num      每组数量单位
+     * @return group [["0","1","2"],["2","3","4"],["4","5"]]
+     */
+    private static <T> List<List<T>> groupList(List<T> original, int num) {
+        List<List<T>> group = new ArrayList<List<T>>();
+        if (original == null || original.size() == 0)
+            return group;
+        if (num <= 0)
+            return group;
+        int count = 0;
+        while (count < original.size()) {
+            if (count > 0 && num > 1)
+                count -= 1;
+            group.add(new ArrayList<T>(
+                    original.subList(count, (count + num) > original.size() ? original.size() : count + num)));
+            count += num;
+        }
+        return group;
+    }
 }
