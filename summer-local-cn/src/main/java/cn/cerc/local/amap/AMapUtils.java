@@ -177,7 +177,7 @@ public class AMapUtils {
      * @return 路线距离（米）
      */
     public static double getDrivingDistance(List<String> wayPoints) {
-        List<List<String>> totalPoints = groupList(wayPoints, 16);
+        List<List<String>> totalPoints = divideList(wayPoints, 16);
         double totalDistance = 0d;
         for (List<String> list : totalPoints) {
             int lastOne = list.size() - 1;
@@ -203,24 +203,37 @@ public class AMapUtils {
     /**
      * 按数量对List连续分组
      * 
-     * @param original 原始组List
-     * @param num      每组数量单位
+     * @param sourceList 原始组List
+     * @param groupSize  每组数量单位
      * @return group [["0","1","2"],["2","3","4"],["4","5"]]
      */
-    private static <T> List<List<T>> groupList(List<T> original, int num) {
-        List<List<T>> group = new ArrayList<List<T>>();
-        if (original == null || original.size() == 0)
-            return group;
-        if (num <= 0)
-            return group;
-        int count = 0;
-        while (count < original.size()) {
-            if (count > 0 && num > 1)
-                count -= 1;
-            group.add(new ArrayList<T>(
-                    original.subList(count, (count + num) > original.size() ? original.size() : count + num)));
-            count += num;
+    private static <T> List<List<T>> divideList(List<T> sourceList, int groupSize) {
+        List<List<T>> list = new ArrayList<List<T>>(groupSize);
+        if (sourceList == null || sourceList.size() == 0)
+            return list;
+        if (groupSize <= 0)
+            return list;
+
+        int listSize = sourceList.size();
+        int startIndex = 0;
+        while (startIndex < sourceList.size()) {
+            if (startIndex > 0 && groupSize > 1)
+                startIndex -= 1;
+            int endIndex = Math.min(startIndex + groupSize, listSize);
+            list.add(sourceList.subList(startIndex, endIndex));
+            startIndex += groupSize;
         }
-        return group;
+        return list;
     }
+
+    public static void main(String[] args) {
+        List<String> original = new ArrayList<>();
+        for (int i = 0; i <= 5; i++) {
+            original.add(String.valueOf(i));
+        }
+        int groupSize = 3;
+        List<List<String>> groupList = AMapUtils.divideList(original, groupSize);
+        System.out.println(groupList);
+    }
+
 }
