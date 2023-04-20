@@ -34,6 +34,9 @@ public class AMapUtils {
      */
     public static final String Center_Coordinates = "108.919244,34.539972";
 
+    /**
+     * 线路规划请求参数：是否返回 steps 字段内容，1为不返回，0为返回，默认为0
+     */
     public static final String NO_STEPS = "1";
 
     /**
@@ -207,7 +210,7 @@ public class AMapUtils {
      * @param groupSize  每组数量单位
      * @return group [["0","1","2"],["2","3","4"],["4","5"]]
      */
-    private static <T> List<List<T>> divideList(List<T> sourceList, int groupSize) {
+    public static <T> List<List<T>> divideList(List<T> sourceList, int groupSize) {
         List<List<T>> list = new ArrayList<List<T>>(groupSize);
         if (sourceList == null || sourceList.size() == 0)
             return list;
