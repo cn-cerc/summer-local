@@ -27,7 +27,7 @@ public class UIMenuItem extends UIComponent {
             html.print(" target='%s'", this.target);
         }
         html.println(">");
-        html.println("<img src='%s'", StaticFile.getImage(getImg()));
+        html.println("<img src='%s'", StaticFile.getCommonFile(getImg()));
         if (menuLock) {
             html.println("role='menuLock'");
         }
@@ -40,7 +40,7 @@ public class UIMenuItem extends UIComponent {
         if (getHrip() == 2 && isDelphi()) {
             html.println("<a href=\"hrip:%s\" onclick=\"updateUserHit('%s')\">", getCode(), getCode());
             // 閃電 ⚡ 標記
-            html.println("<img src=\"%s\"/>", StaticFile.getImage("images/lightning.png"));
+            html.println("<img src=\"%s\"/>", StaticFile.getCommonFile("images/lightning.png"));
             html.println("</a>");
         }
 
