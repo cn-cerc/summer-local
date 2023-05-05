@@ -1,0 +1,15 @@
+package cn.cerc.local.amap;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
+
+public class GeodeticSystemTest {
+
+    @Test
+    public void test_1() {
+        double[] value = GeodeticSystem.WGS84ToGCJ02(118.010632, 26.635384);
+        assertArrayEquals(new double[] { 118.015639, 26.632035 }, value, 0.0);
+    }
+
+}
