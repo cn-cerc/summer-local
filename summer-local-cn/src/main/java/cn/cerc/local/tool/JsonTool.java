@@ -1,5 +1,12 @@
 package cn.cerc.local.tool;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,10 +17,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import cn.cerc.db.core.ClassConfig;
+import cn.cerc.db.core.Datetime;
+import cn.cerc.db.core.EntityHelper;
+import cn.cerc.db.core.EntityImpl;
 import cn.cerc.db.core.Utils;
 
 public class JsonTool {
-
+    private static final Logger log = LoggerFactory.getLogger(ClassConfig.class);
     private static final ObjectMapper mapper = createObjectMapper();
 
     private JsonTool() {
@@ -40,6 +51,22 @@ public class JsonTool {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static <T extends EntityImpl> Document toDocument(T entity) {
+        var doc = new Document();
+        try {
+            Map<String, Field> fields = EntityHelper.create(entity.getClass()).fields();
+            for (String fieldCode : fields.keySet()) {
+                var value = fields.get(fieldCode).get(entity);
+                if (value instanceof Datetime)
+                    value = ((Datetime) value).toString();
+                doc.append(fieldCode, value);
+            }
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            log.warn(e.getMessage());
+        }
+        return doc;
     }
 
     /**
