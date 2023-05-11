@@ -59,8 +59,8 @@ public class JsonTool {
             Map<String, Field> fields = EntityHelper.create(entity.getClass()).fields();
             for (String fieldCode : fields.keySet()) {
                 var value = fields.get(fieldCode).get(entity);
-                if (value instanceof Datetime)
-                    value = ((Datetime) value).toString();
+                if (value instanceof Datetime datetime)
+                    value = datetime.getTimestamp();
                 doc.append(fieldCode, value);
             }
         } catch (IllegalArgumentException | IllegalAccessException e) {
