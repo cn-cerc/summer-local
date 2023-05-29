@@ -50,13 +50,12 @@ public class AMapUtils {
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
             AMapGeoResponse response = JSON.parseObject(json, AMapGeoResponse.class);
-            log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
             if ("1".equals(response.getStatus()))
                 return response;
             else
                 return null;
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return null;
         }
     }
@@ -143,12 +142,11 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("location", location);
         String json = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
-        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
 
         try {
             return new Gson().fromJson(json, AMapRegeoResponse.class);
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return null;
         }
     }
