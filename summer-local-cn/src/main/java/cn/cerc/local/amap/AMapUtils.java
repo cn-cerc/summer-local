@@ -50,13 +50,12 @@ public class AMapUtils {
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
             AMapGeoResponse response = JSON.parseObject(json, AMapGeoResponse.class);
-            log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
             if ("1".equals(response.getStatus()))
                 return response;
             else
                 return null;
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.warn("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return null;
         }
     }
@@ -143,12 +142,11 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("location", location);
         String json = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
-        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
 
         try {
             return new Gson().fromJson(json, AMapRegeoResponse.class);
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return null;
         }
     }
@@ -163,19 +161,18 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key);
         curl.put("ip", ip);
         String json = curl.doGet("https://restapi.amap.com/v3/ip");
-        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
         try {
             AMapIPResponse response = new Gson().fromJson(json, AMapIPResponse.class);
             return AMapUtils.getLonLat(String.join("", response.getProvince(), response.getCity()));
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return Center_Coordinates;
         }
     }
 
     /**
      * 获取从起点到终点，沿途各个途径点的线路里程（驾车线路规划）
-     * 
+     *
      * @param wayPoints 途经点，包括起点与终点
      * @return 路线距离（米）
      */
@@ -205,7 +202,7 @@ public class AMapUtils {
 
     /**
      * 按数量对List连续分组
-     * 
+     *
      * @param sourceList 原始组List
      * @param groupSize  每组数量单位
      * @return group [["0","1","2"],["2","3","4"],["4","5"]]
