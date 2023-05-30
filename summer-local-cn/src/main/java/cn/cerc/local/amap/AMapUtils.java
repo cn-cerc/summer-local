@@ -35,6 +35,11 @@ public class AMapUtils {
     public static final String Center_Coordinates = "108.919244,34.539972";
 
     /**
+     * 空的经纬度字符串，用于替换掉在地址开窗时传入根据IP查询的经纬度，传入空值亦能获取当前地址作为地图的中心点
+     */
+    public static final String Empty_Coordinates = "";
+
+    /**
      * 线路规划请求参数：是否返回 steps 字段内容，1为不返回，0为返回，默认为0
      */
     public static final String NO_STEPS = "1";
