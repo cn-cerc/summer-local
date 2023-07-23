@@ -3,7 +3,6 @@ package cn.cerc.local.amap;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -54,7 +53,7 @@ public class AMapUtils {
         curl.put("key", AMapConfig.Web_Service_Key).put("address", address);
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
-            AMapGeoResponse response = JSON.parseObject(json, AMapGeoResponse.class);
+            AMapGeoResponse response = new Gson().fromJson(json, AMapGeoResponse.class);
             if ("1".equals(response.getStatus()))
                 return response;
             else
@@ -196,7 +195,7 @@ public class AMapUtils {
             curl.put("destination", destination);// 终点
             curl.put("waypoints", waypoints);// 途经点
             String json = curl.doGet("https://restapi.amap.com/v3/direction/driving");
-            AMapDrivingResponse response = JSON.parseObject(json, AMapDrivingResponse.class);
+            AMapDrivingResponse response = new Gson().fromJson(json, AMapDrivingResponse.class);
             log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
             if (response.getStatus() == 1) {
                 totalDistance += response.getRoute().getPaths().get(0).getDistance();
