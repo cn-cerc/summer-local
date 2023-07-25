@@ -97,12 +97,16 @@ public class AMapUtils {
     }
 
     /**
+     * 作废请使用：SvrGeocode.execute.callRemote(new PApiToken(handle),
+     * DataRow.of("address_", address)) 服务获取经纬度信息
+     * 
      * 返回输入地址address的经纬度信息, 格式是 经度,纬度
      * <p>
      * 输入：广东省深圳市宝安区西乡街道固戍二路鸿宇商务大厦601
      * <p>
      * 输出：113.848362,22.600957
      */
+    @Deprecated
     public static String getLonLat(String address) {
         if (Utils.isEmpty(address))
             return null;
