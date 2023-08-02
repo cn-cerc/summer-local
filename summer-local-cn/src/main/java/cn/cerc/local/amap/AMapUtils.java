@@ -50,7 +50,7 @@ public class AMapUtils {
      */
     public static AMapGeoResponse geo(String address) {
         Curl curl = new Curl();
-        curl.put("key", AMapConfig.Web_Service_Key).put("address", address);
+        curl.put("key", AMapWebConfig.getKey()).put("address", address);
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         try {
             AMapGeoResponse response = new Gson().fromJson(json, AMapGeoResponse.class);
@@ -116,7 +116,7 @@ public class AMapUtils {
             return null;
 
         Curl curl = new Curl();
-        curl.put("key", AMapConfig.Web_Service_Key);
+        curl.put("key", AMapWebConfig.getKey());
         curl.put("address", address);
         String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
         log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
@@ -147,7 +147,7 @@ public class AMapUtils {
      */
     public static AMapRegeoResponse getAddress(String location) {
         Curl curl = new Curl();
-        curl.put("key", AMapConfig.Web_Service_Key);
+        curl.put("key", AMapWebConfig.getKey());
         curl.put("location", location);
         String json = curl.doGet("https://restapi.amap.com/v3/geocode/regeo");
 
@@ -166,7 +166,7 @@ public class AMapUtils {
             return Center_Coordinates;
 
         Curl curl = new Curl();
-        curl.put("key", AMapConfig.Web_Service_Key);
+        curl.put("key", AMapWebConfig.getKey());
         curl.put("ip", ip);
         String json = curl.doGet("https://restapi.amap.com/v3/ip");
         try {
@@ -193,7 +193,7 @@ public class AMapUtils {
             String destination = list.get(lastOne);// 终点
             String waypoints = String.join(";", list);
             Curl curl = new Curl();
-            curl.put("key", AMapConfig.Web_Service_Key);
+            curl.put("key", AMapWebConfig.getKey());
             curl.put("nosteps", NO_STEPS);
             curl.put("origin", origin);// 起点
             curl.put("destination", destination);// 终点
