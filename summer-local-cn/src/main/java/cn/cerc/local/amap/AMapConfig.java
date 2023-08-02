@@ -10,10 +10,6 @@ import cn.cerc.db.core.ServerConfig;
 public class AMapConfig {
 
     /**
-     * Web服务key，用于坐标获取，静态地图等服务
-     */
-    public static final String Web_Service_Key = ServerConfig.getInstance().getProperty("amap.web.svc.key");
-    /**
      * Web服务密钥，用于坐标获取，静态地图等服务
      */
     public static final String Web_Service_Secret = ServerConfig.getInstance().getProperty("amap.web.svc.secret");
