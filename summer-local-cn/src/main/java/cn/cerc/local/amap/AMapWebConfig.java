@@ -16,16 +16,6 @@ public class AMapWebConfig {
     private static final AtomicInteger counter = new AtomicInteger();
     private static volatile AMapWebConfig instance;
 
-    public static AMapWebConfig getInstance() {
-        if (instance == null) {
-            synchronized (AMapWebConfig.class) {
-                if (instance == null)
-                    instance = new AMapWebConfig();
-            }
-        }
-        return instance;
-    }
-
     private AMapWebConfig() {
         this.list = getList();
     }
@@ -41,9 +31,19 @@ public class AMapWebConfig {
         return List.of(value.split(","));
     }
 
-    public String getKey() {
+    protected String getNext() {
         int index = counter.getAndIncrement() % list.size();
         return list.get(index);
+    }
+
+    public static String getKey() {
+        if (instance == null) {
+            synchronized (AMapWebConfig.class) {
+                if (instance == null)
+                    instance = new AMapWebConfig();
+            }
+        }
+        return AMapWebConfig.instance.getNext();
     }
 
 }

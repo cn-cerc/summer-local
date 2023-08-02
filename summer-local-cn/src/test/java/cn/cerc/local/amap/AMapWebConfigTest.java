@@ -11,13 +11,13 @@ public class AMapWebConfigTest {
     @Test
     public void test_getKey() {
         AMapWebConfig config = new AMapWebConfig(List.of("a", "b", "c"));
-        assertEquals("a", config.getKey());
-        assertEquals("b", config.getKey());
-        assertEquals("c", config.getKey());
+        assertEquals("a", config.getNext());
+        assertEquals("b", config.getNext());
+        assertEquals("c", config.getNext());
 
-        assertEquals("a", config.getKey());
-        assertEquals("b", config.getKey());
-        assertEquals("c", config.getKey());
+        assertEquals("a", config.getNext());
+        assertEquals("b", config.getNext());
+        assertEquals("c", config.getNext());
     }
 
 }
