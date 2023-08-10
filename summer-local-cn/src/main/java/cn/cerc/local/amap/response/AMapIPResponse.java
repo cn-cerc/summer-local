@@ -1,10 +1,5 @@
 package cn.cerc.local.amap.response;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class AMapIPResponse {
 
     private String status;
@@ -37,5 +32,41 @@ public class AMapIPResponse {
 
     public void setRectangle(Object rectangle) {
         this.rectangle = rectangle;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfocode() {
+        return infocode;
+    }
+
+    public void setInfocode(String infocode) {
+        this.infocode = infocode;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setCity(Object city) {
+        this.city = city;
     }
 }

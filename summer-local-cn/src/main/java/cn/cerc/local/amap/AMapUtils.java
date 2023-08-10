@@ -3,6 +3,9 @@ package cn.cerc.local.amap;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -14,16 +17,14 @@ import cn.cerc.local.amap.response.AMapGeoResponse;
 import cn.cerc.local.amap.response.AMapIPResponse;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
 import cn.cerc.local.tool.JsonTool;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 高德地图工具类
  * <p>
  * 在线转换网址 https://lbs.amap.com/tools/picker
  */
-@Slf4j
 public class AMapUtils {
-
+    private static final Logger log = LoggerFactory.getLogger(AMapUtils.class);
     /**
      * 地球半径,单位 km
      */

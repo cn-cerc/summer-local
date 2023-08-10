@@ -3,16 +3,17 @@ package cn.cerc.local.tool;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class JacksonXMLTest {
+    private static final Logger log = LoggerFactory.getLogger(JacksonXMLTest.class);
 
     public static void main(String[] args) throws JsonProcessingException {
         XmlMapper xmlMapper = XmlMapper.builder()
