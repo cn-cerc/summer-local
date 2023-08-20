@@ -44,7 +44,7 @@ public class JsonTool {
     /**
      * 实体对象转JSON数据
      */
-    public static <T> String transferToJson(T clazz) {
+    public static <T> String toJson(T clazz) {
         try {
             return mapper.writeValueAsString(clazz);
         } catch (JsonProcessingException e) {
