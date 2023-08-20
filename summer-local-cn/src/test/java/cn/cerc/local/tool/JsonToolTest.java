@@ -20,7 +20,7 @@ public class JsonToolTest {
         items.put("1", "a");
         items.put("2", "b");
         items.put("3", "c");
-        String value = JsonTool.transferToJson(items);
+        String value = JsonTool.toJson(items);
         log.info(value);
 
         TypeFactory typeFactory = new ObjectMapper().getTypeFactory();

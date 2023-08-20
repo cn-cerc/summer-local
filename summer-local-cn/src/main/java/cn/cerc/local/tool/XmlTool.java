@@ -18,8 +18,8 @@ public class XmlTool {
     /**
      * 对象直接转换为 xml 的字符串
      */
-    public static <T> String transferToXml(T value) throws JsonProcessingException {
-        return transferToXml(value, null);
+    public static <T> String toXml(T value) throws JsonProcessingException {
+        return toXml(value, null);
     }
 
     /**
@@ -28,7 +28,7 @@ public class XmlTool {
      * @param value 对象实体类
      * @param root  指定的根节点名称
      */
-    public static <T> String transferToXml(T value, String root) throws JsonProcessingException {
+    public static <T> String toXml(T value, String root) throws JsonProcessingException {
         XmlMapper mapper = XmlMapper.builder()
                 .defaultUseWrapper(false)
                 .serializationInclusion(JsonInclude.Include.NON_NULL) // 字段为 null，自动忽略，不再序列化
