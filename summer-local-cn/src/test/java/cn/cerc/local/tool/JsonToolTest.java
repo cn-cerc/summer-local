@@ -20,13 +20,13 @@ public class JsonToolTest {
         items.put("1", "a");
         items.put("2", "b");
         items.put("3", "c");
-        String value = JsonTool.transferToJson(items);
+        String value = JsonTool.toJson(items);
         log.info(value);
 
         TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
         MapType mapType = typeFactory.constructMapType(LinkedHashMap.class, String.class, String.class);
 
-        LinkedHashMap<String, String> map = JsonTool.transferToObj(value, mapType);
+        LinkedHashMap<String, String> map = JsonTool.fromJson(value, mapType);
         map.forEach((k, v) -> log.info("{} {}", k, v));
     }
 

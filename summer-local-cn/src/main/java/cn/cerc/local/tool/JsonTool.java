@@ -44,7 +44,7 @@ public class JsonTool {
     /**
      * 实体对象转JSON数据
      */
-    public static <T> String transferToJson(T clazz) {
+    public static <T> String toJson(T clazz) {
         try {
             return mapper.writeValueAsString(clazz);
         } catch (JsonProcessingException e) {
@@ -79,7 +79,7 @@ public class JsonTool {
     /**
      * json 数据转实体对象
      */
-    public static <T> T transferToObj(String json, Class<T> clazz) {
+    public static <T> T fromJson(String json, Class<T> clazz) {
         T value = null;
         if (!Utils.isEmpty(json)) {
             try {
@@ -94,7 +94,7 @@ public class JsonTool {
     /**
      * json 数据转泛型
      */
-    public static <T> T transferToObj(String json, JavaType valueType) {
+    public static <T> T fromJson(String json, JavaType valueType) {
         if (json == null || json.length() == 0 || valueType == null) {
             return null;
         }
