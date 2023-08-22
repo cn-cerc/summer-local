@@ -1,5 +1,7 @@
 package cn.cerc.local.tool;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,6 +30,24 @@ public class JsonToolTest {
 
         LinkedHashMap<String, String> map = JsonTool.fromJson(value, mapType);
         map.forEach((k, v) -> log.info("{} {}", k, v));
+    }
+
+//    @Test
+    public void test_format_01() {
+        String json = """
+                {"name":"itjun","age":30,"template":{"key1":"value1","key2":"value2"}}
+                """;
+        String value = JsonTool.format(json);
+        assertEquals("""
+                {
+                  "name" : "itjun",
+                  "age" : 30,
+                  "template" : {
+                    "key1" : "value1",
+                    "key2" : "value2"
+                  }
+                }
+                """.trim(), value.trim());
     }
 
 }
