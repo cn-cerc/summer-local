@@ -1,6 +1,6 @@
 package cn.cerc.local.menu;
 
-import cn.cerc.mis.core.HtmlWriter;
+import cn.cerc.mis.core.IWriter;
 import cn.cerc.ui.core.UIComponent;
 import cn.cerc.ui.page.StaticFile;
 
@@ -19,7 +19,7 @@ public class UIMenuItem extends UIComponent {
     }
 
     @Override
-    public void output(HtmlWriter html) {
+    public void output(IWriter html) {
         // 輸出菜單圖像
         html.println("<div role='menuIcon'>");
         html.print("<a href='%s' onclick=\"updateUserHit('%s')\"", getCode(), getCode());

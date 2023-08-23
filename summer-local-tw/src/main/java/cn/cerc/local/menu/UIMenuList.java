@@ -1,10 +1,10 @@
 package cn.cerc.local.menu;
 
-import cn.cerc.mis.core.HtmlWriter;
-import cn.cerc.ui.core.UIComponent;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.cerc.mis.core.IWriter;
+import cn.cerc.ui.core.UIComponent;
 
 public class UIMenuList extends UIComponent {
     private List<UIMenuItem> items = new ArrayList<>();
@@ -14,7 +14,7 @@ public class UIMenuList extends UIComponent {
     }
 
     @Override
-    public void output(HtmlWriter html) {
+    public void output(IWriter html) {
         html.print("<ul role='menuList'>");
         for (UIMenuItem item : items) {
             html.print("<li>");
