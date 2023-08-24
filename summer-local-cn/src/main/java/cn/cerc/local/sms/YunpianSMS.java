@@ -100,7 +100,7 @@ public class YunpianSMS {
                     return false;
                 }
             } else {
-                ISession session = Application.getSession();
+                ISession session = Application.getBean(ISession.class);
                 IHandle handle = new Handle(session);
                 this.setMessage(R.asString(handle, "网络故障，简讯发送请求失败！"));
                 return false;
