@@ -3,17 +3,13 @@ package cn.cerc.local.amap;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import cn.cerc.db.core.Curl;
-import cn.cerc.db.core.Utils;
 import cn.cerc.local.amap.response.AMapDrivingResponse;
 import cn.cerc.local.amap.response.AMapGeoResponse;
-import cn.cerc.local.amap.response.AMapIPResponse;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
-import cn.cerc.local.tool.JsonTool;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -97,49 +93,6 @@ public class AMapUtils {
     }
 
     /**
-     * 作废请使用：SvrGeocode.execute.callRemote(new PApiToken(handle),
-     * DataRow.of("address_", address)) 服务获取经纬度信息
-     * 
-     * 返回输入地址address的经纬度信息, 格式是 经度,纬度
-     * <p>
-     * 输入：广东省深圳市宝安区西乡街道固戍二路鸿宇商务大厦601
-     * <p>
-     * 输出：113.848362,22.600957
-     */
-    @Deprecated
-    public static String getLonLat(String address) {
-        if (Utils.isEmpty(address))
-            return null;
-
-        address = address.replaceAll("[\\s\\t\\n\\r]", "").replaceAll("请选择", "").replaceAll("\\(无\\)", "").trim();
-        if (Utils.isEmpty(address))
-            return null;
-
-        Curl curl = new Curl();
-        curl.put("key", AMapWebConfig.getKey());
-        curl.put("address", address);
-        String json = curl.doGet("http://restapi.amap.com/v3/geocode/geo");
-        log.debug("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json);
-        if (Utils.isEmpty(json))
-            return "";
-
-        JsonNode node = JsonTool.getNode(json, "geocodes");
-        if (node == null) {
-            log.error("address: {}, response {}", address, json);
-            return null;
-        }
-
-        if (node.isArray()) {
-            JsonNode index = node.get(0);
-            if (index == null) {
-                return null;
-            }
-            return index.get("location").asText();
-        }
-        return "";
-    }
-
-    /**
      * 传入内容规则：经度在前，纬度在后，经纬度间以“,”分割，经纬度小数点后不要超过 6 位。如果需要解析多个经纬度的话，请用"|"进行间隔，并且将 batch
      * 参数设置为 true，最多支持传入 20 对坐标点。每对点坐标之间用"|"分割。
      *
@@ -156,25 +109,6 @@ public class AMapUtils {
         } catch (JsonSyntaxException e) {
             log.error("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
             return null;
-        }
-    }
-
-    public static String getLonLatFromIP(String ip) {
-        // https://restapi.amap.com/v3/ip?ip=114.247.50.2&output=xml&key=<用户的key>
-
-        if ("127.0.0.1".equals(ip))
-            return Center_Coordinates;
-
-        Curl curl = new Curl();
-        curl.put("key", AMapWebConfig.getKey());
-        curl.put("ip", ip);
-        String json = curl.doGet("https://restapi.amap.com/v3/ip");
-        try {
-            AMapIPResponse response = new Gson().fromJson(json, AMapIPResponse.class);
-            return AMapUtils.getLonLat(String.join("", response.getProvince(), response.getCity()));
-        } catch (JsonSyntaxException e) {
-            log.error("参数 {} 返回 {}", new Gson().toJson(curl.getParameters()), json, e);
-            return Center_Coordinates;
         }
     }
 
