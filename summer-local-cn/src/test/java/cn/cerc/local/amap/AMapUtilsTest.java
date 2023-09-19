@@ -3,15 +3,17 @@ package cn.cerc.local.amap;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.cerc.local.amap.response.AMapGeoResponse;
 import cn.cerc.local.amap.response.AMapGeoResponse.Geocodes;
 import cn.cerc.local.amap.response.AMapRegeoResponse;
-import lombok.extern.slf4j.Slf4j;
+import cn.cerc.local.amap.response.AMapRegeoResponse.AddressComponent;
 
-@Slf4j
 @Ignore
 public class AMapUtilsTest {
+    private static final Logger log = LoggerFactory.getLogger(AMapUtilsTest.class);
 
     private static String example_address = "广东省深圳市宝安区西乡街道固戍二路鸿宇商务大厦601\n";
 
@@ -49,7 +51,7 @@ public class AMapUtilsTest {
         String location = "113.848362,22.600957";
         AMapRegeoResponse regeo = AMapUtils.getAddress(location);
         log.info("{}", regeo);
-        AMapRegeoResponse.Regeocode.AddressComponent item = regeo.getRegeocode().getAddressComponent();
+        AddressComponent item = regeo.getRegeocode().getAddressComponent();
         log.info("{} 逆地理编码地址 {} {} {}", location, item.getProvince(), item.getCity(), item.getDistrict());
     }
 
