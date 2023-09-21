@@ -14,7 +14,7 @@ import cn.cerc.db.core.Utils;
 public class AMapWebConfig {
     private final List<String> list;
     private static final AtomicInteger counter = new AtomicInteger();
-    private static volatile AMapWebConfig instance;
+    private static AMapWebConfig instance;
 
     private AMapWebConfig() {
         this.list = getList();
@@ -36,14 +36,14 @@ public class AMapWebConfig {
         return list.get(index);
     }
 
-    public static String getKey() {
+    public static AMapWebConfig getKey() {
         if (instance == null) {
             synchronized (AMapWebConfig.class) {
                 if (instance == null)
                     instance = new AMapWebConfig();
             }
         }
-        return AMapWebConfig.instance.getNext();
+        return AMapWebConfig.instance;
     }
 
 }
