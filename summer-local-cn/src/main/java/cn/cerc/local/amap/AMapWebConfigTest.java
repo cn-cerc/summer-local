@@ -26,10 +26,10 @@ public class AMapWebConfigTest {
                 }
             }).start();
         }
-        
+
         // 让所有线程同时开始
         startLatch.countDown();
-        
+
         // 等待所有线程执行完毕
         finishLatch.await();
     }
