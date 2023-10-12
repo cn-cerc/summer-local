@@ -1,6 +1,9 @@
 package cn.cerc.local.amap.response;
 
+import java.util.Collection;
 import java.util.List;
+
+import cn.cerc.db.core.Utils;
 
 /**
  * 逆地理编码返回对象
@@ -13,7 +16,7 @@ public class AMapRegeoResponse {
 
     public static class Regeocode {
         private AddressComponent addressComponent;
-        private String formatted_address;
+        private Object formatted_address;
 
         public AddressComponent getAddressComponent() {
             return addressComponent;
@@ -24,63 +27,63 @@ public class AMapRegeoResponse {
         }
 
         public String getFormatted_address() {
-            return formatted_address;
+            return getStringValue(formatted_address);
         }
 
-        public void setFormatted_address(String formatted_address) {
+        public void setFormatted_address(Object formatted_address) {
             this.formatted_address = formatted_address;
         }
 
     }
 
     public static class AddressComponent {
-        private String city;
-        private String province;
-        private String adcode;
-        private String district;
+        private Object city;
+        private Object province;
+        private Object adcode;
+        private Object district;
         private Object towncode;
         private StreetNumber streetNumber;
-        private String country;
+        private Object country;
         private Object township;
         private List<Object> businessAreas;
         private Building building;
         private Neighborhood neighborhood;
-        private String citycode;
+        private Object citycode;
 
         public String getCity() {
-            return city;
+            return getStringValue(city);
         }
 
-        public void setCity(String city) {
+        public void setCity(Object city) {
             this.city = city;
         }
 
         public String getProvince() {
-            return province;
+            return getStringValue(province);
         }
 
-        public void setProvince(String province) {
+        public void setProvince(Object province) {
             this.province = province;
         }
 
         public String getAdcode() {
-            return adcode;
+            return getStringValue(adcode);
         }
 
-        public void setAdcode(String adcode) {
+        public void setAdcode(Object adcode) {
             this.adcode = adcode;
         }
 
         public String getDistrict() {
-            return district;
+            return getStringValue(district);
         }
 
-        public void setDistrict(String district) {
+        public void setDistrict(Object district) {
             this.district = district;
         }
 
-        public Object getTowncode() {
-            return towncode;
+        public String getTowncode() {
+            return getStringValue(towncode);
         }
 
         public void setTowncode(Object towncode) {
@@ -96,15 +99,15 @@ public class AMapRegeoResponse {
         }
 
         public String getCountry() {
-            return country;
+            return getStringValue(country);
         }
 
-        public void setCountry(String country) {
+        public void setCountry(Object country) {
             this.country = country;
         }
 
-        public Object getTownship() {
-            return township;
+        public String getTownship() {
+            return getStringValue(township);
         }
 
         public void setTownship(Object township) {
@@ -136,10 +139,10 @@ public class AMapRegeoResponse {
         }
 
         public String getCitycode() {
-            return citycode;
+            return getStringValue(citycode);
         }
 
-        public void setCitycode(String citycode) {
+        public void setCitycode(Object citycode) {
             this.citycode = citycode;
         }
 
@@ -271,6 +274,17 @@ public class AMapRegeoResponse {
 
     public void setInfocode(String infocode) {
         this.infocode = infocode;
+    }
+
+    private static String getStringValue(Object value) {
+        if (value == null)
+            return "";
+        // 高德接口返回值为空时为 [] 会被解析成list
+        if (value instanceof Collection<?> collection && Utils.isEmpty(collection))
+            return "";
+        if (value instanceof Object[] arr && Utils.isEmpty(arr))
+            return "";
+        return String.valueOf(value);
     }
 
 }
