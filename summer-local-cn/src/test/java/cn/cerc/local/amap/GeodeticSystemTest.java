@@ -1,8 +1,8 @@
 package cn.cerc.local.amap;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertArrayEquals;
+
+import org.junit.Test;
 
 public class GeodeticSystemTest {
 
