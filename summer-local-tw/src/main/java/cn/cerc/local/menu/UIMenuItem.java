@@ -22,7 +22,7 @@ public class UIMenuItem extends UIComponent {
     public void output(HtmlWriter html) {
         // 輸出菜單圖像
         html.println("<div role='menuIcon'>");
-        html.print("<a href='%s' onclick=\"updateUserHit('%s')\"", getCode(), getCode());
+        html.print("<a href='%s'", getCode());
         if (target != null && !"".equals(target)) {
             html.print(" target='%s'", this.target);
         }
@@ -38,13 +38,13 @@ public class UIMenuItem extends UIComponent {
         // 輸出菜單名稱
         html.println("<div role='menuName'>");
         if (getHrip() == 2 && isDelphi()) {
-            html.println("<a href=\"hrip:%s\" onclick=\"updateUserHit('%s')\">", getCode(), getCode());
+            html.println("<a href=\"%s\">", getCode());
             // 閃電 ⚡ 標記
             html.println("<img src=\"%s\"/>", StaticFile.getImage("images/lightning.png"));
             html.println("</a>");
         }
 
-        html.println("<a href='%s' onclick=\"updateUserHit('%s')\"", getCode(), getCode());
+        html.println("<a href='%s'", getCode());
         if (target != null && !"".equals(target)) {
             html.print(" target='%s'", this.target);
         }
