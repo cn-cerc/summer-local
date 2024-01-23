@@ -5,7 +5,7 @@ import cn.cerc.db.core.ServerConfig;
 /**
  * 高德地图配置文件
  * <p>
- * 接口文档：https://lbs.amap.com/api/jsapi-v2/summary
+ * <a href="https://lbs.amap.com/api/jsapi-v2/summary">接口文档</a>
  */
 public class AMapConfig {
 

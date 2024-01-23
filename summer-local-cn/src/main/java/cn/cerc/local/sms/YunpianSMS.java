@@ -27,7 +27,7 @@ import cn.cerc.mis.core.Application;
 import cn.cerc.mis.language.R;
 
 /**
- * https://www.yunpian.com
+ * <a href="https://www.yunpian.com">云片官网</a>
  */
 public class YunpianSMS {
     private static final Logger log = LoggerFactory.getLogger(YunpianSMS.class);
