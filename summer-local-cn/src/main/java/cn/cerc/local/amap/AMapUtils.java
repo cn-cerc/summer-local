@@ -17,7 +17,7 @@ import cn.cerc.local.amap.response.AMapRegeoResponse;
 /**
  * 高德地图工具类
  * <p>
- * 在线转换网址 https://lbs.amap.com/tools/picker
+ * <a href="https://lbs.amap.com/tools/picker">在线转换网址</a>
  */
 public class AMapUtils {
     private static final Logger log = LoggerFactory.getLogger(AMapUtils.class);
@@ -42,7 +42,7 @@ public class AMapUtils {
     public static final String NO_STEPS = "1";
 
     /**
-     * 地理编码 https://lbs.amap.com/api/webservice/guide/api/georegeo#regeo
+     * <a href="https://lbs.amap.com/api/webservice/guide/api/georegeo#regeo">地理编码</a>
      *
      * @param address 规则遵循：国家、省份、城市、区县、城镇、乡村、街道、门牌号码、屋邨、大厦，如：北京市朝阳区阜通东大街6号
      */
@@ -98,7 +98,7 @@ public class AMapUtils {
      * 传入内容规则：经度在前，纬度在后，经纬度间以“,”分割，经纬度小数点后不要超过 6 位。如果需要解析多个经纬度的话，请用"|"进行间隔，并且将 batch
      * 参数设置为 true，最多支持传入 20 对坐标点。每对点坐标之间用"|"分割。
      *
-     * @param location
+     * @param location 113.815956,22.621319
      */
     public static AMapRegeoResponse getAddress(String location) {
         Curl curl = new Curl();
