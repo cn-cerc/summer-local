@@ -106,14 +106,14 @@ public class YunpianSMS {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             this.setMessage(e.getMessage());
             return false;
         } finally {
             try {
                 response.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }

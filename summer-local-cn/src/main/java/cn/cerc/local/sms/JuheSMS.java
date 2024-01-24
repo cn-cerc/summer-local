@@ -137,7 +137,7 @@ public class JuheSMS {
                     DataOutputStream out = new DataOutputStream(conn.getOutputStream());
                     out.writeBytes(urlEncode(params));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage(), e);
                 }
             }
             InputStream is = conn.getInputStream();
@@ -148,7 +148,7 @@ public class JuheSMS {
             }
             rs = sb.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } finally {
             if (reader != null) {
                 reader.close();
