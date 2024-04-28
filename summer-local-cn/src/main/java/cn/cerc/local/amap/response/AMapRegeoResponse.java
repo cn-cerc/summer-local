@@ -223,22 +223,22 @@ public class AMapRegeoResponse {
     }
 
     public static class Neighborhood {
-        private List<?> name;
-        private List<?> type;
+        private Object name;
+        private Object type;
 
-        public List<?> getName() {
-            return name;
+        public String getName() {
+            return getStringValue(name);
         }
 
-        public void setName(List<?> name) {
+        public void setName(Object name) {
             this.name = name;
         }
 
-        public List<?> getType() {
-            return type;
+        public String getType() {
+            return getStringValue(type);
         }
 
-        public void setType(List<?> type) {
+        public void setType(Object type) {
             this.type = type;
         }
 
